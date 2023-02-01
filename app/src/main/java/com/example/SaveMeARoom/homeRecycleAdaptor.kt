@@ -3,6 +3,7 @@ package com.example.SaveMeARoom
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.reservation_items.view.*
 
@@ -10,7 +11,6 @@ class homeRecycleAdaptor (
     var buildings: List<buildingname>
         ) : RecyclerView.Adapter<homeRecycleAdaptor.BuildingViewHolder>() {
 
-    inner class BuildingViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuildingViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.reservation_items, parent, false)
@@ -26,4 +26,9 @@ class homeRecycleAdaptor (
     override fun getItemCount(): Int {
         return buildings.size
     }
+
+    class BuildingViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+        var tvBuildingname : TextView = itemView.findViewById(R.id.tvBuildingName)
+    }
+
 }
