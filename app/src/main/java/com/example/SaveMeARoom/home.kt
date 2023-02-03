@@ -31,9 +31,6 @@ class home : AppCompatActivity() {
             }
             true
         }
-
-
-
     }
 
     //function for navigation bar to change fragments when clicked

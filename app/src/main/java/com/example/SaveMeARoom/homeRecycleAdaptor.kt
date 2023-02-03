@@ -18,9 +18,8 @@ class homeRecycleAdaptor (
     }
 
     override fun onBindViewHolder(holder: BuildingViewHolder, position: Int) {
-        holder.itemView.apply{
-            tvBuildingName.text = buildings[position].building
-        }
+        val currentItem = buildings[position]
+        holder.tvBuildingname.text = currentItem.building
     }
 
     override fun getItemCount(): Int {
