@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +35,11 @@ class Homefragment: Fragment() {
         recycleView = view.findViewById(R.id.rvReservation)
         recycleView.layoutManager = layoutManager
         recycleView.setHasFixedSize(true)
-        adaptor = homeRecycleAdaptor(buildingList)
+        adaptor = homeRecycleAdaptor(buildingList){
+
+            //Place to put actions for when recycle view is clicked
+            Toast.makeText(activity,it.component1(),Toast.LENGTH_SHORT).show()
+        }
         recycleView.adapter = adaptor
     }
 
