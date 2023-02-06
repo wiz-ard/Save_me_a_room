@@ -1,5 +1,6 @@
 package com.example.SaveMeARoom
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,7 +39,10 @@ class Homefragment: Fragment() {
         adaptor = homeRecycleAdaptor(buildingList){
 
             //Place to put actions for when recycle view is clicked
-            Toast.makeText(activity,it.component1(),Toast.LENGTH_SHORT).show()
+            //Toast.makeText(activity,it.component1(),Toast.LENGTH_SHORT).show()
+            val intent = Intent(activity, ReservationDateSelection::class.java)
+            intent.putExtra("building name",it.component1())
+            startActivity(intent)
         }
         recycleView.adapter = adaptor
     }
