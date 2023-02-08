@@ -1,18 +1,24 @@
 package com.example.SaveMeARoom
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 class Homefragment: Fragment() {
-    
+
+
     private lateinit var adaptor : homeRecycleAdaptor
     private lateinit var recycleView : RecyclerView
     private lateinit var buildingList : ArrayList<buildingname>
@@ -29,6 +35,7 @@ class Homefragment: Fragment() {
     }
 
     // fills in the data
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dataInitialize()
@@ -48,23 +55,31 @@ class Homefragment: Fragment() {
     }
 
     //initializes building name data to be displayed
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun dataInitialize(){
+        val policy = ThreadPolicy.Builder().permitAll().build()
 
-        buildingList = arrayListOf()
+        StrictMode.setThreadPolicy(policy)
+        val url = URL("http://3.132.20.107:3000")
 
-        buildingName = arrayOf(
-            "IESB",
-            "NETH",
-            "COBB",
-            "BOGH",
-            "GTM",
-            "CTH",
-            "a",
-            "b",
-            "c",
-            "d",
-            "e"
-        )
+
+        with(url.openConnection() as HttpURLConnection) {
+            requestMethod = "GET"
+
+            buildingList = arrayListOf()
+
+            buildingName = arrayOf(
+                "IESB",
+                "NETH",
+                "COBB",
+                "BOGH",
+                "GTM",
+                "CTH",
+                "$responseCode"
+            )
+            //url.close()
+        }
+
 
         for (i in buildingName.indices){
 
@@ -73,5 +88,6 @@ class Homefragment: Fragment() {
         }
 
     }
+
 
 }
