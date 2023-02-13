@@ -1,17 +1,12 @@
 package com.example.SaveMeARoom
 
-import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toolbar
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.reservation_date_selection.*
 import java.time.LocalDate
 
 class ReservationDateSelection : AppCompatActivity() {
@@ -24,8 +19,11 @@ class ReservationDateSelection : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.reservation_date_selection)
+
         //taking in the passed building name data from home fragment
         val buildingHandle = intent.getStringExtra("building name")
+        val topBuildingTitle : TextView = findViewById(R.id.tvTitle)
+        topBuildingTitle.text = buildingHandle+" reservation"
 
         getDate()
 
