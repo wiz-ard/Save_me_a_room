@@ -22,7 +22,7 @@ class ReservationDateSelection : AppCompatActivity() {
 
         //taking in the passed building name data from home fragment
         val buildingHandle = intent.getStringExtra("building name")
-        val topBuildingTitle : TextView = findViewById(R.id.tvTitle)
+        val topBuildingTitle : TextView = findViewById(R.id.tvDateTitle)
         topBuildingTitle.text = buildingHandle+" reservation"
 
         getDate()

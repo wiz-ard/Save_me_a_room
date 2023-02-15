@@ -19,7 +19,7 @@
             android:name=".ReservationDateSelection"
             android:exported="false"
             android:label="@string/title_activity_reservation_date_selection"
-            android:theme="@style/Theme.SaveMeARoom.AppBarOverlay"
+            android:theme="@style/Theme.SaveMeARoom.NoActionBar"
             android:parentActivityName=".home"/>
         <activity
             android:name=".home"
