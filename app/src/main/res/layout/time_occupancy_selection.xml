@@ -38,11 +38,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:background="@color/teal_700">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,37 +67,20 @@
                 android:weightSum="2">
 
                 <RadioButton
-                    android:id="@+id/downgrade"
+                    android:id="@+id/thirty_fortynine"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Downgrade"/>
+                    android:text="30 - 49"/>
 
                 <RadioButton
-                    android:id="@+id/change_facility"
+                    android:id="@+id/fifty_plus"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="change Facility"/>
+                    android:text="50 +"/>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <RadioButton
-                    android:id="@+id/fiber"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Fiber"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
