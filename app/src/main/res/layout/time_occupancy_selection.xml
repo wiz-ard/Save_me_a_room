@@ -36,51 +36,36 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/teal_700">
+        android:background="@color/teal_700"
+        android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
+        <RadioButton
+            android:id="@+id/rbTwo_nine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 - 10"
+            android:layout_marginStart="25dp"/>
 
-                <RadioButton
-                    android:id="@+id/two_nine"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="2 - 9"/>
+        <RadioButton
+            android:id="@+id/rbTen_twentynine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 - 29"
+            android:layout_marginStart="25dp"/>
 
-                <RadioButton
-                    android:id="@+id/ten_twentynine"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="10 - 29"/>
+        <RadioButton
+            android:id="@+id/rbThirty_fortynine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30 - 49"
+            android:layout_marginStart="25dp"/>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <RadioButton
-                    android:id="@+id/thirty_fortynine"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="30 - 49"/>
-
-                <RadioButton
-                    android:id="@+id/fifty_plus"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="50 +"/>
-
-            </LinearLayout>
+        <RadioButton
+            android:id="@+id/rbFifty_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50+"
+            android:layout_marginStart="25dp"/>
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
