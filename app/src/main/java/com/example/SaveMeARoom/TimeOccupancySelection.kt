@@ -26,8 +26,8 @@ class TimeOccupancySelection : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.time_occupancy_selection)
 
-        //sets occupancy to default 2-9 people
-        occupancy = findViewById<RadioButton>(R.id.rbTwo_nine).text.toString()
+        //sets occupancy to default 2-10 people
+        occupancy = "0"
 
         val date = intent.getStringExtra("date")
         val buildingName = intent.getStringExtra("building name")
@@ -41,6 +41,15 @@ class TimeOccupancySelection : AppCompatActivity() {
         radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
             val radio: RadioButton = findViewById(checkedId)
             occupancy = radio.text.toString()
+            if(occupancy.equals("2 - 10")){
+                occupancy = "0"
+            }else if(occupancy.equals("11 - 29")){
+                occupancy = "1"
+            }else if(occupancy.equals("30 - 49")){
+                occupancy = "2"
+            }else{
+                occupancy = "3"
+            }
         })
 
 
