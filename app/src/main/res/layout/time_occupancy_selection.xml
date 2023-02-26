@@ -51,7 +51,7 @@
             android:id="@+id/rbTen_twentynine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 - 29"
+            android:text="11 - 29"
             android:layout_marginStart="25dp"/>
 
         <RadioButton
