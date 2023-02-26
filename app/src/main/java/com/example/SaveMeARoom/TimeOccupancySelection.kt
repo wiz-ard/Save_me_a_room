@@ -1,7 +1,9 @@
 package com.example.SaveMeARoom
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +20,10 @@ class TimeOccupancySelection : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.time_occupancy_selection)
 
+        val buildingHandle = intent.getStringExtra("building name")
+        val topBuildingTitle : TextView = findViewById(R.id.tvTimeTitle)
+        topBuildingTitle.text = buildingHandle+" reservation"
+
         getTimeRange()
 
         timeRecycleView = findViewById(R.id.rvTime)
@@ -27,6 +33,9 @@ class TimeOccupancySelection : AppCompatActivity() {
 
             //place to put click action
             Toast.makeText(this,it.component1(), Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, RoomSelection::class.java)
+            intent.putExtra("building name", buildingHandle)
+            startActivity(intent)
 
         }
         timeRecycleView.adapter = adaptor

@@ -1,39 +1,43 @@
 package com.example.SaveMeARoom
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.reservation_items.view.*
 
-class roomRecycleAdaptor (var Date: List<dateData>, private val clickListener: (dateData) -> Unit) : RecyclerView.Adapter<roomRecycleAdaptor.DateViewHolder>() {
+class roomRecycleAdaptor (var Room: List<roomData>, private val clickListener: (roomData) -> Unit) : RecyclerView.Adapter<roomRecycleAdaptor.RoomViewHolder>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateViewHolder {
-        val vh = DateViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.date_items, parent, false)){
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
+        val vh = RoomViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.room_items, parent, false)){
 
-            clickListener(Date[it])
+            clickListener(Room[it])
         }
         return vh
     }
 
-    override fun onBindViewHolder(holder: DateViewHolder, position: Int) {
-        val currentItem = Date[position]
-        holder.tvDate.text = currentItem.DateString
+    override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
+        val currentItem = Room[position]
+        holder.tvRoom.text = currentItem.RoomString
     }
 
     override fun getItemCount(): Int {
-        return Date.size
+        return Room.size
     }
 
-    class DateViewHolder(itemView : View, clickAtPosition: (Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
-        val tvDate : TextView = itemView.findViewById(R.id.tvDate)
-
+    class RoomViewHolder(itemView : View, clickAtPosition: (Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
+        val tvRoom : TextView = itemView.findViewById(R.id.tvRoom)
         init{
             itemView.setOnClickListener{
                 clickAtPosition(adapterPosition)
+            }
+            itemView.findViewById<Button>(R.id.btnBook).setOnClickListener{
+                Log.d("clicked",tvRoom.text.toString())
             }
         }
     }

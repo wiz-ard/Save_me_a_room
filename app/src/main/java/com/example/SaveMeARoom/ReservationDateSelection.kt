@@ -36,6 +36,7 @@ class ReservationDateSelection : AppCompatActivity() {
             //place to put click action
             Toast.makeText(this,it.component1(),Toast.LENGTH_SHORT).show()
             val intent = Intent(this, TimeOccupancySelection::class.java)
+            intent.putExtra("building name", buildingHandle)
             startActivity(intent)
         }
         dateRecycleView.adapter = adaptor
