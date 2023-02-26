@@ -36,9 +36,6 @@ class roomRecycleAdaptor (var Room: List<roomData>, private val clickListener: (
             itemView.setOnClickListener{
                 clickAtPosition(adapterPosition)
             }
-            itemView.findViewById<Button>(R.id.btnBook).setOnClickListener{
-                Log.d("clicked",tvRoom.text.toString())
-            }
         }
     }
 
