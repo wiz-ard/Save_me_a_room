@@ -38,6 +38,12 @@
             android:parentActivityName=".home"
             android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
         <activity
+            android:name=".createacc"
+            android:exported="false"
+            android:label="@string/title_activity_createacc"
+            android:theme="@style/Theme.SaveMeARoom.NoActionBar"
+            android:parentActivityName=".home"/>
+        <activity
             android:name=".home"
             android:exported="false"
             android:label="@string/title_activity_home"
