@@ -40,7 +40,7 @@ class ReservationDateSelection : AppCompatActivity() {
             date = it.component1()
             //Toast.makeText(this,date,Toast.LENGTH_SHORT).show()
             intent.putExtra("building name", buildingName)
-            intent.putExtra("Date", date)
+            intent.putExtra("date", date)
             startActivity(intent)
             finish()
         }
