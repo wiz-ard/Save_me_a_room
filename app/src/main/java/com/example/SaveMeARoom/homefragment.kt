@@ -24,8 +24,6 @@ class Homefragment: Fragment() {
     private lateinit var recycleView: RecyclerView
     private lateinit var buildingList: ArrayList<buildingname>
 
-    lateinit var buildingName: Array<String>
-
     // needed to display and fill in the data when its created
     override fun onCreateView(
         inflater: LayoutInflater,

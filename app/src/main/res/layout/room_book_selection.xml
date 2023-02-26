@@ -7,7 +7,7 @@
     tools:context=".home">
 
     <TextView
-        android:id="@+id/tvDateTitle"
+        android:id="@+id/tvRoomTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/teal_700"
@@ -22,12 +22,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvDate"
+        android:id="@+id/rvRoom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomTitle"
         tools:layout_editor_absoluteX="0dp"
-        tools:listitem="@layout/date_items" />
+        tools:listitem="@layout/room_items" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

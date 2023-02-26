@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -16,11 +17,26 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".BookConfirmation"
+            android:exported="false" />
+        <activity
+            android:name=".RoomSelection"
+            android:exported="false"
+            android:label="@string/title_activity_room_reservation"
+            android:parentActivityName=".home"
+            android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
+        <activity
+            android:name=".TimeOccupancySelection"
+            android:exported="false"
+            android:label="@string/title_activity_time_occupancy_selection"
+            android:parentActivityName=".home"
+            android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
+        <activity
             android:name=".ReservationDateSelection"
             android:exported="false"
             android:label="@string/title_activity_reservation_date_selection"
-            android:theme="@style/Theme.SaveMeARoom.NoActionBar"
-            android:parentActivityName=".home"/>
+            android:parentActivityName=".home"
+            android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
         <activity
             android:name=".home"
             android:exported="false"

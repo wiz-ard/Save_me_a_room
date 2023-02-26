@@ -1,17 +1,14 @@
 package com.example.SaveMeARoom
 
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toolbar
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.reservation_date_selection.*
 import java.time.LocalDate
 
 class ReservationDateSelection : AppCompatActivity() {
@@ -20,12 +17,16 @@ class ReservationDateSelection : AppCompatActivity() {
     private lateinit var dateRecycleView : RecyclerView
     private lateinit var dateList : ArrayList<dateData>
     private lateinit var dateText : ArrayList<String>
+    private lateinit var date : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.reservation_date_selection)
+
         //taking in the passed building name data from home fragment
-        val buildingHandle = intent.getStringExtra("building name")
+        val buildingName = intent.getStringExtra("building name")
+        val topBuildingTitle : TextView = findViewById(R.id.tvDateTitle)
+        topBuildingTitle.text = buildingName+" reservation"
 
         getDate()
 
@@ -35,8 +36,13 @@ class ReservationDateSelection : AppCompatActivity() {
         adaptor = dateRecycleAdaptor(dateList){
 
             //place to put click action
-            Toast.makeText(this,it.component1(),Toast.LENGTH_SHORT).show()
-
+            val intent = Intent(this, TimeOccupancySelection::class.java)
+            date = it.component1()
+            //Toast.makeText(this,date,Toast.LENGTH_SHORT).show()
+            intent.putExtra("building name", buildingName)
+            intent.putExtra("date", date)
+            startActivity(intent)
+            finish()
         }
         dateRecycleView.adapter = adaptor
     }

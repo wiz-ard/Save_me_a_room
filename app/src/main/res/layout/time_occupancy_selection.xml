@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home">
+
+    <TextView
+        android:id="@+id/tvTimeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_700"
+        android:gravity="start"
+        android:text="Hello"
+        android:paddingStart="45dp"
+        android:paddingEnd="0dp"
+        android:paddingVertical="7dp"
+        android:textSize="15pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTime"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeTitle"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/time_items" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/teal_700"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbTwo_nine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 - 10"
+            android:layout_marginStart="25dp"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/rbTen_twentynine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 - 29"
+            android:layout_marginStart="25dp"/>
+
+        <RadioButton
+            android:id="@+id/rbThirty_fortynine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30 - 49"
+            android:layout_marginStart="25dp"/>
+
+        <RadioButton
+            android:id="@+id/rbFifty_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50+"
+            android:layout_marginStart="25dp"/>
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
