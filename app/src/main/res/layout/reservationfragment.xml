@@ -7,7 +7,8 @@
     tools:context=".home">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvUserReservations"
+        android:id="@+id/rvMyReservations"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:listitem="@layout/my_reservation_items" />
 </androidx.constraintlayout.widget.ConstraintLayout>
