@@ -19,10 +19,7 @@ class BookConfirmation : AppCompatActivity() {
         val time = intent.getStringExtra("time")
         var occupancy = intent.getStringExtra("occupancy")
         val room = intent.getStringExtra("room")
-        val username = intent.getStringExtra("username")
         val email = intent.getStringExtra("email")
-        val college = intent.getStringExtra("college")
-        val admin = intent.getStringExtra("admin")
 
         val tvBuildingNameConfirm = findViewById<TextView>(R.id.tvBuildingNameConfirm)
         val tvDateConfirm = findViewById<TextView>(R.id.tvDateConfirm)

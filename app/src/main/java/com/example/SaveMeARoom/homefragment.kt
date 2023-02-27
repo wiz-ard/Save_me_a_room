@@ -56,10 +56,7 @@ class Homefragment: Fragment() {
             //Toast.makeText(activity,it.component1(),Toast.LENGTH_SHORT).show()
             val intent = Intent(activity, ReservationDateSelection::class.java)
             intent.putExtra("building name", it.component1())
-            intent.putExtra("username", bundle!!.getString("username"))
             intent.putExtra("email", bundle!!.getString("email"))
-            intent.putExtra("college", bundle!!.getString("username"))
-            intent.putExtra("admin", bundle!!.getString("admin"))
             startActivity(intent)
         }
         recycleView.adapter = adaptor
