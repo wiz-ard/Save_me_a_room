@@ -71,7 +71,7 @@ class Homefragment: Fragment() {
 
         val ip = "http://3.132.20.107:3000"
 
-        val kms = ""
+
 
         val query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20locations%20WHERE%20Associated_College=%27" + college + "%27"
 
