@@ -1,10 +1,13 @@
 package com.example.SaveMeARoom
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.admin_home.*
 import kotlinx.android.synthetic.main.create_account.*
 import kotlinx.android.synthetic.main.homefragment.*
 
@@ -26,6 +29,7 @@ class home : AppCompatActivity() {
         val reservationFragment = Reservationfragment()
         val profileFragment = Profilefragment()
 
+
         //sets the initial fragment for when first launched
 
         setCurrentFragment(homeFragment,college.toString(),email.toString(),username.toString(),admin.toString())
@@ -40,6 +44,13 @@ class home : AppCompatActivity() {
             }
             true
         }
+
+        btnLogout.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
 
     //function for navigation bar to change fragments when clicked

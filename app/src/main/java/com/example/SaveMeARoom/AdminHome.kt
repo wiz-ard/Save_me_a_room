@@ -1,5 +1,6 @@
 package com.example.SaveMeARoom
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -39,6 +40,13 @@ class AdminHome : AppCompatActivity() {
             }
             true
         }
+
+        btnAdminLogout.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
 
     //function for navigation bar to change fragments when clicked

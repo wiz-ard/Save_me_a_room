@@ -5,6 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/btnAdminLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        app:layout_constraintBottom_toTopOf="@+id/adminBottomNavigationView"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
     <FrameLayout
         android:id="@+id/flAdminFragment"
         android:layout_width="match_parent"
