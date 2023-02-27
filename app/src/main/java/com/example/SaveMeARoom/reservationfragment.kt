@@ -17,6 +17,7 @@ class Reservationfragment: Fragment() {
     private lateinit var adaptor: myReservationRecycleAdaptor
     private lateinit var recycleView: RecyclerView
     private lateinit var myReservationList: ArrayList<myReservationData>
+    private lateinit var groupBy: ArrayList<String>
 
     // needed to display and fill in the data when its created
     override fun onCreateView(
@@ -30,7 +31,11 @@ class Reservationfragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
 
-        getReservations()
+        val bundle = arguments
+
+        val email = bundle!!.getString("email")
+
+        getReservations(email.toString())
 
         val layoutManager = LinearLayoutManager(context)
         recycleView = view.findViewById(R.id.rvMyReservations)
@@ -39,18 +44,16 @@ class Reservationfragment: Fragment() {
         adaptor = myReservationRecycleAdaptor(myReservationList){
 
             val intent = Intent(activity, myReservationConfirmation::class.java)
-
+            intent.putExtra("reservation info", it.component1())
+            intent.putExtra("email", email)
             startActivity(intent)
 
         }
+        recycleView.adapter = adaptor
 
     }
 
-    private fun getReservations() {
-
-        val bundle = arguments
-
-        val email = bundle!!.getString("email")
+    private fun getReservations(email:String) {
 
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
 
@@ -68,9 +71,19 @@ class Reservationfragment: Fragment() {
 
         myReservationList = arrayListOf()
 
+        groupBy = arrayListOf()
+
+        var track = 1
+
         for(i in reservations.indices){
             val reservation = myReservationData(reservations[i].substringAfter(":").substringAfter('"').substringBefore('"'))
-            myReservationList.add(reservation)
+            val reservationtrim = reservation.toString().substringAfter("=").substringBefore(")")
+            groupBy.add(reservationtrim)
+            if(track % 4 == 0){
+                val finalreservation = myReservationData(groupBy[i-3].toString() + ", " + groupBy[i-2].toString() + ", " + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm," + groupBy[i].toString().substringAfter("").substringBefore(" "))
+                myReservationList.add(finalreservation)
+            }
+            track += 1
         }
     }
 }
