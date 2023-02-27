@@ -41,7 +41,7 @@ class Homefragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        val bundle = arguments
 
         dataInitialize()
 
@@ -56,6 +56,10 @@ class Homefragment: Fragment() {
             //Toast.makeText(activity,it.component1(),Toast.LENGTH_SHORT).show()
             val intent = Intent(activity, ReservationDateSelection::class.java)
             intent.putExtra("building name", it.component1())
+            intent.putExtra("username", bundle!!.getString("username"))
+            intent.putExtra("email", bundle!!.getString("email"))
+            intent.putExtra("college", bundle!!.getString("username"))
+            intent.putExtra("admin", bundle!!.getString("admin"))
             startActivity(intent)
         }
         recycleView.adapter = adaptor
@@ -71,7 +75,8 @@ class Homefragment: Fragment() {
 
         val ip = "http://3.132.20.107:3000"
 
-
+        val bundle = arguments
+        val college = bundle!!.getString("college")
 
         val query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20locations%20WHERE%20Associated_College=%27" + college + "%27"
 

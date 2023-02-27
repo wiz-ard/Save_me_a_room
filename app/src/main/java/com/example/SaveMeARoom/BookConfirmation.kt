@@ -19,6 +19,10 @@ class BookConfirmation : AppCompatActivity() {
         val time = intent.getStringExtra("time")
         var occupancy = intent.getStringExtra("occupancy")
         val room = intent.getStringExtra("room")
+        val username = intent.getStringExtra("username")
+        val email = intent.getStringExtra("email")
+        val college = intent.getStringExtra("college")
+        val admin = intent.getStringExtra("admin")
 
         val tvBuildingNameConfirm = findViewById<TextView>(R.id.tvBuildingNameConfirm)
         val tvDateConfirm = findViewById<TextView>(R.id.tvDateConfirm)
@@ -68,7 +72,7 @@ class BookConfirmation : AppCompatActivity() {
 
             val ip = "http://3.132.20.107:3000"
 
-            val query = "/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27email@email.com%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27)"
+            val query = "/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27)"
 
             val url = URL(ip.plus(query))
 
