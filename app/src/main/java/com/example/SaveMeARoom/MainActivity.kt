@@ -13,6 +13,7 @@ import java.net.URL
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var infoList: ArrayList<String>
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -39,7 +40,22 @@ class MainActivity : AppCompatActivity() {
 
                 val text = url.readText()
 
+                infoList = arrayListOf()
+
+
                 if (text.length > 2) {
+                    val userInfo = text.split(",")
+                    for (i in userInfo.indices){
+                        val info = userData(userInfo[i].substringAfter(":").substringAfter('"').substringBefore('"')).toString()
+                        val info2 = info.substringAfter("=").substringBefore(")")
+                        infoList.add(info2)
+
+                    }
+                    nextPage.putExtra("username", infoList[0].toString())
+                    nextPage.putExtra("email", infoList[2].toString())
+                    nextPage.putExtra("college", infoList[3].toString())
+                    nextPage.putExtra("admin", infoList[4].toString())
+
                     Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
                     startActivity(nextPage)
                     finish()

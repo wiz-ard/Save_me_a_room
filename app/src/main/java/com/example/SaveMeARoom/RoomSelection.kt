@@ -76,6 +76,11 @@ class RoomSelection : AppCompatActivity() {
 
         val text = url.readText()
 
+        if(text.equals("[]")){
+            Toast.makeText(this, "No rooms available in this building at this time :(", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+
         val rooms = text.split(",")
 
         roomList = arrayListOf()

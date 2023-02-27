@@ -12,6 +12,11 @@ class home : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        val username = intent.getStringExtra("username")
+        val email = intent.getStringExtra("email")
+        val college = intent.getStringExtra("college")
+        val admin = intent.getStringExtra("admin")
+
         // setting variables to each of the fragment layout views
         val homeFragment = Homefragment()
         val mapFragment = Mapfragment()

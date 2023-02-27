@@ -17,7 +17,7 @@ class BookConfirmation : AppCompatActivity() {
         val buildingName = intent.getStringExtra("building name")
         val date = intent.getStringExtra("date")
         val time = intent.getStringExtra("time")
-        val occupancy = intent.getStringExtra("occupancy")
+        var occupancy = intent.getStringExtra("occupancy")
         val room = intent.getStringExtra("room")
 
         val tvBuildingNameConfirm = findViewById<TextView>(R.id.tvBuildingNameConfirm)
@@ -32,8 +32,17 @@ class BookConfirmation : AppCompatActivity() {
         tvBuildingNameConfirm.text = buildingName
         tvDateConfirm.text = date
         tvTimeConfirm.text = time
-        tvOccupancyConfirm.text = occupancy
-        tvRoomConfirm.text = room
+        if(occupancy.equals("0")){
+            occupancy = "2-10"
+        }else if(occupancy.equals("1")){
+            occupancy = "11-29"
+        }else if(occupancy.equals("2")){
+            occupancy = "30-49"
+        }else{
+            occupancy = "50+"
+        }
+        tvOccupancyConfirm.text = "Occupancy: " + occupancy
+        tvRoomConfirm.text = "Room: " + room
 
         btnConfirm.setOnClickListener {
             val buildingName = intent.getStringExtra("building name")
