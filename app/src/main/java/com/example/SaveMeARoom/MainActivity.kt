@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
             val username = username.text.toString()
             val password = password.text.toString()
             val hashed = password.hashCode()
-            val nextPage = Intent(this, home::class.java)
 
             if(validInput(username) && validInput(password)){
                 val ip = "http://3.132.20.107:3000"
@@ -50,6 +49,10 @@ class MainActivity : AppCompatActivity() {
                         val info2 = info.substringAfter("=").substringBefore(")")
                         infoList.add(info2)
 
+                    }
+                    var nextPage = Intent(this, home::class.java)
+                    if(infoList[4].equals("1")){
+                        nextPage = Intent(this, AdminHome::class.java)
                     }
                     nextPage.putExtra("username", infoList[0].toString())
                     nextPage.putExtra("email", infoList[2].toString())
