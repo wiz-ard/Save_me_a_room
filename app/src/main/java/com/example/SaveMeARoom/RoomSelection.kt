@@ -74,7 +74,7 @@ class RoomSelection : AppCompatActivity() {
 
         val ip = "http://3.132.20.107:3000"
 
-        val query = "/search?query=SELECT%20DISTINCT%20locations.Room_Number%20FROM%20Capstone.locations,%20Capstone.reservations%20WHERE%20locations.Occupancy_Range%20=%20" + occupancy +"%20AND%20locations.Building_Name%20=%20%27" + building +"%27%20AND%20(locations.Room_Number%20Not%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Start_Date_Time%20=%20%27" + date + "%20" + start + "%27%20OR%20End_Date_time%20LIKE%20%27" + date + "%2011:59:00%27))"
+        val query = "/search?query=SELECT%20DISTINCT%20locations.Room_Number%20FROM%20Capstone.locations%20WHERE%20locations.Occupancy_Range%20=%20" + occupancy +"%20AND%20locations.Building_Name%20=%20%27" + building +"%27%20AND%20(locations.Room_Number%20Not%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Start_Date_Time%20=%20%27" + date + "%20" + start + "%27%20OR%20End_Date_time%20LIKE%20%27" + date + "%2011:59:00%27))ORDER%20BY%20Room_Number"
 
         val url = URL(ip.plus(query))
 

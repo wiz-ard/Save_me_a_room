@@ -69,7 +69,7 @@ class BookConfirmation : AppCompatActivity() {
 
             val ip = "http://3.132.20.107:3000"
 
-            val query = "/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27)"
+            val query = "/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1)"
 
             val url = URL(ip.plus(query))
 

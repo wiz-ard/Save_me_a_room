@@ -75,7 +75,7 @@ class Homefragment: Fragment() {
         val bundle = arguments
         val college = bundle!!.getString("college")
 
-        val query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20locations%20WHERE%20Associated_College=%27" + college + "%27"
+        val query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20locations%20WHERE%20Associated_College=%27" + college + "%27%20OR%20Associated_College=%27General%27%20ORDER%20BY%20Building_Name"
 
         val url = URL(ip.plus(query))
 
