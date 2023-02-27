@@ -25,6 +25,9 @@ class ReservationDateSelection : AppCompatActivity() {
 
         //taking in the passed building name data from home fragment
         val buildingName = intent.getStringExtra("building name")
+        val email = intent.getStringExtra("email")
+
+
         val topBuildingTitle : TextView = findViewById(R.id.tvDateTitle)
         topBuildingTitle.text = buildingName+" reservation"
 
@@ -41,6 +44,7 @@ class ReservationDateSelection : AppCompatActivity() {
             //Toast.makeText(this,date,Toast.LENGTH_SHORT).show()
             intent.putExtra("building name", buildingName)
             intent.putExtra("date", date)
+            intent.putExtra("email", email)
             startActivity(intent)
             finish()
         }

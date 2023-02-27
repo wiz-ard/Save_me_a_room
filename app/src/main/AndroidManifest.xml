@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".myReservationConfirmation"
+            android:exported="false" />
+        <activity
             android:name=".BookConfirmation"
             android:exported="false" />
         <activity
@@ -41,8 +44,8 @@
             android:name=".createacc"
             android:exported="false"
             android:label="@string/title_activity_createacc"
-            android:theme="@style/Theme.SaveMeARoom.NoActionBar"
-            android:parentActivityName=".home"/>
+            android:parentActivityName=".home"
+            android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
         <activity
             android:name=".home"
             android:exported="false"

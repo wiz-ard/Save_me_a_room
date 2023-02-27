@@ -31,6 +31,7 @@ class TimeOccupancySelection : AppCompatActivity() {
 
         val date = intent.getStringExtra("date")
         val buildingName = intent.getStringExtra("building name")
+        val email = intent.getStringExtra("email")
 
         val topBuildingTitle : TextView = findViewById(R.id.tvTimeTitle)
         topBuildingTitle.text = buildingName+" reservation"
@@ -65,6 +66,7 @@ class TimeOccupancySelection : AppCompatActivity() {
             intent.putExtra("occupancy", occupancy)
             intent.putExtra("time", time)
             intent.putExtra("date", date)
+            intent.putExtra("email", email)
             startActivity(intent)
             finish()
 
