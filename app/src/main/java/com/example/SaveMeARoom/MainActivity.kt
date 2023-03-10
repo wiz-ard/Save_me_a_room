@@ -74,6 +74,10 @@ class MainActivity : AppCompatActivity() {
             val nextPage = Intent(this, createacc::class.java)
             startActivity(nextPage)
         }
+        forgotbtn.setOnClickListener {
+            val nextPage = Intent(this, forgotpass::class.java)
+            startActivity(nextPage)
+        }
     }
     fun validInput(userText: String): Boolean{
         var invalidcount = 0
