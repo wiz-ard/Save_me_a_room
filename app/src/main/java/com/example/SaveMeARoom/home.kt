@@ -17,7 +17,7 @@ class home : AppCompatActivity() {
         val email = intent.getStringExtra("email")
         val college = intent.getStringExtra("college")
         val admin = intent.getStringExtra("admin")
-
+        val resNum = intent.getStringExtra("reserveNum")
 
 
         // setting variables to each of the fragment layout views
@@ -28,22 +28,22 @@ class home : AppCompatActivity() {
 
         //sets the initial fragment for when first launched
 
-        setCurrentFragment(homeFragment,college.toString(),email.toString(),username.toString(),admin.toString())
+        setCurrentFragment(homeFragment,college.toString(),email.toString(),username.toString(),admin.toString(),resNum.toString())
 
         // bottom navigation bar click listener
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.Home -> setCurrentFragment(homeFragment,college.toString(),email.toString(),username.toString(),admin.toString())
-                R.id.Map -> setCurrentFragment(mapFragment,college.toString(),email.toString(),username.toString(),admin.toString())
-                R.id.Reservations -> setCurrentFragment(reservationFragment,college.toString(),email.toString(),username.toString(),admin.toString())
-                R.id.Profile -> setCurrentFragment(profileFragment,college.toString(),email.toString(),username.toString(),admin.toString())
+                R.id.Home -> setCurrentFragment(homeFragment,college.toString(),email.toString(),username.toString(),admin.toString(),resNum.toString())
+                R.id.Map -> setCurrentFragment(mapFragment,college.toString(),email.toString(),username.toString(),admin.toString(),resNum.toString())
+                R.id.Reservations -> setCurrentFragment(reservationFragment,college.toString(),email.toString(),username.toString(),admin.toString(),resNum.toString())
+                R.id.Profile -> setCurrentFragment(profileFragment,college.toString(),email.toString(),username.toString(),admin.toString(),resNum.toString())
             }
             true
         }
     }
 
     //function for navigation bar to change fragments when clicked
-    private fun setCurrentFragment(fragment: Fragment, college: String, email: String, username: String, admin: String){
+    private fun setCurrentFragment(fragment: Fragment, college: String, email: String, username: String, admin: String, resNum: String){
 
         val mFragmentManager = supportFragmentManager
         val mFragmentTransaction = mFragmentManager.beginTransaction()
@@ -54,6 +54,7 @@ class home : AppCompatActivity() {
         mBundle.putString("email", email)
         mBundle.putString("username", username)
         mBundle.putString("admin", admin)
+        mBundle.putString("reserveNum", resNum)
         mFragment.arguments = mBundle
         mFragmentTransaction.add(R.id.flFragment, mFragment)
         mFragmentTransaction.replace(R.id.flFragment,mFragment).commit()

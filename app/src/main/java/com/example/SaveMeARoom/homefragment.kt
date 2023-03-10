@@ -57,6 +57,8 @@ class Homefragment: Fragment() {
             val intent = Intent(activity, ReservationDateSelection::class.java)
             intent.putExtra("building name", it.component1())
             intent.putExtra("email", bundle!!.getString("email"))
+            intent.putExtra("reserveNum", bundle!!.getString("reserveNum"))
+            intent.putExtra("username", bundle!!.getString("username"))
             startActivity(intent)
         }
         recycleView.adapter = adaptor

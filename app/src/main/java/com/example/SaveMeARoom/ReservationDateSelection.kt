@@ -26,6 +26,8 @@ class ReservationDateSelection : AppCompatActivity() {
         //taking in the passed building name data from home fragment
         val buildingName = intent.getStringExtra("building name")
         val email = intent.getStringExtra("email")
+        val resNum = intent.getStringExtra("reserveNum")
+        val username = intent.getStringExtra("username")
 
 
         val topBuildingTitle : TextView = findViewById(R.id.tvDateTitle)
@@ -45,6 +47,8 @@ class ReservationDateSelection : AppCompatActivity() {
             intent.putExtra("building name", buildingName)
             intent.putExtra("date", date)
             intent.putExtra("email", email)
+            intent.putExtra("reserveNum", resNum)
+            intent.putExtra("username", username)
             startActivity(intent)
             finish()
         }

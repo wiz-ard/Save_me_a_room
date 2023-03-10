@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                     nextPage.putExtra("email", infoList[2].toString())
                     nextPage.putExtra("college", infoList[3].toString())
                     nextPage.putExtra("admin", infoList[4].toString())
+                    nextPage.putExtra("reserveNum", infoList[7].toString())
 
                     Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
                     startActivity(nextPage)
