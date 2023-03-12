@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.create_account.*
 
 
 class Homefragment: Fragment() {
-
+    private lateinit var infoList: ArrayList<String>
 
     private lateinit var adaptor: homeRecycleAdaptor
     private lateinit var recycleView: RecyclerView
@@ -55,9 +55,8 @@ class Homefragment: Fragment() {
             //Place to put actions for when recycle view is clicked
             //Toast.makeText(activity,it.component1(),Toast.LENGTH_SHORT).show()
             val intent = Intent(activity, ReservationDateSelection::class.java)
+
             intent.putExtra("building name", it.component1())
-            intent.putExtra("email", bundle!!.getString("email"))
-            intent.putExtra("reserveNum", bundle!!.getString("reserveNum"))
             intent.putExtra("username", bundle!!.getString("username"))
             startActivity(intent)
         }
@@ -72,16 +71,36 @@ class Homefragment: Fragment() {
 
         StrictMode.setThreadPolicy(policy)
 
+        val bundle = arguments
+
+        val username = bundle!!.getString("username")
+
         val ip = "http://3.132.20.107:3000"
 
-        val bundle = arguments
-        val college = bundle!!.getString("college")
+        var query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username  + "%27"
 
-        val query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20locations%20WHERE%20Associated_College=%27" + college + "%27%20OR%20Associated_College=%27General%27%20ORDER%20BY%20Building_Name"
+        var url = URL(ip.plus(query))
 
-        val url = URL(ip.plus(query))
+        var text = url.readText()
 
-        val text = url.readText()
+        infoList = arrayListOf()
+
+        val userInfo = text.split(",")
+        for (i in userInfo.indices) {
+            val info = userData(
+                userInfo[i].substringAfter(":").substringAfter('"').substringBefore('"')
+            ).toString()
+            val info2 = info.substringAfter("=").substringBefore(")")
+            infoList.add(info2)
+        }
+
+        val college = infoList[3]
+
+        query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20locations%20WHERE%20Associated_College=%27" + college + "%27%20OR%20Associated_College=%27General%27%20ORDER%20BY%20Building_Name"
+
+        url = URL(ip.plus(query))
+
+        text = url.readText()
 
         val buildingName = text.split(",")
 

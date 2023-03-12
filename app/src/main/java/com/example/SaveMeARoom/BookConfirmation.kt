@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.time_items.*
 import java.net.URL
 
 class BookConfirmation : AppCompatActivity() {
+    private lateinit var infoList: ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.book_confirmation)
@@ -20,8 +21,6 @@ class BookConfirmation : AppCompatActivity() {
         val time = intent.getStringExtra("time")
         var occupancy = intent.getStringExtra("occupancy")
         val room = intent.getStringExtra("room")
-        val email = intent.getStringExtra("email")
-        var resNum = intent.getStringExtra("reserveNum").toString().toInt()
         val username = intent.getStringExtra("username")
 
         val tvBuildingNameConfirm = findViewById<TextView>(R.id.tvBuildingNameConfirm)
@@ -32,6 +31,26 @@ class BookConfirmation : AppCompatActivity() {
 
         val btnConfirm = findViewById<Button>(R.id.btnConfirm)
         val btnCancel = findViewById<Button>(R.id.btnCancel)
+
+        val ip = "http://3.132.20.107:3000"
+
+        var query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username + "%27"
+
+        var url = URL(ip.plus(query))
+
+        var text = url.readText()
+
+        infoList = arrayListOf()
+
+        val userInfo = text.split(",")
+        for (i in userInfo.indices){
+            val info = userData(userInfo[i].substringAfter(":").substringAfter('"').substringBefore('"')).toString()
+            val info2 = info.substringAfter("=").substringBefore(")")
+            infoList.add(info2)
+        }
+
+        var email = infoList[2].toString()
+        var resNum = infoList[7].toString().toInt()
 
         tvBuildingNameConfirm.text = buildingName
         tvDateConfirm.text = date
@@ -71,14 +90,12 @@ class BookConfirmation : AppCompatActivity() {
 
                 StrictMode.setThreadPolicy(policy)
 
-                val ip = "http://3.132.20.107:3000"
-
-                var query =
+                query =
                     "/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1)"
 
-                var url = URL(ip.plus(query))
+                url = URL(ip.plus(query))
 
-                var text = url.readText()
+                text = url.readText()
 
                 Toast.makeText(this, "Reservation successful!", Toast.LENGTH_SHORT).show()
 
