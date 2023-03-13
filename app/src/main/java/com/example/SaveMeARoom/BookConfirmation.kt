@@ -72,6 +72,7 @@ class BookConfirmation : AppCompatActivity() {
                 val buildingName = intent.getStringExtra("building name")
                 val date = intent.getStringExtra("date")
                 val time = intent.getStringExtra("time")
+                val college = intent.getStringExtra("college")
                 var start = ""
                 var end = ""
                 if (time.equals("5:00pm - 7:00pm")) {
@@ -91,7 +92,7 @@ class BookConfirmation : AppCompatActivity() {
                 StrictMode.setThreadPolicy(policy)
 
                 query =
-                    "/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1)"
+                    "/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1, %27"+college+"%27, 1)"
 
                 url = URL(ip.plus(query))
 

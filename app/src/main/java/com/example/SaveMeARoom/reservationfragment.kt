@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.create_account.*
 import java.net.URL
 
 class Reservationfragment: Fragment() {
+    private lateinit var infoList: ArrayList<String>
 
     private lateinit var adaptor: myReservationRecycleAdaptor
     private lateinit var recycleView: RecyclerView
@@ -33,7 +34,27 @@ class Reservationfragment: Fragment() {
 
         val bundle = arguments
 
-        val email = bundle!!.getString("email")
+        val username = bundle!!.getString("username")
+
+        val ip = "http://3.132.20.107:3000"
+
+        var query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username + "%27"
+
+        var url = URL(ip.plus(query))
+
+        var text = url.readText()
+
+        infoList = arrayListOf()
+
+        val userInfo = text.split(",")
+        for (i in userInfo.indices){
+            val info = userData(userInfo[i].substringAfter(":").substringAfter('"').substringBefore('"')).toString()
+            val info2 = info.substringAfter("=").substringBefore(")")
+            infoList.add(info2)
+
+        }
+
+        val email = infoList[2]
 
         getReservations(email.toString())
 

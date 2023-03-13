@@ -50,7 +50,7 @@ class createacc : AppCompatActivity(), OnItemSelectedListener {
             val nextPage = Intent(this, MainActivity::class.java)
             val ip = "http://3.132.20.107:3000"
             val query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username + "%27%20OR%20Email=%27" + email + "%27"
-            val query2 = "/search?query=INSERT%20into%20users%20values(%27" + username + "%27," + hashed + ",%27" + email + "%27,%27" + college + "%27,0,0,0)"
+            val query2 = "/search?query=INSERT%20into%20users%20values(%27" + username + "%27," + hashed + ",%27" + email + "%27,%27" + college + "%27,0,0,0,0)"
             if(validInput(username) && validInput(password) && validInput(confirm) && validInput(email)){
                 if (username.length > 0 && 8 <= password.length && password.length <= 20 && email.length > 0 && password.equals(confirm)) {
                     if (capitalcount >= 1 && lowercount >= 1 && symbolcount >= 1 && numbercount >= 1) {

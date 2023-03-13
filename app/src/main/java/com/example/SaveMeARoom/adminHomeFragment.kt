@@ -73,8 +73,9 @@ class AdminHomefragment: Fragment() {
 
         val bundle = arguments
         val username = bundle!!.getString("username")
+        val college = bundle!!.getString("college")
 
-        val query = "/search?query=SELECT%20Building_name,Room_number,Start_Date_Time,End_Date_Time%20FROM%20reservations%20WHERE%20Pending='1'"
+        val query = "/search?query=SELECT%20Building_name,Room_number,Start_Date_Time,End_Date_Time%20FROM%20reservations%20WHERE%20Pending='1'%20AND%20College=%27"+college+"%27%20OR%20College=%27General%27"
 
         val url = URL(ip.plus(query))
 

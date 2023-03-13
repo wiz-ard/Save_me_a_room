@@ -27,6 +27,7 @@ class RoomSelection : AppCompatActivity() {
         val date = intent.getStringExtra("date")
         val time = intent.getStringExtra("time")
         val username = intent.getStringExtra("username")
+        val college = intent.getStringExtra("college")
 
 
         var start = ""
@@ -59,6 +60,7 @@ class RoomSelection : AppCompatActivity() {
             intent.putExtra("date", date)
             intent.putExtra("room", room)
             intent.putExtra("username", username)
+            intent.putExtra("college", college)
             startActivity(intent)
             finish()
 

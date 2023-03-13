@@ -57,7 +57,23 @@ class Homefragment: Fragment() {
             val intent = Intent(activity, ReservationDateSelection::class.java)
 
             intent.putExtra("building name", it.component1())
+            val ip = "http://3.132.20.107:3000"
+            var query = "/search?query=SELECT%20*%20FROM%20locations%20WHERE%20Building_Name=%27" + it.component1()  + "%27"
+            var url = URL(ip.plus(query))
+            var text = url.readText()
+            infoList = arrayListOf()
+
+            val userInfo = text.split(",")
+            for (i in userInfo.indices) {
+                val info = userData(
+                    userInfo[i].substringAfter(":").substringAfter('"').substringBefore('"')
+                ).toString()
+                val info2 = info.substringAfter("=").substringBefore(")")
+                infoList.add(info2)
+            }
+            val college = infoList[3]
             intent.putExtra("username", bundle!!.getString("username"))
+            intent.putExtra("college", college)
             startActivity(intent)
         }
         recycleView.adapter = adaptor
@@ -66,7 +82,6 @@ class Homefragment: Fragment() {
     //initializes building name data to be displayed
     @RequiresApi(Build.VERSION_CODES.N)
     private fun dataInitialize() {
-
         val policy = ThreadPolicy.Builder().permitAll().build()
 
         StrictMode.setThreadPolicy(policy)
