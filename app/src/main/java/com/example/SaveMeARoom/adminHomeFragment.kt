@@ -72,10 +72,10 @@ class AdminHomefragment: Fragment() {
         val ip = "http://3.132.20.107:3000"
 
         val bundle = arguments
-        val username = bundle!!.getString("username")
+
         val college = bundle!!.getString("college")
 
-        val query = "/search?query=SELECT%20Building_name,Room_number,Start_Date_Time,End_Date_Time%20FROM%20reservations%20WHERE%20Pending='1'%20AND%20College=%27"+college+"%27%20OR%20College=%27General%27"
+        val query = "/search?query=SELECT%20Building_name,Room_number,Start_Date_Time,End_Date_Time,Reserver_Email%20FROM%20reservations%20WHERE%20Pending='1'%20AND%20College=%27"+college+"%27%20OR%20College=%27General%27"
 
         val url = URL(ip.plus(query))
 
@@ -93,8 +93,8 @@ class AdminHomefragment: Fragment() {
             val reservation = myReservationData(pendingreservations[i].substringAfter(":").substringAfter('"').substringBefore('"'))
             val reservationtrim = reservation.toString().substringAfter("=").substringBefore(")")
             groupBy.add(reservationtrim)
-            if(track % 4 == 0){
-                val finalreservation = adminPendingData(groupBy[i-3].toString() + ", " + groupBy[i-2].toString() + ", " + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i].toString().substringBefore(" ") + ", " + username)
+            if(track % 5 == 0){
+                val finalreservation = adminPendingData(groupBy[i-4].toString() + ", " + groupBy[i-3].toString() + ", " + ((groupBy[i-2].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i-1].toString().substringBefore(" ") + "," + groupBy[i].toString())
                 pendingResList.add(finalreservation)
             }
             track += 1

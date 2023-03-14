@@ -77,11 +77,27 @@ class myReservationConfirmation : AppCompatActivity() {
 
             val ip = "http://3.132.20.107:3000"
 
-            val query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+            var query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
 
-            val url = URL(ip.plus(query))
+            var url = URL(ip.plus(query))
 
-            val text = url.readText()
+            var text = url.readText()
+
+            query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + email + "%27"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
+
+            var numRes = text.substringAfter(":").substringAfter("\"").substringBefore("\"").toInt()
+
+            numRes -= 1
+
+            query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + numRes + "%20WHERE%20Email=%27" + email + "%27"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
 
             finish()
         }
