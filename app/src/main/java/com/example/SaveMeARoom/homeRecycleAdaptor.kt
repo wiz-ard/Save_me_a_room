@@ -37,5 +37,4 @@ class homeRecycleAdaptor (var buildings: List<buildingname>, private val clickLi
             }
         }
     }
-
 }

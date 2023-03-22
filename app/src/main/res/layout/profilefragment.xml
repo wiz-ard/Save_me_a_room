@@ -81,7 +81,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/techlogo" />
+        app:srcCompat="@drawable/LATechSupport" />
 
     <TextView
         android:id="@+id/tvAdminStatic"
@@ -110,7 +110,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Logout"
-        tools:layout_editor_absoluteX="277dp"
-        tools:layout_editor_absoluteY="624dp" />
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="239dp"
+        tools:layout_editor_absoluteY="615dp" />
+
+    <Button
+        android:id="@+id/btnEditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        tools:layout_editor_absoluteX="84dp"
+        tools:layout_editor_absoluteY="615dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
