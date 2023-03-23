@@ -41,28 +41,19 @@ class AdminHome : AppCompatActivity() {
     //function for navigation bar to change fragments when clicked
     private fun setCurrentFragment(fragment: Fragment, username: String){
         val ip = "http://3.132.20.107:3000"
-
-        val query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username +"%27"
+        //queries for admin college
+        val query = "/search?query=SELECT%20College%20FROM%20users%20WHERE%20Username=%27" + username +"%27"
 
         val url = URL(ip.plus(query))
 
         val text = url.readText()
 
-        infoList = arrayListOf()
-
-        val userInfo = text.split(",")
-        for (i in userInfo.indices){
-            val info = userData(userInfo[i].substringAfter(":").substringAfter('"').substringBefore('"')).toString()
-            val info2 = info.substringAfter("=").substringBefore(")")
-            infoList.add(info2)
-        }
-
         val mFragmentManager = supportFragmentManager
         val mFragmentTransaction = mFragmentManager.beginTransaction()
         val mFragment = fragment
-
+        //bundles information to be passed to the designated fragment
         val mBundle = Bundle()
-        mBundle.putString("college",infoList[3])
+        mBundle.putString("college",text.substringAfter(":").substringAfter("\"").substringBefore("\""))
         mBundle.putString("username", username)
         mFragment.arguments = mBundle
         mFragmentTransaction.add(R.id.flAdminFragment, mFragment)

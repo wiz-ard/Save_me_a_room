@@ -26,13 +26,14 @@ class MainActivity : AppCompatActivity() {
 
         //admin admin username password test
         loginbtn.setOnClickListener {
+            //pulls values from text boxes
             val username = username.text.toString()
             val password = password.text.toString()
             val hashed = password.hashCode()
-
+            //checks for SQL injection characters
             if(validInput(username) && validInput(password)){
                 val ip = "http://3.132.20.107:3000"
-
+                //queries database to see if user exists
                 val query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username +"%27%20AND%20Password=" + hashed
 
                 val url = URL(ip.plus(query))
@@ -50,11 +51,13 @@ class MainActivity : AppCompatActivity() {
                         infoList.add(info2)
 
                     }
+                    //sets default user intent
                     var nextPage = Intent(this, home::class.java)
+                    //checks if admin to reset intent if so
                     if(infoList[4].equals("1")){
                         nextPage = Intent(this, AdminHome::class.java)
                     }
-                    nextPage.putExtra("username", infoList[0].toString())
+                    nextPage.putExtra("username", infoList[0])
 
                     Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
                     startActivity(nextPage)
@@ -76,6 +79,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(nextPage)
         }
     }
+    //checks for SQL injection characters
     fun validInput(userText: String): Boolean{
         var invalidcount = 0
         for (letter in userText) {

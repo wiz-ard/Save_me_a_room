@@ -37,33 +37,23 @@ class Reservationfragment: Fragment() {
         val username = bundle!!.getString("username")
 
         val ip = "http://3.132.20.107:3000"
-
-        var query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username + "%27"
+        //gets user email
+        var query = "/search?query=SELECT%20Email%20FROM%20users%20WHERE%20Username=%27" + username + "%27"
 
         var url = URL(ip.plus(query))
 
         var text = url.readText()
 
-        infoList = arrayListOf()
-
-        val userInfo = text.split(",")
-        for (i in userInfo.indices){
-            val info = userData(userInfo[i].substringAfter(":").substringAfter('"').substringBefore('"')).toString()
-            val info2 = info.substringAfter("=").substringBefore(")")
-            infoList.add(info2)
-
-        }
-
-        val email = infoList[2]
-
-        getReservations(email.toString())
+        val email = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
+        //gets user reservations
+        getReservations(email)
 
         val layoutManager = LinearLayoutManager(context)
         recycleView = view.findViewById(R.id.rvMyReservations)
         recycleView.layoutManager = layoutManager
         recycleView.setHasFixedSize(true)
         adaptor = myReservationRecycleAdaptor(myReservationList){
-
+            //sends appropriate reservation information and email to next page
             val intent = Intent(activity, myReservationConfirmation::class.java)
             intent.putExtra("reservation info", it.component1())
             intent.putExtra("email", email)
@@ -81,7 +71,7 @@ class Reservationfragment: Fragment() {
         StrictMode.setThreadPolicy(policy)
 
         val ip = "http://3.132.20.107:3000"
-
+        //queries for reservations based on user email
         val query = "/search?query=SELECT%20Building_Name,%20Room_Number,%20Start_Date_Time,%20End_Date_Time%20FROM%20Capstone.reservations%20WHERE%20Reserver_Email=%27" + email + "%27"
 
         val url = URL(ip.plus(query))
@@ -95,13 +85,13 @@ class Reservationfragment: Fragment() {
         groupBy = arrayListOf()
 
         var track = 1
-
+        //loop to add reservations to recycler view
         for(i in reservations.indices){
             val reservation = myReservationData(reservations[i].substringAfter(":").substringAfter('"').substringBefore('"'))
             val reservationtrim = reservation.toString().substringAfter("=").substringBefore(")")
             groupBy.add(reservationtrim)
             if(track % 4 == 0){
-                val finalreservation = myReservationData(groupBy[i-3].toString() + ", " + groupBy[i-2].toString() + ", " + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm," + groupBy[i].toString().substringAfter("").substringBefore(" "))
+                val finalreservation = myReservationData(groupBy[i-3] + ", " + groupBy[i-2] + ", " + ((groupBy[i-1].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm," + groupBy[i].substringAfter("").substringBefore(" "))
                 myReservationList.add(finalreservation)
             }
             track += 1
