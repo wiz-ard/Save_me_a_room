@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvMyBuildingNameConfirm"
+        android:id="@+id/tvBuildingNameConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvMyDateConfirm"
+        android:id="@+id/tvDateConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -28,10 +28,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMyBuildingNameConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/tvBuildingNameConfirm" />
 
     <TextView
-        android:id="@+id/tvMyTimeConfirm"
+        android:id="@+id/tvTimeConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -40,10 +40,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMyRoomConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomConfirm" />
 
     <TextView
-        android:id="@+id/tvMyOccupancyConfirm"
+        android:id="@+id/tvOccupancyConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -51,10 +51,10 @@
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMyTimeConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeConfirm" />
 
     <TextView
-        android:id="@+id/tvMyRoomConfirm"
+        android:id="@+id/tvRoomConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -62,10 +62,10 @@
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMyDateConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDateConfirm" />
 
     <Button
-        android:id="@+id/btnMyCancel"
+        android:id="@+id/btnCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
@@ -73,17 +73,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMyOccupancyConfirm"
+        app:layout_constraintTop_toBottomOf="@+id/btnConfirm"
         app:layout_constraintVertical_bias="0.445" />
+
     <Button
-        android:id="@+id/btnMyUpdate"
+        android:id="@+id/btnConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:text="Update"
+        android:layout_marginTop="16dp"
+        android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMyOccupancyConfirm"
-        app:layout_constraintVertical_bias="0.745" />
+        app:layout_constraintTop_toBottomOf="@+id/tvOccupancyConfirm"
+        app:layout_constraintVertical_bias="0.231" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.SaveMeARoom
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
@@ -22,10 +23,11 @@ class AdminConfirmation : AppCompatActivity() {
         val resInfo = intent.getStringExtra("res info")
         val resSplit = resInfo.toString().split(",")
         val buildingName = resSplit[0]
-        val time = resSplit[2]
-        val date = resSplit[3].substringAfter(" ")
+        var time = resSplit[2]
+        var date = resSplit[3].substringAfter(" ")
         val room = resSplit[1].substringAfter(" ")
         val modifiedTime = date + " " + (time.substringAfter(" ").substringBefore("pm").toInt() + 12).toString() + ":00:00"
+        //getting reserver email
         var query = "/search?query=SELECT%20Reserver_Email%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
 
         var url = URL(ip.plus(query))
@@ -36,6 +38,33 @@ class AdminConfirmation : AppCompatActivity() {
 
         var email = querysplit[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
 
+        //get reservation ID of reservation
+        query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27%20AND%20Reserver_Email=%27" + email + "%27"
+
+        url = URL(ip.plus(query))
+
+        text = url.readText()
+
+        var resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+        //check if its an update
+        query = "/search?query=SELECT%20New_Start_Time,New_End_Time%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
+
+        url = URL(ip.plus(query))
+
+        text = url.readText()
+
+        var newtime = "null"
+        var newdate = "null"
+        if(text.length > 2){
+            var times = text.split(",")
+            var newStart = times[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
+            var newEnd = times[1].substringAfter(":").substringAfter("\"").substringBefore("\"")
+            newdate = newStart.substringBefore(" ")
+            newtime = ((newStart.substringAfter(" ").substringBefore(":").toInt())-12).toString() + "-" + ((newEnd.substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm"
+        }
+
+        //selecting occupancy range to format
         query = "/search?query=SELECT%20Occupancy_Range%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
 
         url = URL(ip.plus(query))
@@ -54,8 +83,6 @@ class AdminConfirmation : AppCompatActivity() {
         val btnDeny = findViewById<Button>(R.id.btnAdminDeny)
 
         tvBuildingNameConfirm.text = buildingName
-        tvDateConfirm.text = date
-        tvTimeConfirm.text = time
         if(occupancy.equals("0")){
             occupancy = "2-10"
         }else if(occupancy.equals("1")){
@@ -68,28 +95,38 @@ class AdminConfirmation : AppCompatActivity() {
         tvOccupancyConfirm.text = "Occupancy: " + occupancy
         tvRoomConfirm.text = "Room: " + room
 
+        if(newdate.equals("null")){
+            tvDateConfirm.text = date
+            tvTimeConfirm.text = time
+        }else{
+            val intent = Intent(this, AdminUpdateConfirmation::class.java)
+            intent.putExtra("building",buildingName)
+            intent.putExtra("time",time)
+            intent.putExtra("date",date)
+            intent.putExtra("newtime",newtime)
+            intent.putExtra("newdate",newdate)
+            intent.putExtra("occupancy",occupancy)
+            intent.putExtra("room",room)
+            intent.putExtra("email",email)
+            startActivity(intent)
+            finish()
+        }
+
         btnConfirm.setOnClickListener {
-            val date = intent.getStringExtra("date")
-            val time = intent.getStringExtra("time")
-            var start = ""
-            var end = ""
-            if(time.equals("5:00pm - 7:00pm")){
-                start = "17:00:00"
-                end = "19:00:00"
-            }else if(time.equals("7:00pm - 9:00pm")){
-                start = "19:00:00"
-                end = "21:00:00"
-            }else{
-                start = "21:00:00"
-                end = "23:00:00"
-            }
-            val occupancy = intent.getStringExtra("occupancy")
+            //get reservation ID of reservation
+            var query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
 
-            val query = "/search?query=UPDATE%20reservations%20SET%20Pending=0%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+            var url = URL(ip.plus(query))
 
-            val url = URL(ip.plus(query))
+            var text = url.readText()
 
-            val text = url.readText()
+            var resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+            query = "/search?query=UPDATE%20reservations%20SET%20Pending=0%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
 
             Toast.makeText(this, "Reservation accepted.", Toast.LENGTH_SHORT).show()
 
@@ -97,12 +134,23 @@ class AdminConfirmation : AppCompatActivity() {
         }
 
         btnDeny.setOnClickListener {
-            var query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+            //get reservation ID of reservation
+            var query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
 
             var url = URL(ip.plus(query))
 
             var text = url.readText()
 
+            var resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+            //deleting reservation from reservations table
+            query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
+
+            //getting accurate number of reservations for the user
             query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + email + "%27"
 
             url = URL(ip.plus(query))
@@ -113,6 +161,7 @@ class AdminConfirmation : AppCompatActivity() {
 
             numRes -= 1
 
+            //subtracting 1 from number of reservations
             query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + numRes + "%20WHERE%20Email=%27" + email + "%27"
 
             url = URL(ip.plus(query))

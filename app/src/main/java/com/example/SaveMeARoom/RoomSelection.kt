@@ -51,7 +51,6 @@ class RoomSelection : AppCompatActivity() {
         adaptor = roomRecycleAdaptor(roomList){
 
             //place to put click action
-            //Toast.makeText(this,it.component1(), Toast.LENGTH_SHORT).show()
             val intent = Intent(this, BookConfirmation::class.java)
             room = it.component1()
             intent.putExtra("building name", buildingName)

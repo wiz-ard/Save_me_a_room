@@ -20,6 +20,9 @@
             android:name=".AdminConfirmation"
             android:exported="false" />
         <activity
+            android:name=".AdminUpdateConfirmation"
+            android:exported="false" />
+        <activity
             android:name=".AdminHome"
             android:exported="false" />
         <activity
@@ -38,6 +41,24 @@
             android:name=".TimeOccupancySelection"
             android:exported="false"
             android:label="@string/title_activity_time_occupancy_selection"
+            android:parentActivityName=".home"
+            android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
+        <activity
+            android:name=".UpdateConfirmation"
+            android:exported="false"
+            android:label="@string/title_activity_update_confirmation"
+            android:parentActivityName=".home"
+            android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
+        <activity
+            android:name=".UpdateTimeSelection"
+            android:exported="false"
+            android:label="@string/title_activity_update_time_selection"
+            android:parentActivityName=".home"
+            android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
+        <activity
+            android:name=".UpdateDateSelection"
+            android:exported="false"
+            android:label="@string/title_activity_update_date_selection"
             android:parentActivityName=".home"
             android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
         <activity

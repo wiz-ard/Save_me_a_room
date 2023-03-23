@@ -12,29 +12,11 @@ import kotlinx.android.synthetic.main.homefragment.*
 import java.net.URL
 
 class home : AppCompatActivity() {
-    private lateinit var infoList: ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         val username = intent.getStringExtra("username")
-
-        val ip = "http://3.132.20.107:3000"
-
-        var query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username + "%27"
-
-        var url = URL(ip.plus(query))
-
-        var text = url.readText()
-
-        infoList = arrayListOf()
-
-        val userInfo = text.split(",")
-        for (i in userInfo.indices){
-            val info = userData(userInfo[i].substringAfter(":").substringAfter('"').substringBefore('"')).toString()
-            val info2 = info.substringAfter("=").substringBefore(")")
-            infoList.add(info2)
-        }
 
         // setting variables to each of the fragment layout views
         val homeFragment = Homefragment()
