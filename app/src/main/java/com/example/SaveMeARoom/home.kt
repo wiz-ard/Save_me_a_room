@@ -17,6 +17,9 @@ class home : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val username = intent.getStringExtra("username")
+        val email = intent.getStringExtra("email")
+        val college = intent.getStringExtra("college")
+        val admin = intent.getStringExtra("admin")
 
         // setting variables to each of the fragment layout views
         val homeFragment = Homefragment()
@@ -26,22 +29,22 @@ class home : AppCompatActivity() {
 
         //sets the initial fragment for when first launched
 
-        setCurrentFragment(homeFragment,username.toString())
+        setCurrentFragment(homeFragment,username.toString(), email.toString(), college.toString())
 
         // bottom navigation bar click listener
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.Home -> setCurrentFragment(homeFragment,username.toString())
-                R.id.Map -> setCurrentFragment(mapFragment,username.toString())
-                R.id.Reservations -> setCurrentFragment(reservationFragment,username.toString())
-                R.id.Profile -> setCurrentFragment(profileFragment,username.toString())
+                R.id.Home -> setCurrentFragment(homeFragment,username.toString(), email.toString(), college.toString())
+                R.id.Map -> setCurrentFragment(mapFragment,username.toString(), email.toString(), college.toString())
+                R.id.Reservations -> setCurrentFragment(reservationFragment,username.toString(), email.toString(), college.toString())
+                R.id.Profile -> setCurrentFragment(profileFragment,username.toString(), email.toString(), college.toString(), admin.toString())
             }
             true
         }
     }
 
     //function for navigation bar to change fragments when clicked
-    private fun setCurrentFragment(fragment: Fragment, username: String){
+    private fun setCurrentFragment(fragment: Fragment, username: String, email:String, college:String, admin:String = ""){
 
         val mFragmentManager = supportFragmentManager
         val mFragmentTransaction = mFragmentManager.beginTransaction()
@@ -49,6 +52,9 @@ class home : AppCompatActivity() {
 
         val mBundle = Bundle()
         mBundle.putString("username", username)
+        mBundle.putString("email", email)
+        mBundle.putString("college", college)
+        mBundle.putString("admin", admin)
         mFragment.arguments = mBundle
         mFragmentTransaction.add(R.id.flFragment, mFragment)
         mFragmentTransaction.replace(R.id.flFragment,mFragment).commit()
