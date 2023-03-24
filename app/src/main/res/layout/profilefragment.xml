@@ -41,6 +41,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
     <TextView
+        android:id="@+id/tvReservationsLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="0/3"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCollege" />
+
+    <TextView
         android:id="@+id/tvUsernameStatic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,54 +83,43 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/tvCollege"
         app:layout_constraintStart_toStartOf="@+id/tvEmailStatic" />
 
+    <TextView
+        android:id="@+id/tvReservationsLeftStatic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="100dp"
+        android:text="Reservations:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogout"
+        app:layout_constraintStart_toStartOf="@+id/tvEmailStatic"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="139dp"
-        android:layout_height="132dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="139dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="257dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvReservationsLeftStatic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/latechsupport" />
 
-    <TextView
-        android:id="@+id/tvAdminStatic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Admin:"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/tvCollegeStatic"
-        app:layout_constraintTop_toBottomOf="@+id/tvCollege" />
-
-    <TextView
-        android:id="@+id/tvClubStatic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Club Leader:"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/tvAdminStatic"
-        app:layout_constraintTop_toBottomOf="@+id/tvAdminStatic" />
 
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="52dp"
         android:text="Logout"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="239dp"
-        tools:layout_editor_absoluteY="615dp" />
-
-    <Button
-        android:id="@+id/btnEditProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="615dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

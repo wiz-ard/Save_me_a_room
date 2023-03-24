@@ -17,6 +17,8 @@ class AdminHome : AppCompatActivity() {
         setContentView(R.layout.admin_home)
 
         val username = intent.getStringExtra("username")
+        val email = intent.getStringExtra("email")
+        val admin = intent.getStringExtra("admin")
 
         // setting variables to each of the fragment layout views
         val homeFragment = AdminHomefragment()
@@ -25,21 +27,21 @@ class AdminHome : AppCompatActivity() {
 
         //sets the initial fragment for when first launched
 
-        setCurrentFragment(homeFragment,username.toString())
+        setCurrentFragment(homeFragment,username.toString(), email.toString())
 
         // bottom navigation bar click listener
         adminBottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.AdminHome -> setCurrentFragment(homeFragment,username.toString())
-                R.id.AdminCalandar -> setCurrentFragment(calendarFragment,username.toString())
-                R.id.AdminProfile -> setCurrentFragment(profileFragment,username.toString())
+                R.id.AdminHome -> setCurrentFragment(homeFragment,username.toString(), email.toString())
+                R.id.AdminCalandar -> setCurrentFragment(calendarFragment,username.toString(), email.toString())
+                R.id.AdminProfile -> setCurrentFragment(profileFragment,username.toString(), email.toString(),admin.toString())
             }
             true
         }
     }
 
     //function for navigation bar to change fragments when clicked
-    private fun setCurrentFragment(fragment: Fragment, username: String){
+    private fun setCurrentFragment(fragment: Fragment, username: String, email:String, admin:String = ""){
         val ip = "http://3.132.20.107:3000"
         //queries for admin college
         val query = "/search?query=SELECT%20College%20FROM%20users%20WHERE%20Username=%27" + username +"%27"
@@ -55,6 +57,8 @@ class AdminHome : AppCompatActivity() {
         val mBundle = Bundle()
         mBundle.putString("college",text.substringAfter(":").substringAfter("\"").substringBefore("\""))
         mBundle.putString("username", username)
+        mBundle.putString("email", email)
+        mBundle.putString("admin", admin)
         mFragment.arguments = mBundle
         mFragmentTransaction.add(R.id.flAdminFragment, mFragment)
         mFragmentTransaction.replace(R.id.flAdminFragment,mFragment).commit()
