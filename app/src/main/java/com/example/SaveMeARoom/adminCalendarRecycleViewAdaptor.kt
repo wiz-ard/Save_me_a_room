@@ -8,28 +8,28 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.reservation_items.view.*
 
-class homeRecycleAdaptor (var buildings: List<buildingname>, private val clickListener: (buildingname) -> Unit) : RecyclerView.Adapter<homeRecycleAdaptor.BuildingViewHolder>() {
+class adminCalendarRecycleViewAdaptor (var acceptedRes: List<adminCalendarAcceptResData>, private val clickListener: (adminCalendarAcceptResData) -> Unit) : RecyclerView.Adapter<adminCalendarRecycleViewAdaptor.BuildingViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuildingViewHolder {
-        val vh = BuildingViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.reservation_items, parent, false)){
+        val vh = BuildingViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.admin_calendar_items, parent, false)){
 
-            clickListener(buildings[it])
+            clickListener(acceptedRes[it])
         }
         return vh
     }
 
     override fun onBindViewHolder(holder: BuildingViewHolder, position: Int) {
-        val currentItem = buildings[position]
-        holder.tvBuildingname.text = currentItem.building
+        val currentItem = acceptedRes[position]
+        holder.tvAdminCalendarItem.text = currentItem.acceptedRes
     }
 
     override fun getItemCount(): Int {
-        return buildings.size
+        return acceptedRes.size
     }
 
     class BuildingViewHolder(itemView : View, clickAtPosition: (Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
-        val tvBuildingname : TextView = itemView.findViewById(R.id.tvBuildingName)
+        val tvAdminCalendarItem : TextView = itemView.findViewById(R.id.tvAdminCalendarItem)
 
         init{
             itemView.setOnClickListener{
