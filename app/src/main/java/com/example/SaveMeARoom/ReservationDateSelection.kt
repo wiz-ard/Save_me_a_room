@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDate
 
 class ReservationDateSelection : AppCompatActivity() {
-    private lateinit var infoList: ArrayList<String>
-
     private lateinit var adaptor : dateRecycleAdaptor
     private lateinit var dateRecycleView : RecyclerView
     private lateinit var dateList : ArrayList<dateData>

@@ -72,11 +72,11 @@ class Reservationfragment: Fragment() {
 
         val ip = "http://3.132.20.107:3000"
         //queries for reservations based on user email
-        val query = "/search?query=SELECT%20Building_Name,%20Room_Number,%20Start_Date_Time,%20End_Date_Time%20FROM%20Capstone.reservations%20WHERE%20Reserver_Email=%27" + email + "%27"
+        var query = "/search?query=SELECT%20Updating,%20Building_Name,%20Room_Number,%20Start_Date_Time,%20End_Date_Time%20FROM%20Capstone.reservations%20WHERE%20Reserver_Email=%27" + email + "%27"
 
-        val url = URL(ip.plus(query))
+        var url = URL(ip.plus(query))
 
-        val text = url.readText()
+        var text = url.readText()
 
         val reservations = text.split(",")
 
@@ -90,8 +90,17 @@ class Reservationfragment: Fragment() {
             val reservation = myReservationData(reservations[i].substringAfter(":").substringAfter('"').substringBefore('"'))
             val reservationtrim = reservation.toString().substringAfter("=").substringBefore(")")
             groupBy.add(reservationtrim)
-            if(track % 4 == 0){
-                val finalreservation = myReservationData(groupBy[i-3] + ", " + groupBy[i-2] + ", " + ((groupBy[i-1].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm," + groupBy[i].substringAfter("").substringBefore(" "))
+            if(track % 5 == 0){
+                var finalreservation:myReservationData
+                val update = groupBy[i-4]
+                if(update.toInt() == 1){
+                    finalreservation = myReservationData(groupBy[i-3] + ", " + groupBy[i-2] + ", " + ((groupBy[i-1].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm," + groupBy[i].substringAfter("").substringBefore(" ") + " Update Request")
+
+                }
+                else{
+                    finalreservation = myReservationData(groupBy[i-3] + ", " + groupBy[i-2] + ", " + ((groupBy[i-1].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm," + groupBy[i].substringAfter("").substringBefore(" "))
+                }
+
                 myReservationList.add(finalreservation)
             }
             track += 1
