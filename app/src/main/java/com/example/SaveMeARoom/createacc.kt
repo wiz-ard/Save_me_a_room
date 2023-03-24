@@ -13,6 +13,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.create_account.*
+import kotlinx.android.synthetic.main.create_account.newpassword
+import kotlinx.android.synthetic.main.forgot_password.*
 import java.net.URL
 
 class createacc : AppCompatActivity(), OnItemSelectedListener {
@@ -23,10 +25,11 @@ class createacc : AppCompatActivity(), OnItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.create_account)
-
+        //when button is clicked, pull text from each text box and check if it meets criteria
         newcreatebtn.setOnClickListener {
             val username = newusername.text.toString()
             val password = newpassword.text.toString()
+            //for passwords, need 1 of each at least
             var capitalcount = 0
             var lowercount = 0
             var numbercount = 0
@@ -43,21 +46,30 @@ class createacc : AppCompatActivity(), OnItemSelectedListener {
                     symbolcount += 1
                 }
             }
+            //hashes password
             val hashed = password.hashCode()
             val email = email.text.toString()
             val confirm = confirm.text.toString()
             val college = college.selectedItem.toString()
             val nextPage = Intent(this, MainActivity::class.java)
             val ip = "http://3.132.20.107:3000"
+            //query for checking if account already exists
             val query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username + "%27%20OR%20Email=%27" + email + "%27"
-            val query2 = "/search?query=INSERT%20into%20users%20values(%27" + username + "%27," + hashed + ",%27" + email + "%27,%27" + college + "%27,0,0,0)"
+            //query for inserting into users table
+            val query2 = "/search?query=INSERT%20into%20users%20values(%27" + username + "%27," + hashed + ",%27" + email + "%27,%27" + college + "%27,0,0,0,0)"
+            //checks if inputs are valid and don't contain SQL injection characters
             if(validInput(username) && validInput(password) && validInput(confirm) && validInput(email)){
+                //checks if there is input in each of the boxes, if password is between 8-20, and if password = confirm
                 if (username.length > 0 && 8 <= password.length && password.length <= 20 && email.length > 0 && password.equals(confirm)) {
+                    //checks that it meets password requirements
                     if (capitalcount >= 1 && lowercount >= 1 && symbolcount >= 1 && numbercount >= 1) {
+                        //checks if account exists
                         val url = URL(ip.plus(query))
                         val text = url.readText()
+                        //if account exists, alert
                         if (text.length > 2) {
                             Toast.makeText(this, "Account already exists.", Toast.LENGTH_SHORT).show()
+                        //if not, make one
                         } else {
                             val url2 = URL(ip.plus(query2))
                             val text2 = url2.readText()
@@ -74,6 +86,9 @@ class createacc : AppCompatActivity(), OnItemSelectedListener {
             }else{
                 Toast.makeText(this, "Banned characters are < > = ' and \"", Toast.LENGTH_SHORT).show()
             }
+        }
+        backbtn.setOnClickListener {
+            finish()
         }
 
         // Take the instance of Spinner and
@@ -96,13 +111,12 @@ class createacc : AppCompatActivity(), OnItemSelectedListener {
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-        // make toastof name of course
-        // which is selected in spinner
-        Toast.makeText(applicationContext, colleges[position], Toast.LENGTH_LONG).show()
+
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
+    //function to check if there are no sql injection characters
     fun validInput(userText: String): Boolean{
         var invalidcount = 0
         for (letter in userText) {

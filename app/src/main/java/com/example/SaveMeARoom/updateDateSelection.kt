@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDate
 
-class ReservationDateSelection : AppCompatActivity() {
+class UpdateDateSelection : AppCompatActivity() {
+    private lateinit var infoList: ArrayList<String>
+
     private lateinit var adaptor : dateRecycleAdaptor
     private lateinit var dateRecycleView : RecyclerView
     private lateinit var dateList : ArrayList<dateData>
@@ -20,30 +22,35 @@ class ReservationDateSelection : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.reservation_date_selection)
+        setContentView(R.layout.update_date_selection)
 
         //taking in the passed building name data from home fragment
         val buildingName = intent.getStringExtra("building name")
-        val username = intent.getStringExtra("username")
-        val college = intent.getStringExtra("college")
-
-        val topBuildingTitle : TextView = findViewById(R.id.tvDateTitle)
-        topBuildingTitle.text = buildingName+" reservation"
+        val occupancy = intent.getStringExtra("occupancy")
+        val room = intent.getStringExtra("room")
+        val resId = intent.getStringExtra("resId")
+        val oldTime = intent.getStringExtra("oldtime")
+        val oldDate = intent.getStringExtra("olddate")
+        val topBuildingTitle : TextView = findViewById(R.id.tvUpdateDateTitle)
+        topBuildingTitle.text = buildingName +" reservation"
 
         getDate()
 
-        dateRecycleView = findViewById(R.id.rvDate)
+        dateRecycleView = findViewById(R.id.rvUpdateDate)
         dateRecycleView.layoutManager = LinearLayoutManager(this)
         dateRecycleView.setHasFixedSize(true)
         adaptor = dateRecycleAdaptor(dateList){
 
             //place to put click action
-            val intent = Intent(this, TimeOccupancySelection::class.java)
+            val intent = Intent(this, UpdateTimeSelection::class.java)
             date = it.component1()
             intent.putExtra("building name", buildingName)
             intent.putExtra("date", date)
-            intent.putExtra("username", username)
-            intent.putExtra("college", college)
+            intent.putExtra("occupancy", occupancy)
+            intent.putExtra("room", room)
+            intent.putExtra("resId",resId)
+            intent.putExtra("oldtime",oldTime.toString().substringAfter(" "))
+            intent.putExtra("olddate",oldDate)
             startActivity(intent)
             finish()
         }
@@ -69,6 +76,5 @@ class ReservationDateSelection : AppCompatActivity() {
             val date = dateData(dateText[i])
             dateList.add(date)
         }
-
     }
 }

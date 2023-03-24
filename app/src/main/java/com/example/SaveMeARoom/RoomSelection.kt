@@ -13,6 +13,7 @@ import java.net.URL
 
 class RoomSelection : AppCompatActivity() {
 
+
     private lateinit var adaptor : roomRecycleAdaptor
     private lateinit var roomRecycleView : RecyclerView
     private lateinit var roomList : ArrayList<roomData>
@@ -25,7 +26,8 @@ class RoomSelection : AppCompatActivity() {
         val buildingName = intent.getStringExtra("building name")
         val date = intent.getStringExtra("date")
         val time = intent.getStringExtra("time")
-        val email = intent.getStringExtra("email")
+        val username = intent.getStringExtra("username")
+        val college = intent.getStringExtra("college")
 
 
         var start = ""
@@ -49,7 +51,6 @@ class RoomSelection : AppCompatActivity() {
         adaptor = roomRecycleAdaptor(roomList){
 
             //place to put click action
-            //Toast.makeText(this,it.component1(), Toast.LENGTH_SHORT).show()
             val intent = Intent(this, BookConfirmation::class.java)
             room = it.component1()
             intent.putExtra("building name", buildingName)
@@ -57,7 +58,8 @@ class RoomSelection : AppCompatActivity() {
             intent.putExtra("time", time)
             intent.putExtra("date", date)
             intent.putExtra("room", room)
-            intent.putExtra("email", email)
+            intent.putExtra("username", username)
+            intent.putExtra("college", college)
             startActivity(intent)
             finish()
 

@@ -39,20 +39,19 @@ class AdminHomefragment: Fragment() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //establish the bundle that was passed from previous page
         val bundle = arguments
-
+        //gets all reservations and puts them into pendingResList
         dataInitialize()
 
-
+        //puts values in pendingResList into the recycle view
         val layoutManager = LinearLayoutManager(context)
         recycleView = view.findViewById(R.id.rvAdminReservation)
         recycleView.layoutManager = layoutManager
         recycleView.setHasFixedSize(true)
         adaptor = adminHomeRecycleAdaptor(pendingResList) {
 
-            //Place to put actions for when recycle view is clicked
-            //Toast.makeText(activity,it.component1(),Toast.LENGTH_SHORT).show()
+            //when element is clicked get its information and send it to AdminConfirmation
             val intent = Intent(activity, AdminConfirmation::class.java)
             intent.putExtra("res info", it.component1())
             intent.putExtra("email", bundle!!.getString("email"))
@@ -72,13 +71,14 @@ class AdminHomefragment: Fragment() {
         val ip = "http://3.132.20.107:3000"
 
         val bundle = arguments
-        val username = bundle!!.getString("username")
 
-        val query = "/search?query=SELECT%20Building_name,Room_number,Start_Date_Time,End_Date_Time%20FROM%20reservations%20WHERE%20Pending='1'"
+        val college = bundle!!.getString("college")
+        //query for reservations information based on your designated college
+        var query = "/search?query=SELECT%20Updating,%20Building_name,Room_number,Start_Date_Time,End_Date_Time,Reserver_Email%20FROM%20reservations%20WHERE%20(Pending='1'%20OR%20Updating='1')%20AND%20College=%27"+college+"%27%20OR%20College=%27General%27"
 
-        val url = URL(ip.plus(query))
+        var url = URL(ip.plus(query))
 
-        val text = url.readText()
+        var text = url.readText()
 
         val pendingreservations = text.split(",")
 
@@ -87,13 +87,20 @@ class AdminHomefragment: Fragment() {
         groupBy = arrayListOf()
 
         var track = 1
-
+        //loop to add reservations to the recycle view
         for(i in pendingreservations.indices){
             val reservation = myReservationData(pendingreservations[i].substringAfter(":").substringAfter('"').substringBefore('"'))
             val reservationtrim = reservation.toString().substringAfter("=").substringBefore(")")
             groupBy.add(reservationtrim)
-            if(track % 4 == 0){
-                val finalreservation = adminPendingData(groupBy[i-3].toString() + ", " + groupBy[i-2].toString() + ", " + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i].toString().substringBefore(" ") + ", " + username)
+            if(track % 6 == 0){
+                var finalreservation:adminPendingData
+                val update = groupBy[i-5]
+                if(update.toInt() == 1){
+                    finalreservation = adminPendingData(groupBy[i-4].toString() + ", " + groupBy[i-3].toString() + ", " + ((groupBy[i-2].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i-1].toString().substringBefore(" ") + ", " + groupBy[i].substringBefore("@") + " Update Request")
+                }
+                else{
+                    finalreservation = adminPendingData(groupBy[i-4].toString() + ", " + groupBy[i-3].toString() + ", " + ((groupBy[i-2].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i-1].toString().substringBefore(" ") + ", " + groupBy[i].substringBefore("@"))
+                }
                 pendingResList.add(finalreservation)
             }
             track += 1

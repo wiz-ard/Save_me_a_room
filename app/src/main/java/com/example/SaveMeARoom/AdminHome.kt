@@ -8,18 +8,15 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.admin_home.*
 import kotlinx.android.synthetic.main.create_account.*
 import kotlinx.android.synthetic.main.homefragment.*
+import java.net.URL
 
 class AdminHome : AppCompatActivity() {
+    private lateinit var infoList: ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.admin_home)
 
         val username = intent.getStringExtra("username")
-        val email = intent.getStringExtra("email")
-        val college = intent.getStringExtra("college")
-        val admin = intent.getStringExtra("admin")
-
-
 
         // setting variables to each of the fragment layout views
         val homeFragment = AdminHomefragment()
@@ -28,31 +25,36 @@ class AdminHome : AppCompatActivity() {
 
         //sets the initial fragment for when first launched
 
-        setCurrentFragment(homeFragment,college.toString(),email.toString(),username.toString(),admin.toString())
+        setCurrentFragment(homeFragment,username.toString())
 
         // bottom navigation bar click listener
         adminBottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.AdminHome -> setCurrentFragment(homeFragment,college.toString(),email.toString(),username.toString(),admin.toString())
-                R.id.AdminCalandar -> setCurrentFragment(calendarFragment,college.toString(),email.toString(),username.toString(),admin.toString())
-                R.id.AdminProfile -> setCurrentFragment(profileFragment,college.toString(),email.toString(),username.toString(),admin.toString())
+                R.id.AdminHome -> setCurrentFragment(homeFragment,username.toString())
+                R.id.AdminCalandar -> setCurrentFragment(calendarFragment,username.toString())
+                R.id.AdminProfile -> setCurrentFragment(profileFragment,username.toString())
             }
             true
         }
     }
 
     //function for navigation bar to change fragments when clicked
-    private fun setCurrentFragment(fragment: Fragment, college: String, email: String, username: String, admin: String){
+    private fun setCurrentFragment(fragment: Fragment, username: String){
+        val ip = "http://3.132.20.107:3000"
+        //queries for admin college
+        val query = "/search?query=SELECT%20College%20FROM%20users%20WHERE%20Username=%27" + username +"%27"
+
+        val url = URL(ip.plus(query))
+
+        val text = url.readText()
 
         val mFragmentManager = supportFragmentManager
         val mFragmentTransaction = mFragmentManager.beginTransaction()
         val mFragment = fragment
-
+        //bundles information to be passed to the designated fragment
         val mBundle = Bundle()
-        mBundle.putString("college",college)
-        mBundle.putString("email", email)
+        mBundle.putString("college",text.substringAfter(":").substringAfter("\"").substringBefore("\""))
         mBundle.putString("username", username)
-        mBundle.putString("admin", admin)
         mFragment.arguments = mBundle
         mFragmentTransaction.add(R.id.flAdminFragment, mFragment)
         mFragmentTransaction.replace(R.id.flAdminFragment,mFragment).commit()

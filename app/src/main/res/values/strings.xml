@@ -21,4 +21,7 @@
     <string name="title_activity_reservation_date_selection">ReservationDateSelection</string>
     <string name="title_activity_time_occupancy_selection">TimeOccupancyReservation</string>
     <string name="title_activity_room_reservation">TimeOccupancyReservation</string>
+    <string name="title_activity_update_time_selection">UpdateTimeSelection</string>
+    <string name="title_activity_update_date_selection">UpdateTimeSelection</string>
+    <string name="title_activity_update_confirmation">UpdateTimeSelection</string>
 </resources>
