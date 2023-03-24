@@ -55,7 +55,7 @@ class myReservationConfirmation : AppCompatActivity() {
         }else{
             occupancy = "50+"
         }
-        //gets reservatoin ID of reservation
+        //gets reservation ID of reservation
         query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
 
         url = URL(ip.plus(query))
@@ -86,7 +86,7 @@ class myReservationConfirmation : AppCompatActivity() {
 
             val ip = "http://3.132.20.107:3000"
             //deletes reservation from database
-            var query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+            var query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + resId + "%27"
 
             var url = URL(ip.plus(query))
 

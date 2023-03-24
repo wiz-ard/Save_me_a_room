@@ -74,7 +74,7 @@ class AdminHomefragment: Fragment() {
 
         val college = bundle!!.getString("college")
         //query for reservations information based on your designated college
-        var query = "/search?query=SELECT%20Updating,%20Building_name,Room_number,Start_Date_Time,End_Date_Time,Reserver_Email%20FROM%20reservations%20WHERE%20(Pending='1'%20OR%20Updating='1')%20AND%20College=%27"+college+"%27%20OR%20College=%27General%27"
+        var query = "/search?query=SELECT%20Updating,%20Building_name,Room_number,Start_Date_Time,End_Date_Time,Reserver_Email%20FROM%20reservations%20WHERE%20(Pending='1'%20OR%20Updating='1')%20AND%20(College=%27"+college+"%27%20OR%20College=%27General%27)"
 
         var url = URL(ip.plus(query))
 
@@ -96,7 +96,7 @@ class AdminHomefragment: Fragment() {
                 var finalreservation:adminPendingData
                 val update = groupBy[i-5]
                 if(update.toInt() == 1){
-                    finalreservation = adminPendingData(groupBy[i-4].toString() + ", " + groupBy[i-3].toString() + ", " + ((groupBy[i-2].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i-1].toString().substringBefore(" ") + ", " + groupBy[i].substringBefore("@") + " Update Request")
+                    finalreservation = adminPendingData(groupBy[i-4].toString() + ", " + groupBy[i-3].toString() + ", " + ((groupBy[i-2].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i-1].toString().substringBefore(" ") + ", " + groupBy[i].substringBefore("@") + ", Update Request")
                 }
                 else{
                     finalreservation = adminPendingData(groupBy[i-4].toString() + ", " + groupBy[i-3].toString() + ", " + ((groupBy[i-2].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i-1].toString().substringBefore(" ") + ", " + groupBy[i].substringBefore("@"))

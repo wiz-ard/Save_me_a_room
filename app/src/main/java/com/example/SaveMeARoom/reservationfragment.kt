@@ -72,7 +72,7 @@ class Reservationfragment: Fragment() {
 
         val ip = "http://3.132.20.107:3000"
         //queries for reservations based on user email
-        var query = "/search?query=SELECT%20Updating,%20Building_Name,%20Room_Number,%20Start_Date_Time,%20End_Date_Time%20FROM%20Capstone.reservations%20WHERE%20Reserver_Email=%27" + email + "%27"
+        var query = "/search?query=SELECT%20Updating,%20Pending,%20Building_Name,%20Room_Number,%20Start_Date_Time,%20End_Date_Time%20FROM%20Capstone.reservations%20WHERE%20Reserver_Email=%27" + email + "%27"
 
         var url = URL(ip.plus(query))
 
@@ -90,16 +90,21 @@ class Reservationfragment: Fragment() {
             val reservation = myReservationData(reservations[i].substringAfter(":").substringAfter('"').substringBefore('"'))
             val reservationtrim = reservation.toString().substringAfter("=").substringBefore(")")
             groupBy.add(reservationtrim)
-            if(track % 5 == 0){
+            if(track % 6 == 0){
                 var finalreservation:myReservationData
-                val update = groupBy[i-4]
+                val update = groupBy[i-5]
+                val pending = groupBy[i-4]
                 if(update.toInt() == 1){
-                    finalreservation = myReservationData(groupBy[i-3] + ", " + groupBy[i-2] + ", " + ((groupBy[i-1].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm," + groupBy[i].substringAfter("").substringBefore(" ") + " Update Request")
-
+                    finalreservation = myReservationData(groupBy[i-3] + ", " + groupBy[i-2] + ", " + ((groupBy[i-1].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm," + groupBy[i].substringAfter("").substringBefore(" ") + " Updating")
                 }
                 else{
-                    finalreservation = myReservationData(groupBy[i-3] + ", " + groupBy[i-2] + ", " + ((groupBy[i-1].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm," + groupBy[i].substringAfter("").substringBefore(" "))
-                }
+                    if(pending.toInt() == 1){
+                        finalreservation = myReservationData(groupBy[i-3] + ", " + groupBy[i-2] + ", " + ((groupBy[i-1].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm," + groupBy[i].substringAfter("").substringBefore(" ") + ", Pending")
+                    }
+                    else{
+                        finalreservation = myReservationData(groupBy[i-3] + ", " + groupBy[i-2] + ", " + ((groupBy[i-1].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i].substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm," + groupBy[i].substringAfter("").substringBefore(" ") + ", Accepted")
+                    }
+                    }
 
                 myReservationList.add(finalreservation)
             }
