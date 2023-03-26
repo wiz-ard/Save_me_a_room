@@ -74,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvMyOccupancyConfirm"
-        app:layout_constraintVertical_bias="0.211" />
+        app:layout_constraintVertical_bias="0.645" />
 
     <Button
         android:id="@+id/btnMyUpdate"
@@ -86,5 +86,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvMyOccupancyConfirm"
-        app:layout_constraintVertical_bias="0.645" />
+        app:layout_constraintVertical_bias="0.211" />
 </androidx.constraintlayout.widget.ConstraintLayout>

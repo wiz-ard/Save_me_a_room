@@ -23,6 +23,8 @@ class UpdateConfirmation : AppCompatActivity() {
         var occupancy = intent.getStringExtra("occupancy")
         val room = intent.getStringExtra("room")
         val resId = intent.getStringExtra("resId")
+        val pending = intent.getStringExtra("pending")
+        val updating = intent.getStringExtra("updating")
 
         val tvBuildingNameConfirm = findViewById<TextView>(R.id.tvBuildingNameConfirm)
         val tvDateConfirm = findViewById<TextView>(R.id.tvDateConfirm)
@@ -57,19 +59,43 @@ class UpdateConfirmation : AppCompatActivity() {
                 end = "23:00:00"
             }
 
-            //insert request to updates table
-            var query = "/search?query=INSERT%20INTO%20updates%20VALUES(" + resId + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27)"
+            if(pending.equals("0") && updating.equals("0")){
+                //insert request to updates table
+                var query = "/search?query=INSERT%20INTO%20updates%20VALUES(" + resId + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27)"
 
-            var url = URL(ip.plus(query))
+                var url = URL(ip.plus(query))
 
-            var text = url.readText()
+                var text = url.readText()
 
-            //set updating to 1
-            query = "/search?query=UPDATE%20reservations%20SET%20Updating=1%20WHERE%20Reservation_Id=" + resId + ""
-            url = URL(ip.plus(query))
-            text = url.readText()
-            Toast.makeText(this, "Update request sent.", Toast.LENGTH_SHORT).show()
-            finish()
+                //set updating to 1
+                query = "/search?query=UPDATE%20reservations%20SET%20Updating=1%20WHERE%20Reservation_Id=" + resId + ""
+                url = URL(ip.plus(query))
+                text = url.readText()
+                Toast.makeText(this, "Update request sent.", Toast.LENGTH_SHORT).show()
+                finish()
+            }else if(pending.equals("1") && updating.equals("0")){
+                //modify time of pending request
+                var query = "/search?query=UPDATE%20reservations%20SET%20Start_Date_Time=%27" + date + "%20" + start + "%27,End_Date_Time=%27" + date + "%20" + end + "%27%20WHERE%20Reservation_Id=" + resId + ""
+
+                var url = URL(ip.plus(query))
+
+                var text = url.readText()
+
+                Toast.makeText(this, "Pending request updated.", Toast.LENGTH_SHORT).show()
+
+                finish()
+            }else if(pending.equals("0") && updating.equals("1")){
+                //modify update request
+                var query = "/search?query=UPDATE%20updates%20SET%20New_Start_Time=%27" + date + "%20" + start + "%27,New_End_Time=%27" + date + "%20" + end + "%27%20WHERE%20Reservation_Id=" + resId + ""
+
+                var url = URL(ip.plus(query))
+
+                var text = url.readText()
+
+                Toast.makeText(this, "Update request changed.", Toast.LENGTH_SHORT).show()
+
+                finish()
+            }
         }
 
         btnCancel.setOnClickListener {

@@ -24,7 +24,7 @@ class myReservationConfirmation : AppCompatActivity() {
         //splits reservation info and assigns it to specific variables
         val splitRes = resInfo.toString().split(",")
         val buildingName = splitRes[0]
-        var date = splitRes[3]
+        var date = splitRes[3].substringBefore(" ")
         val time = splitRes[2]
         val modifiedTime = date + " " + (time.substringAfter(" ").substringBefore("pm").toInt()+12).toString()+ ":00:00"
         var occupancy = ""
@@ -80,36 +80,10 @@ class myReservationConfirmation : AppCompatActivity() {
         tvMyRoom.text = "Room: " + room
 
         btnMyCancel.setOnClickListener {
-            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-
-            StrictMode.setThreadPolicy(policy)
-
-            val ip = "http://3.132.20.107:3000"
-            //deletes reservation from database
-            var query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + resId + "%27"
-
-            var url = URL(ip.plus(query))
-
-            var text = url.readText()
-            //gets users number of reservations
-            query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + email + "%27"
-
-            url = URL(ip.plus(query))
-
-            text = url.readText()
-
-            var numRes = text.substringAfter(":").substringAfter("\"").substringBefore("\"").toInt()
-
-            numRes -= 1
-            //updates number of reservations to the decremented value as the reservation was deleted
-            query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + numRes + "%20WHERE%20Email=%27" + email + "%27"
-
-            url = URL(ip.plus(query))
-
-            text = url.readText()
-
-            Toast.makeText(this, "Reservation cancelled.", Toast.LENGTH_SHORT).show()
-
+            val intent = Intent(this, cancelConfirmation::class.java)
+            intent.putExtra("resid", resId)
+            intent.putExtra("email", email)
+            startActivity(intent)
             finish()
         }
         btnMyUpdate.setOnClickListener {
@@ -130,22 +104,18 @@ class myReservationConfirmation : AppCompatActivity() {
 
             val pending = text.substringAfter(":").substringBefore("}")
             //if pending and updating are both 0, then send to UpdateDateSelectionPage
-            if(updating.equals("0") && pending.equals("0")){
-                val intent = Intent(this, UpdateDateSelection::class.java)
-                intent.putExtra("building name", buildingName)
-                intent.putExtra("occupancy", occupancy)
-                intent.putExtra("room", room)
-                intent.putExtra("email",email)
-                intent.putExtra("oldtime",time)
-                intent.putExtra("olddate",date)
-                intent.putExtra("resId",resId)
-                startActivity(intent)
-                finish()
-            //if either is 1, alert user they can't update
-            }else{
-                Toast.makeText(this, "Reservation is either pending or already being updated.", Toast.LENGTH_SHORT).show()
-
-            }
+            val intent = Intent(this, UpdateDateSelection::class.java)
+            intent.putExtra("building name", buildingName)
+            intent.putExtra("occupancy", occupancy)
+            intent.putExtra("room", room)
+            intent.putExtra("email",email)
+            intent.putExtra("oldtime",time)
+            intent.putExtra("olddate",date)
+            intent.putExtra("resId",resId)
+            intent.putExtra("pending",pending)
+            intent.putExtra("updating",updating)
+            startActivity(intent)
+            finish()
         }
     }
 }

@@ -12,14 +12,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.time_occupancy_selection.*
+import java.net.URL
 
 class UpdateTimeSelection : AppCompatActivity() {
 
     private lateinit var adaptor : UpdateTimeAdapter
     private lateinit var timeRecycleView : RecyclerView
     private lateinit var timeList : ArrayList<timeData>
+    private lateinit var finalTimeList : ArrayList<timeData>
     private lateinit var timeText : Array<String>
-    private lateinit var occupancy : String
+    private lateinit var banTimeList : ArrayList<timeData>
     private lateinit var time : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +33,8 @@ class UpdateTimeSelection : AppCompatActivity() {
         val occupancy = intent.getStringExtra("occupancy")
         val room = intent.getStringExtra("room")
         val resId = intent.getStringExtra("resId")
+        val updating = intent.getStringExtra("updating")
+        val pending = intent.getStringExtra("pending")
 
         val topBuildingTitle : TextView = findViewById(R.id.tvUpdateTimeTitle)
         topBuildingTitle.text = buildingName +" reservation"
@@ -40,7 +44,7 @@ class UpdateTimeSelection : AppCompatActivity() {
         timeRecycleView = findViewById(R.id.rvUpdateTime)
         timeRecycleView.layoutManager = LinearLayoutManager(this)
         timeRecycleView.setHasFixedSize(true)
-        adaptor = UpdateTimeAdapter(timeList){
+        adaptor = UpdateTimeAdapter(finalTimeList){
 
             //place to put click action of the recycle view item
             val intent = Intent(this, UpdateConfirmation::class.java)
@@ -52,6 +56,8 @@ class UpdateTimeSelection : AppCompatActivity() {
             intent.putExtra("date", date)
             intent.putExtra("room", room)
             intent.putExtra("resId",resId)
+            intent.putExtra("pending",pending)
+            intent.putExtra("updating",updating)
             startActivity(intent)
             finish()
 
@@ -61,29 +67,58 @@ class UpdateTimeSelection : AppCompatActivity() {
 
 
     private fun getTimeRange(){
+        timeList = arrayListOf()
+        banTimeList = arrayListOf()
+        finalTimeList = arrayListOf()
         val date = intent.getStringExtra("date")
         val oldDate = intent.getStringExtra("olddate")
         val oldTime = intent.getStringExtra("oldtime").toString()
-        timeText = arrayOf(
-            "5:00pm - 7:00pm",
-            "7:00pm - 9:00pm",
-            "9:00pm - 11:00pm")
+        val buildingName = intent.getStringExtra("building name")
+        val room = intent.getStringExtra("room")
+        timeList.add(timeData("5:00pm - 7:00pm"))
+        timeList.add(timeData("7:00pm - 9:00pm"))
+        timeList.add(timeData("9:00pm - 11:00pm"))
+        finalTimeList.add(timeData("5:00pm - 7:00pm"))
+        finalTimeList.add(timeData("7:00pm - 9:00pm"))
+        finalTimeList.add(timeData("9:00pm - 11:00pm"))
+        //check to see which times are available before displaying them
+        val ip = "http://3.132.20.107:3000"
+        //gets occupancy range
+        var query = "/search?query=SELECT%20Start_Date_Time%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27"
 
-        timeList = arrayListOf()
+        var url = URL(ip.plus(query))
 
-        if(date.equals(oldDate)){
-            for (i in timeText.indices){
-                val timeRange = timeData(timeText[i])
-                val timeString = timeRange.toString().substringAfter("=").substringBefore(")")
-                if(!(timeString[0].equals(oldTime[0]))){
-                    timeList.add(timeRange)
+        var text = url.readText()
+
+        var times = text.split(",")
+
+
+        for (i in times.indices){
+            val resdate = times[i].substringAfter(":").substringAfter("\"").substringBefore(" ")
+            if(resdate.equals(date)){
+                var restime = times[i].substringAfter(" ").substringBefore("\"")
+                if(restime.equals("17:00:00")){
+                    restime = "5:00pm - 7:00pm"
+                }else if(restime.equals("19:00:00")){
+                    restime = "7:00pm - 9:00pm"
+                }else if(restime.equals("21:00:00")){
+                    restime = "9:00pm - 11:00pm"
+                }
+                banTimeList.add(timeData(restime))
+            }
+        }
+        for (i in banTimeList.indices){
+            for (j in timeList.indices){
+                if(banTimeList.get(i).equals(timeList.get(j))){
+                    finalTimeList.remove(banTimeList.get(i))
                 }
             }
-        }else{
-            for (i in timeText.indices){
-                val timeRange = timeData(timeText[i])
-                timeList.add(timeRange)
-            }
+        }
+
+
+        if(finalTimeList.size == 0){
+            Toast.makeText(this, "No other times available for that day", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 }
