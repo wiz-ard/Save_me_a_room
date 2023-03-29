@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
 import java.net.URL
 
 class RoomSelection : AppCompatActivity() {
@@ -43,7 +44,7 @@ class RoomSelection : AppCompatActivity() {
         val topBuildingTitle : TextView = findViewById(R.id.tvRoomTitle)
         topBuildingTitle.text = buildingName+" reservation"
 
-        getRooms(buildingName.toString(),date.toString(),time.toString(),occupancy.toString(),start)
+        getRooms(buildingName.toString(),date.toString(),time.toString(),occupancy.toString(),start, username.toString())
 
         roomRecycleView = findViewById(R.id.rvRoom)
         roomRecycleView.layoutManager = LinearLayoutManager(this)
@@ -69,18 +70,34 @@ class RoomSelection : AppCompatActivity() {
     }
 
 
-    private fun getRooms(building:String,date:String,time:String,occupancy:String, start:String){
+    private fun getRooms(building:String,date:String,time:String,occupancy:String, start:String, username:String){
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
 
         StrictMode.setThreadPolicy(policy)
 
         val ip = "http://3.132.20.107:3000"
 
-        val query = "/search?query=SELECT%20DISTINCT%20locations.Room_Number%20FROM%20Capstone.locations%20WHERE%20locations.Occupancy_Range%20=%20" + occupancy +"%20AND%20locations.Building_Name%20=%20%27" + building +"%27%20AND%20(locations.Room_Number%20Not%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Start_Date_Time%20=%20%27" + date + "%20" + start + "%27%20OR%20End_Date_time%20LIKE%20%27" + date + "%2011:59:00%27))ORDER%20BY%20Room_Number"
+        var query = "/search?query=SELECT%20Club_Leader%20FROM%20users%20WHERE%20Username=%27" + username + "%27"
 
-        val url = URL(ip.plus(query))
+        var url = URL(ip.plus(query))
 
-        val text = url.readText()
+        var text = url.readText()
+
+        var club = text.substringAfter(":").substringAfter('"').substringBefore('"').toInt()
+
+        if(club == 0){
+            query = "/search?query=SELECT%20DISTINCT%20locations.Room_Number%20FROM%20Capstone.locations%20WHERE%20locations.Occupancy_Range%20=%20" + occupancy +"%20AND%20locations.Building_Name%20=%20%27" + building +"%27%20AND%20(locations.Room_Number%20Not%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27" + building + "%27%20AND%20Start_Date_Time%20=%20%27" + date + "%20" + start + "%27%20OR%20End_Date_time%20LIKE%20%27" + date + "%2011:59:00%27))ORDER%20BY%20Room_Number"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
+        } else{
+            query = "/search?query=SELECT%20DISTINCT%20locations.Room_Number%20FROM%20Capstone.locations%20WHERE%20locations.Occupancy_Range%20=%20"+occupancy+"%20AND%20locations.Building_Name%20=%20%27"+building+"%27%20AND%20(locations.Room_Number%20Not%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27"+building+"%27%20AND%20(Start_Date_Time%20=%27"+date+"%20"+start+"%27%20OR%20End_Date_time%20LIKE%20%272023-03-29%2011:59:00%27)%20AND%20Pending=0))%20AND%20Room_Number%20NOT%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27"+building+"%27%20AND%20(Start_Date_Time%20=%20%27"+date+"%20"+start+"%27%20OR%20End_Date_time%20LIKE%20%272023-03-29%2011:59:00%27)%20AND%20Club_Request=1)%20ORDER%20BY%20Room_Number"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
+        }
 
         if(text.equals("[]")){
             Toast.makeText(this, "No rooms available in this building at this time :(", Toast.LENGTH_SHORT).show()
