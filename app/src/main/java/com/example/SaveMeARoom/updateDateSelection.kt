@@ -33,6 +33,7 @@ class UpdateDateSelection : AppCompatActivity() {
         val oldDate = intent.getStringExtra("olddate")
         val pending = intent.getStringExtra("pending")
         val updating = intent.getStringExtra("updating")
+        val email = intent.getStringExtra("email")
         val topBuildingTitle : TextView = findViewById(R.id.tvUpdateDateTitle)
         topBuildingTitle.text = buildingName +" reservation"
 
@@ -55,6 +56,7 @@ class UpdateDateSelection : AppCompatActivity() {
             intent.putExtra("olddate",oldDate)
             intent.putExtra("pending",pending)
             intent.putExtra("updating",updating)
+            intent.putExtra("email",email)
             startActivity(intent)
             finish()
         }
