@@ -41,7 +41,7 @@ class AdminHome : AppCompatActivity() {
     }
 
     //function for navigation bar to change fragments when clicked
-    private fun setCurrentFragment(fragment: Fragment, username: String, email:String, admin:String = ""){
+    private fun setCurrentFragment(fragment: Fragment, username: String, email:String, admin:String = "", club:String = ""){
         val ip = "http://3.132.20.107:3000"
         //queries for admin college
         val query = "/search?query=SELECT%20College%20FROM%20users%20WHERE%20Username=%27" + username +"%27"
@@ -59,6 +59,7 @@ class AdminHome : AppCompatActivity() {
         mBundle.putString("username", username)
         mBundle.putString("email", email)
         mBundle.putString("admin", admin)
+        mBundle.putString("club", club)
         mFragment.arguments = mBundle
         mFragmentTransaction.add(R.id.flAdminFragment, mFragment)
         mFragmentTransaction.replace(R.id.flAdminFragment,mFragment).commit()

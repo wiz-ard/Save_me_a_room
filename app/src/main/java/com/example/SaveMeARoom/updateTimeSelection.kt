@@ -83,7 +83,7 @@ class UpdateTimeSelection : AppCompatActivity() {
         //check to see which times are available before displaying them
         val ip = "http://3.132.20.107:3000"
 
-        var query = "search?query=SELECT%20Club_Leader%20FROM%20users%20WHERE%20Email=%27" + email + "%27"
+        var query = "/search?query=SELECT%20Club_Leader%20FROM%20users%20WHERE%20Email=%27" + email + "%27"
 
         var url = URL(ip.plus(query))
 
