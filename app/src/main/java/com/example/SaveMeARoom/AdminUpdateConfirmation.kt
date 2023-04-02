@@ -29,6 +29,7 @@ class AdminUpdateConfirmation : AppCompatActivity() {
         var room = intent.getStringExtra("room")
         var occupancy = intent.getStringExtra("occupancy")
         var email = intent.getStringExtra("email")
+        val club = intent.getStringExtra("club")
         val modifiedTime = date + " " + (time.substringAfter(" ").substringBefore("pm").toInt() + 12).toString() + ":00:00"
 
         //setting variables to the different fillable text fields
@@ -55,7 +56,7 @@ class AdminUpdateConfirmation : AppCompatActivity() {
 
         btnConfirm.setOnClickListener {
             //get reservation ID of reservation
-            var query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+            var query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27%20AND%20Club_Request=" + club
 
             var url = URL(ip.plus(query))
 
@@ -88,6 +89,43 @@ class AdminUpdateConfirmation : AppCompatActivity() {
             url = URL(ip.plus(query))
 
             text = url.readText()
+
+            // get rid of any requests at the same time as the new time for the same building
+            query = "/search?query=SELECT%20Reservation_Id,Reserver_Email%20FROM%20reservations%20WHERE%20Club_Request=0%20AND%20Start_Date_Time=%27" + newStart + "%27"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
+
+            if(!(text.equals("[]"))){
+                // grab the resid and resemail of the reservation
+                var id = text.substringAfter(':').substringAfter('"').substringBefore('"')
+                var resEmail = text.substringAfter(',').substringAfter(':').substringAfter('"').substringBefore('"')
+
+                // delete the reservation
+                query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + id + "%27"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+
+                // decrement the user's reservation count
+                query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + resEmail + "%27"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+
+                var resnum = text.substringAfter(':').substringAfter('"').substringBefore('"').toInt()
+
+                resnum -= 1
+
+                query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + resnum + "%20WHERE%20Email=%27" + resEmail + "%27"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+            }
 
             Toast.makeText(this, "Update accepted.", Toast.LENGTH_SHORT).show()
 
