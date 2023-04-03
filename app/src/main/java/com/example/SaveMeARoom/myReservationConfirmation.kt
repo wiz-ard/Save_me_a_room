@@ -21,6 +21,7 @@ class myReservationConfirmation : AppCompatActivity() {
         //pulls reservation information
         val resInfo = intent.getStringExtra("reservation info")
         val email = intent.getStringExtra("email")
+        val college = intent.getStringExtra("college")
         //splits reservation info and assigns it to specific variables
         val splitRes = resInfo.toString().split(",")
         val buildingName = splitRes[0]
@@ -105,6 +106,7 @@ class myReservationConfirmation : AppCompatActivity() {
             val pending = text.substringAfter(":").substringBefore("}")
             //if pending and updating are both 0, then send to UpdateDateSelectionPage
             val intent = Intent(this, UpdateDateSelection::class.java)
+            intent.putExtra("college", college)
             intent.putExtra("building name", buildingName)
             intent.putExtra("occupancy", occupancy)
             intent.putExtra("room", room)

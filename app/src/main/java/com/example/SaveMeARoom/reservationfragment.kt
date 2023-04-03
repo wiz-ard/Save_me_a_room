@@ -45,6 +45,15 @@ class Reservationfragment: Fragment() {
         var text = url.readText()
 
         val email = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+        //gets user college
+        query = "/search?query=SELECT%20College%20FROM%20users%20WHERE%20Username=%27" + username + "%27"
+
+        url = URL(ip.plus(query))
+
+        text = url.readText()
+
+        val college = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
         //gets user reservations
         getReservations(email)
 
@@ -57,6 +66,7 @@ class Reservationfragment: Fragment() {
             val intent = Intent(activity, myReservationConfirmation::class.java)
             intent.putExtra("reservation info", it.component1())
             intent.putExtra("email", email)
+            intent.putExtra("college", college)
             startActivity(intent)
 
         }

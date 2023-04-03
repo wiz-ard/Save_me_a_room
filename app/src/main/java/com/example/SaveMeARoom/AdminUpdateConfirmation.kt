@@ -10,6 +10,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.admin_reservation_confirmation.*
 import kotlinx.android.synthetic.main.time_items.*
 import java.net.URL
+import java.time.LocalDate
+import java.time.LocalTime
 
 class AdminUpdateConfirmation : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +31,7 @@ class AdminUpdateConfirmation : AppCompatActivity() {
         var room = intent.getStringExtra("room")
         var occupancy = intent.getStringExtra("occupancy")
         var email = intent.getStringExtra("email")
+        var college = intent.getStringExtra("college")
         val modifiedTime = date + " " + (time.substringAfter(" ").substringBefore("pm").toInt() + 12).toString() + ":00:00"
 
         //setting variables to the different fillable text fields
@@ -75,6 +78,23 @@ class AdminUpdateConfirmation : AppCompatActivity() {
             var newStart = times[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
             var newEnd = times[1].substringAfter(":").substringAfter("\"").substringBefore("\"")
 
+            //log accept
+            val curTime = LocalTime.now()
+            val curDate = LocalDate.now()
+            val logTime = curTime.toString() + " " + curDate.toString()
+
+            val resTime = newStart + " - " + newEnd
+
+            val adminEmail = intent.getStringExtra("adminemail")
+
+            //inserting into logs
+            query =
+                "/search?query=INSERT%20INTO%20reservationlogs%20VALUES(%27" + resId + "%27,%27" + buildingName + "%27,%27" + room + "%27,%27" + resTime + "%27,%27" + email + "%27,%27" + college + "%27,%27" + logTime + "%27,%27" + adminEmail + "%27,%27False%27,%27False%27,%27False%27,%27False%27,%27False%27,%27True%27,%27False%27)"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
+
             //delete from updates table
             query = "/search?query=DELETE%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
 
@@ -103,6 +123,39 @@ class AdminUpdateConfirmation : AppCompatActivity() {
             var text = url.readText()
 
             var resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+            //log deny
+            val curTime = LocalTime.now()
+            val curDate = LocalDate.now()
+            val logTime = curTime.toString() + " " + curDate.toString()
+
+            //getting initial reservation time
+            query =
+                "/search?query=SELECT%20Start_Date_Time,End_Date_Time%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + resId + "%27"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
+
+            val resTimes = text.split(",")
+
+            val initialDate = resTimes[0].substringAfter(":").substringAfter("\"").substringBefore(" ")
+
+            val initialStart = resTimes[0].substringAfter(":").substringAfter("\"").substringBefore("\"").substringAfter(" ")
+
+            val initialEnd = resTimes[1].substringAfter(":").substringAfter("\"").substringBefore("\"").substringAfter(" ")
+
+            val resTime = initialDate + " " + initialStart + " - " + initialDate + " " + initialEnd
+
+            val adminEmail = intent.getStringExtra("adminemail")
+
+            //inserting into logs
+            query =
+                "/search?query=INSERT%20INTO%20reservationlogs%20VALUES(%27" + resId + "%27,%27" + buildingName + "%27,%27" + room + "%27,%27" + resTime + "%27,%27" + email + "%27,%27" + college + "%27,%27" + logTime + "%27,%27" + adminEmail + "%27,%27False%27,%27False%27,%27False%27,%27False%27,%27False%27,%27False%27,%27True%27)"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
 
             //deleting from updates table
             query = "/search?query=DELETE%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
