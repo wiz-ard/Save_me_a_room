@@ -25,8 +25,8 @@ class UpdateConfirmation : AppCompatActivity() {
         var occupancy = intent.getStringExtra("occupancy")
         val room = intent.getStringExtra("room")
         val resId = intent.getStringExtra("resId")
-        val pending = intent.getStringExtra("pending").toString().substringAfter("\"").substringBefore("\"")
-        val updating = intent.getStringExtra("updating").toString().substringAfter("\"").substringBefore("\"")
+        val pending = intent.getStringExtra("pending")
+        val updating = intent.getStringExtra("updating")
         val email = intent.getStringExtra("email").toString()
         val college = intent.getStringExtra("college")
 

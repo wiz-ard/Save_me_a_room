@@ -8,8 +8,8 @@
 
 
     <item
-        android:id="@+id/AdminCalandar"
-        android:title="Calandar"
+        android:id="@+id/AdminLogs"
+        android:title="Logs"
         android:icon="@drawable/ic_reservation"/>
 
     <item
