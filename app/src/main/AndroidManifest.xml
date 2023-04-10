@@ -47,6 +47,12 @@
             android:name=".cancelConfirmation"
             android:exported="false" />
         <activity
+            android:name=".clubConfirm"
+            android:exported="false" />
+        <activity
+            android:name=".editProfile"
+            android:exported="false" />
+        <activity
             android:name=".RoomSelection"
             android:exported="false"
             android:label="@string/title_activity_room_reservation"

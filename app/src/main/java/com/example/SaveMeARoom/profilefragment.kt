@@ -67,5 +67,15 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
             startActivity(intent)
             activity?.finish()
         }
+        btnEditProfile.setOnClickListener {
+            val intent = Intent(activity, editProfile::class.java)
+            intent.putExtra("olduser", bundle!!.getString("username"))
+            startActivity(intent)
+        }
+        btnClubRequest.setOnClickListener {
+            val intent = Intent(activity, clubConfirm::class.java)
+            intent.putExtra("username", bundle!!.getString("username"))
+            startActivity(intent)
+        }
     }
 }

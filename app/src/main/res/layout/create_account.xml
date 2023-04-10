@@ -132,7 +132,6 @@
         android:background="#0000FF"
         android:backgroundTint="#03A9F4"
         android:contentDescription="Select College:"
-        android:hint="why"
         android:textAlignment="center"
         android:textColor="@color/purple_200"
         android:textColorHint="@color/purple_200"
