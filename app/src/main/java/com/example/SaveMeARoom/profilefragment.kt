@@ -58,7 +58,7 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
             //log logout
             val ip = "http://3.132.20.107:3000"
 
-            val query = "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + username + "%27,NULL,%27" + logTime + "%27,NULL)"
+            val query = "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + username + "%27,%27NULL%27,%27" + logTime + "%27,%27NULL%27,%27" + bundle!!.getString("college") + "%27)"
 
             val url = URL(ip.plus(query))
 

@@ -35,10 +35,12 @@ class AdminLogFragment: Fragment() {
         btnUser.setOnClickListener {
             val intent = Intent(activity, adminUserLogs::class.java)
             intent.putExtra("college", college)
+            startActivity(intent)
         }
         btnRes.setOnClickListener {
             val intent = Intent(activity, adminReservationLogs::class.java)
             intent.putExtra("college", college)
+            startActivity(intent)
         }
     }
 }

@@ -29,6 +29,15 @@
             android:name=".adminReservationLogs"
             android:exported="false" />
         <activity
+            android:name=".adminUserLogs"
+            android:exported="false" />
+        <activity
+            android:name=".adminUserlogInfo"
+            android:exported="false" />
+        <activity
+            android:name=".adminReservationlogInfo"
+            android:exported="false" />
+        <activity
             android:name=".myReservationConfirmation"
             android:exported="false" />
         <activity

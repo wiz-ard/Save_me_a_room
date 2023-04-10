@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             //logging attempt
             val ip = "http://3.132.20.107:3000"
 
-            val query = "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + username + "%27,%27" + logTime + "%27, NULL,NULL)"
+            val query = "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + username + "%27,%27" + logTime + "%27, 'NULL','NULL','NULL')"
 
             val url = URL(ip.plus(query))
 
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
                     val ip = "http://3.132.20.107:3000"
 
-                    val query = "/search?query=UPDATE%20userlogs%20SET%20Successful=%27True%27WHERE%20Time_Of_Login=%27" + logTime + "%27"
+                    val query = "/search?query=UPDATE%20userlogs%20SET%20Successful=%27True%27,College=%27" + infoList[3] + "%27%20WHERE%20Time_Of_Login=%27" + logTime + "%27"
 
                     val url = URL(ip.plus(query))
 
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                     //show unsuccessful login
                     val ip = "http://3.132.20.107:3000"
 
-                    val query = "/search?query=UPDATE%20userlogs%20SET%20Successful=%27False%27WHERE%20Time_Of_Login=%27" + logTime + "%27"
+                    val query = "/search?query=UPDATE%20userlogs%20SET%20Successful=%27False%27%20WHERE%20Time_Of_Login=%27" + logTime + "%27"
 
                     val url = URL(ip.plus(query))
 
