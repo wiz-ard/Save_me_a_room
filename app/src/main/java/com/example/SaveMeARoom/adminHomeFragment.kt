@@ -34,7 +34,7 @@ class AdminHomefragment : Fragment() {
             startActivity(intent)
         }
         statReq.setOnClickListener {
-            val intent = Intent(activity, RoomRequests::class.java)
+            val intent = Intent(activity, StatusRequests::class.java)
             intent.putExtra("college", college)
             startActivity(intent)
         }
