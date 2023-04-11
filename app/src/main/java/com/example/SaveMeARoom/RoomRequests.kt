@@ -15,6 +15,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var pendingResList: ArrayList<adminPendingData>
     private lateinit var groupBy: ArrayList<String>
     private lateinit var adaptor: ArrayList<String>
+    private lateinit var spinnerChanges: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,59 +61,60 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         val dateTimes = text.split(',')
 
-        var dateList = arrayListOf<String>()
+        var dateTimeList = arrayListOf<String>()
 
-        dateList.add("any")
-
-        var timeList  = arrayListOf<String>()
-
-        timeList.add("any")
+        dateTimeList.add("any")
 
         for(i in dateTimes.indices){
-            dateList.add(dateTimes[i].substringAfter(':').substringAfter('"').substringBefore(' '))
-            timeList.add(dateTimes[i].substringAfter(':').substringAfter('"').substringAfter(' ').substringBefore('"'))
+            dateTimeList.add(dateTimes[i].substringAfter(':').substringAfter('"').substringBefore('"'))
         }
 
-        val spDate = findViewById<Spinner>(R.id.spDateSelect)
-        spDate.onItemSelectedListener = this
+        val spDateTime = findViewById<Spinner>(R.id.spDateSelect)
+        spDateTime.onItemSelectedListener = this
 
-        val ad2: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_item, dateList as List<Any?>)
+        val ad2: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_item, dateTimeList as List<Any?>)
 
         ad2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        spDate.adapter = ad2
+        spDateTime.adapter = ad2
 
-        val spTime = findViewById<Spinner>(R.id.spTimeSelect)
-        spTime.onItemSelectedListener = this
+        // status list (accepted, updating, pending)
+        val statList = arrayListOf<String>()
+        statList.add("any")
+        statList.add("Pending")
+        statList.add("Updating")
+        statList.add("Accepted")
 
-        val ad3: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_item, timeList as List<Any?>)
+        val spStatus = findViewById<Spinner>(R.id.spTimeSelect)
+        spStatus.onItemSelectedListener = this
+
+        val ad3: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_item, statList as List<Any?>)
 
         ad3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        spTime.adapter = ad3
+        spStatus.adapter = ad3
 
-        // status list
-        val statusList = arrayListOf<String>()
-        statusList.add("any")
-        statusList.add("General")
-        statusList.add("Club Leader")
+        // club list
+        val clubList = arrayListOf<String>()
+        clubList.add("any")
+        clubList.add("General")
+        clubList.add("Club Leader")
 
-        val spStat = findViewById<Spinner>(R.id.spStatusSelect)
-        spStat.onItemSelectedListener = this
+        val spClub = findViewById<Spinner>(R.id.spStatusSelect)
+        spClub.onItemSelectedListener = this
 
-        val ad4: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_item, statusList as List<Any?>)
+        val ad4: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_item, clubList as List<Any?>)
 
         ad4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        spStat.adapter = ad4
+        spClub.adapter = ad4
 
-                // figure out which ones have been changed, any vs something
-        // make an array to see if any spinners have been selected
-        val spinnerChanges = arrayListOf<String>()
+        // set spinner changes to be prepared for things changing
+        spinnerChanges = arrayListOf()
         spinnerChanges.add("any") // for building list
-        spinnerChanges.add("any") // for date list
-        spinnerChanges.add("any") // for time list
+        spinnerChanges.add("any") // for date time list
         spinnerChanges.add("any") // for status list
+        spinnerChanges.add("any") // for club list
 
         // set the button
         btnFilter.setOnClickListener {
@@ -128,50 +130,91 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             if(!(spinnerChanges[0].equals("any"))){
                 query += "%20WHERE%20Building_Name=%27" + spinnerChanges[0] + "%27"
 
-                // if date spinner was also modified
+                // if date time spinner was also modified
                 if(!(spinnerChanges[1].equals("any"))){
-                    query += "%20AND%20Start_Date_Time%20LIKE%20%27%" + spinnerChanges[1] + "%%27"
-                }
-
-                // if time spinner was also modified
-                if(!(spinnerChanges[2].equals("any"))){
-                    query += "%20AND%20Start_Date_Time%20LIKE%20%27%" + spinnerChanges[2] + "%%27"
+                    query += "%20AND%20Start_Date_Time=%27" + spinnerChanges[1] + "%27"
                 }
 
                 // if status spinner was also modified
+                if(!(spinnerChanges[2].equals("any"))){
+                    if(spinnerChanges[2].equals("Pending")){
+                        query += "%20AND%20Pending=1"
+                    }
+                    else if(spinnerChanges[2].equals("Updating")){
+                        query += "%20AND%20Updating=1"
+                    }
+                    else{
+                        query += "%20AND%20Pending=0%20AND%20Updating=0"
+                    }
+                }
+
+                // if club spinner was also modified
                 if(!(spinnerChanges[3].equals("any"))){
-                    query += "%20AND%20Club_Request=%27%" + spinnerChanges[3] + "%%27"
+                    if(spinnerChanges[3].equals("General")){
+                        query += "%20AND%20Club_Request=%27" + 0 + "%27"
+                    }
+                    else{
+                        query += "%20AND%20Club_Request=%27" + 1 + "%27"
+                    }
                 }
             }
 
             // if date spinner was modified
             else if(!(spinnerChanges[1].equals("any"))){
-                query += "%20WHERE%20Start_Date_Time%20LIKE%20%27%" + spinnerChanges[1] + "%%27"
-
-                // if time spinner was also modified
-                if(!(spinnerChanges[2].equals("any"))){
-                    query += "%20AND%20Start_Date_Time%20LIKE%20%27%" + spinnerChanges[2] + "%%27"
-                }
+                query += "%20WHERE%20Start_Date_Time=%27" + spinnerChanges[1] + "%27"
 
                 // if status spinner was also modified
+                if(!(spinnerChanges[2].equals("any"))){
+                    if(spinnerChanges[2].equals("Pending")){
+                        query += "%20AND%20Pending=1"
+                    }
+                    else if(spinnerChanges[2].equals("Updating")){
+                        query += "%20AND%20Updating=1"
+                    }
+                    else{
+                        query += "%20AND%20Pending=0%20AND%20Updating=0"
+                    }
+                }
+
+                // if club spinner was also modified
                 if(!(spinnerChanges[3].equals("any"))){
-                    query += "%20AND%20Club_Request=%27%" + spinnerChanges[3] + "%%27"
+                    if(spinnerChanges[3].equals("General")){
+                        query += "%20AND%20Club_Request=%27" + 0 + "%27"
+                    }
+                    else{
+                        query += "%20AND%20Club_Request=%27" + 1 + "%27"
+                    }
                 }
             }
 
             // if time spinner was modified
-            else if(!(spinnerChanges[2].equals("any"))){
-                query += "%20WHERE%20Start_Date_Time%20LIKE%20%27%" + spinnerChanges[2] + "%%27"
+            else if(!(spinnerChanges[2].equals("any"))) {
+                if (spinnerChanges[2].equals("Pending")) {
+                    query += "%20AND%20Pending=1"
+                } else if (spinnerChanges[2].equals("Updating")) {
+                    query += "%20AND%20Updating=1"
+                } else {
+                    query += "%20AND%20Pending=0%20AND%20Updating=0"
+                }
 
-                // if status spinner was also modified
-                if(!(spinnerChanges[3].equals("any"))){
-                    query += "%20AND%20Club_Request=%27%" + spinnerChanges[3] + "%%27"
+                // if club spinner was also modified
+                if (!(spinnerChanges[3].equals("any"))) {
+                    if (spinnerChanges[3].equals("General")) {
+                        query += "%20AND%20Club_Request=%27" + 0 + "%27"
+                    } else {
+                        query += "%20AND%20Club_Request=%27" + 1 + "%27"
+                    }
                 }
             }
 
-            // if status spinner was modified
-            else{
-                query += "%20WHERE%20Club_Request=%27%" + spinnerChanges[3] + "%%27"
+            // if club spinner was modified
+            else if(!(spinnerChanges[3].equals("any"))){
+                if(spinnerChanges[3].equals("General")){
+                    query += "%20WHERE%20Club_Request=%27" + 0 + "%27"
+                }
+                else{
+                    query += "%20WHERE%20Club_Request=%27" + 1 + "%27"
+                }
             }
 
             // after deciding what the query is based on the list, grab the correct requests
@@ -248,7 +291,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+    override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
         if(parent!!.id == R.id.spBuildingSelect){
             val item = parent!!.getItemAtPosition(position)
             spinnerChanges[0] = item.toString()
