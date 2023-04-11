@@ -19,7 +19,7 @@ class RoomRequestRecycleAdaptor (var acceptedRes: List<roomResData>, private val
 
     override fun onBindViewHolder(holder: BuildingViewHolder, position: Int) {
         val currentItem = acceptedRes[position]
-        holder.tvAdminLogItem.text = currentItem.logData
+        holder.tvAdminLogItem.text = currentItem.reqData
     }
 
     override fun getItemCount(): Int {
