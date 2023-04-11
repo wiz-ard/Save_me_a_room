@@ -3,9 +3,8 @@ package com.example.SaveMeARoom
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.view.View
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.room_request.*
@@ -26,7 +25,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val ip = "http://3.132.20.107:3000"
 
         // building list
-        var query = "/search?query=SELECT%20DISTINCT%20Building_name%20FROM%20reservations%20WHERE%20College=%27"+college+"%27%"
+        var query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20reservations%20WHERE%20College=%27"+college+"%27"
 
         var url = URL(ip.plus(query))
 
@@ -52,7 +51,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         spBuild.adapter = ad
 
         // date list and time list
-        query = "/search?query=SELECT%20DISTINCT%20Start_Date_Time%20FROM%20reservations%20WHERE%20College=%27"+college+"%27%"
+        query = "/search?query=SELECT%20DISTINCT%20Start_Date_Time%20FROM%20reservations%20WHERE%20College=%27"+college+"%27"
 
         url = URL(ip.plus(query))
 
@@ -177,4 +176,8 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             track += 1
         }
     }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {}
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {}
 }
