@@ -64,72 +64,84 @@ class AdminUpdateConfirmation : AppCompatActivity() {
 
             var resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
 
-            //get updated times
-            query = "/search?query=SELECT%20New_Start_Time,New_End_Time%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
+            // make sure that the reservation isn't being currently viewed
+            query = "/search?query=SELECT%20Viewing%20FROM%20reservations%20WHERE%20Reservation_Id=" + resId
 
             url = URL(ip.plus(query))
 
-            text = url.readText()
+            val view = url.readText().substringAfter(':').substringAfter('"').substringBefore('"').toInt()
 
-            var times = text.split(",")
-
-            var newStart = times[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
-            var newEnd = times[1].substringAfter(":").substringAfter("\"").substringBefore("\"")
-
-            //delete from updates table
-            query = "/search?query=DELETE%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
-
-            url = URL(ip.plus(query))
-
-            text = url.readText()
-
-            //updating the time values to the new ones and set updating to 0
-            query = "/search?query=UPDATE%20reservations%20SET%20Updating='0',Start_Date_Time=%27" + newStart + "%27,End_Date_Time=%27" + newEnd + "%27%20WHERE%20Reservation_Id=%27" + resId + "%27"
-
-            url = URL(ip.plus(query))
-
-            text = url.readText()
-
-            // get rid of any requests at the same time as the new time for the same building
-            query = "/search?query=SELECT%20Reservation_Id,Reserver_Email%20FROM%20reservations%20WHERE%20Club_Request=0%20AND%20Start_Date_Time=%27" + newStart + "%27"
-
-            url = URL(ip.plus(query))
-
-            text = url.readText()
-
-            if(!(text.equals("[]"))){
-                // grab the resid and resemail of the reservation
-                var id = text.substringAfter(':').substringAfter('"').substringBefore('"')
-                var resEmail = text.substringAfter(',').substringAfter(':').substringAfter('"').substringBefore('"')
-
-                // delete the reservation
-                query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + id + "%27"
+            if(view == 0){
+                //get updated times
+                query = "/search?query=SELECT%20New_Start_Time,New_End_Time%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
 
                 url = URL(ip.plus(query))
 
                 text = url.readText()
 
-                // decrement the user's reservation count
-                query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + resEmail + "%27"
+                var times = text.split(",")
+
+                var newStart = times[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                var newEnd = times[1].substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+                //delete from updates table
+                query = "/search?query=DELETE%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
 
                 url = URL(ip.plus(query))
 
                 text = url.readText()
 
-                var resnum = text.substringAfter(':').substringAfter('"').substringBefore('"').toInt()
-
-                resnum -= 1
-
-                query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + resnum + "%20WHERE%20Email=%27" + resEmail + "%27"
+                //updating the time values to the new ones and set updating to 0
+                query = "/search?query=UPDATE%20reservations%20SET%20Updating='0',Start_Date_Time=%27" + newStart + "%27,End_Date_Time=%27" + newEnd + "%27%20WHERE%20Reservation_Id=%27" + resId + "%27"
 
                 url = URL(ip.plus(query))
 
                 text = url.readText()
+
+                // get rid of any requests at the same time as the new time for the same building
+                query = "/search?query=SELECT%20Reservation_Id,Reserver_Email%20FROM%20reservations%20WHERE%20Club_Request=0%20AND%20Start_Date_Time=%27" + newStart + "%27"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+
+                if(!(text.equals("[]"))){
+                    // grab the resid and resemail of the reservation
+                    var id = text.substringAfter(':').substringAfter('"').substringBefore('"')
+                    var resEmail = text.substringAfter(',').substringAfter(':').substringAfter('"').substringBefore('"')
+
+                    // delete the reservation
+                    query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + id + "%27"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+
+                    // decrement the user's reservation count
+                    query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + resEmail + "%27"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+
+                    var resnum = text.substringAfter(':').substringAfter('"').substringBefore('"').toInt()
+
+                    resnum -= 1
+
+                    query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + resnum + "%20WHERE%20Email=%27" + resEmail + "%27"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+                }
+
+                Toast.makeText(this, "Update accepted.", Toast.LENGTH_SHORT).show()
+
+                finish()
             }
-
-            Toast.makeText(this, "Update accepted.", Toast.LENGTH_SHORT).show()
-
-            finish()
+            else{
+                Toast.makeText(this, "Reservation is currently being viewed, please try again later.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         btnDeny.setOnClickListener {
@@ -142,23 +154,35 @@ class AdminUpdateConfirmation : AppCompatActivity() {
 
             var resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
 
-            //deleting from updates table
-            query = "/search?query=DELETE%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
+            // make sure that the reservation isn't being currently viewed
+            query = "/search?query=SELECT%20Viewing%20FROM%20reservations%20WHERE%20Reservation_Id=" + resId
 
             url = URL(ip.plus(query))
 
-            text = url.readText()
+            val view = url.readText().substringAfter(':').substringAfter('"').substringBefore('"').toInt()
 
-            //set updating = 0 on original reservation
-            query = "/search?query=UPDATE%20reservations%20SET%20Updating='0'%20WHERE%20Reservation_Id=%27" + resId + "%27"
+            if(view == 0){
+                //deleting from updates table
+                query = "/search?query=DELETE%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
 
-            url = URL(ip.plus(query))
+                url = URL(ip.plus(query))
 
-            text = url.readText()
+                text = url.readText()
 
-            Toast.makeText(this, "Update denied.", Toast.LENGTH_SHORT).show()
+                //set updating = 0 on original reservation
+                query = "/search?query=UPDATE%20reservations%20SET%20Updating='0'%20WHERE%20Reservation_Id=%27" + resId + "%27"
 
-            finish()
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+
+                Toast.makeText(this, "Update denied.", Toast.LENGTH_SHORT).show()
+
+                finish()
+            }
+            else{
+                Toast.makeText(this, "Reservation is currently being viewed, please try again later.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

@@ -26,10 +26,10 @@ class AdminConfirmation : AppCompatActivity() {
         var time = resSplit[2]
         var date = resSplit[3].substringAfter(" ")
         val room = resSplit[1].substringAfter(" ")
-        var club = 0
+        var club = "0"
         if(resSplit.size == 6){
             if(resSplit[5].substringAfter(" ").equals("Club Request")){
-                club = 1
+                club = "1"
             }
         }
 
@@ -130,55 +130,67 @@ class AdminConfirmation : AppCompatActivity() {
 
             var resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
 
-            query = "/search?query=UPDATE%20reservations%20SET%20Pending=0%20WHERE%20Reservation_Id="+resId
+            // make sure that the reservation isn't being currently viewed
+            query = "/search?query=SELECT%20Viewing%20FROM%20reservations%20WHERE%20Reservation_Id=" + resId
 
             url = URL(ip.plus(query))
 
-            text = url.readText()
+            val view = url.readText().substringAfter(':').substringAfter('"').substringBefore('"').toInt()
 
-            if(club == 1){
-                // see if there are any reservations at the same from non club leaders
-                query = "/search?query=SELECT%20Reservation_Id,Reserver_Email%20FROM%20reservations%20WHERE%20Club_Request=0%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+            if(view == 0){
+                query = "/search?query=UPDATE%20reservations%20SET%20Pending=0%20WHERE%20Reservation_Id="+resId
 
                 url = URL(ip.plus(query))
 
                 text = url.readText()
 
-                // if there are any (should only be 1 at most), get rid of them
-                if(!(text.equals("[]"))){
-                    // grab the resid and resemail of the reservation
-                    var id = text.substringAfter(':').substringAfter('"').substringBefore('"')
-                    var resEmail = text.substringAfter(',').substringAfter(':').substringAfter('"').substringBefore('"')
-
-                    // delete the reservation
-                    query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + id + "%27"
+                if(club.equals("1")){
+                    // see if there are any reservations at the same from non club leaders
+                    query = "/search?query=SELECT%20Reservation_Id,Reserver_Email%20FROM%20reservations%20WHERE%20Club_Request=0%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
 
                     url = URL(ip.plus(query))
 
                     text = url.readText()
 
-                    // decrement the user's reservation count
-                    query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + resEmail + "%27"
+                    // if there are any (should only be 1 at most), get rid of them
+                    if(!(text.equals("[]"))){
+                        // grab the resid and resemail of the reservation
+                        var id = text.substringAfter(':').substringAfter('"').substringBefore('"')
+                        var resEmail = text.substringAfter(',').substringAfter(':').substringAfter('"').substringBefore('"')
 
-                    url = URL(ip.plus(query))
+                        // delete the reservation
+                        query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + id + "%27"
 
-                    text = url.readText()
+                        url = URL(ip.plus(query))
 
-                    var resnum = text.substringAfter(':').substringAfter('"').substringBefore('"').toInt()
+                        text = url.readText()
 
-                    resnum -= 1
+                        // decrement the user's reservation count
+                        query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + resEmail + "%27"
 
-                    query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + resnum + "%20WHERE%20Email=%27" + resEmail + "%27"
+                        url = URL(ip.plus(query))
 
-                    url = URL(ip.plus(query))
+                        text = url.readText()
 
-                    text = url.readText()
+                        var resnum = text.substringAfter(':').substringAfter('"').substringBefore('"').toInt()
+
+                        resnum -= 1
+
+                        query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + resnum + "%20WHERE%20Email=%27" + resEmail + "%27"
+
+                        url = URL(ip.plus(query))
+
+                        text = url.readText()
+                    }
                 }
+
+                Toast.makeText(this, "Reservation accepted.", Toast.LENGTH_SHORT).show()
+
+                finish()
             }
-
-            Toast.makeText(this, "Reservation accepted.", Toast.LENGTH_SHORT).show()
-
-            finish()
+            else{
+                Toast.makeText(this, "Reservation is currently being viewed, please try again later.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         btnDeny.setOnClickListener {
@@ -191,34 +203,46 @@ class AdminConfirmation : AppCompatActivity() {
 
             var resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
 
-            //deleting reservation from reservations table
-            query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+            // make sure that the reservation isn't being currently viewed
+            query = "/search?query=SELECT%20Viewing%20FROM%20reservations%20WHERE%20Reservation_Id=" + resId
 
             url = URL(ip.plus(query))
 
-            text = url.readText()
+            val view = url.readText().substringAfter(':').substringAfter('"').substringBefore('"').toInt()
 
-            //getting accurate number of reservations for the user
-            query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + email + "%27"
+            if(view == 0){
+                //deleting reservation from reservations table
+                query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
 
-            url = URL(ip.plus(query))
+                url = URL(ip.plus(query))
 
-            text = url.readText()
+                text = url.readText()
 
-            var numRes = text.substringAfter(":").substringAfter("\"").substringBefore("\"").toInt()
+                //getting accurate number of reservations for the user
+                query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + email + "%27"
 
-            numRes -= 1
+                url = URL(ip.plus(query))
 
-            //subtracting 1 from number of reservations
-            query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + numRes + "%20WHERE%20Email=%27" + email + "%27"
+                text = url.readText()
 
-            url = URL(ip.plus(query))
+                var numRes = text.substringAfter(":").substringAfter("\"").substringBefore("\"").toInt()
 
-            text = url.readText()
+                numRes -= 1
 
-            Toast.makeText(this, "Reservation denied.", Toast.LENGTH_SHORT).show()
+                //subtracting 1 from number of reservations
+                query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + numRes + "%20WHERE%20Email=%27" + email + "%27"
 
-            finish()
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+
+                Toast.makeText(this, "Reservation denied.", Toast.LENGTH_SHORT).show()
+
+                finish()
+            }
+            else{
+                Toast.makeText(this, "Reservation is currently being viewed, please try again later.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

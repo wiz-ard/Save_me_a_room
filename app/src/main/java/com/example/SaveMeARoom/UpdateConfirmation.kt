@@ -72,6 +72,14 @@ class UpdateConfirmation : AppCompatActivity() {
                 url = URL(ip.plus(query))
                 text = url.readText()
                 Toast.makeText(this, "Update request sent.", Toast.LENGTH_SHORT).show()
+
+                // set viewing to false
+                query = "/search?query=UPDATE%20reservations%20SET%20Viewing=0%20WHERE%20Reservation_Id=" + resId
+
+                url = URL(ip.plus(query))
+
+                url.readText()
+
                 finish()
             }else if(pending.equals("1") && updating.equals("0")){
                 //modify time of pending request
@@ -82,6 +90,13 @@ class UpdateConfirmation : AppCompatActivity() {
                 var text = url.readText()
 
                 Toast.makeText(this, "Pending request updated.", Toast.LENGTH_SHORT).show()
+
+                // set viewing to false
+                query = "/search?query=UPDATE%20reservations%20SET%20Viewing=0%20WHERE%20Reservation_Id=" + resId
+
+                url = URL(ip.plus(query))
+
+                url.readText()
 
                 finish()
             }else if(pending.equals("0") && updating.equals("1")){
@@ -94,11 +109,24 @@ class UpdateConfirmation : AppCompatActivity() {
 
                 Toast.makeText(this, "Update request changed.", Toast.LENGTH_SHORT).show()
 
+                // set viewing to false
+                query = "/search?query=UPDATE%20reservations%20SET%20Viewing=0%20WHERE%20Reservation_Id=" + resId
+
+                url = URL(ip.plus(query))
+
+                url.readText()
+
                 finish()
             }
         }
 
         btnCancel.setOnClickListener {
+            // set viewing to false
+            var query = "/search?query=UPDATE%20reservations%20SET%20Viewing=0%20WHERE%20Reservation_Id=" + resId
+
+            var url = URL(ip.plus(query))
+
+            url.readText()
             finish()
         }
     }
