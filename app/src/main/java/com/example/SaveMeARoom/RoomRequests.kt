@@ -3,6 +3,7 @@ package com.example.SaveMeARoom
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
@@ -10,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.room_request.*
 import java.net.URL
 
-class RoomRequests : AppCompatActivity()  {
+class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var pendingResList: ArrayList<adminPendingData>
     private lateinit var groupBy: ArrayList<String>
@@ -42,8 +43,13 @@ class RoomRequests : AppCompatActivity()  {
         }
 
         val spBuild = findViewById<Spinner>(R.id.spBuildingSelect)
+        spBuild.onItemSelectedListener = this
 
-        val ad: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_dropdown_item)
+        val ad: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_item, buildingList as List<Any?>)
+
+        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spBuild.adapter = ad
 
         // date list and time list
         query = "/search?query=SELECT%20DISTINCT%20Start_Date_Time%20FROM%20reservations%20WHERE%20College=%27"+college+"%27%"
@@ -67,21 +73,51 @@ class RoomRequests : AppCompatActivity()  {
             timeList.add(dateTimes[i].substringAfter(':').substringAfter('"').substringAfter(' ').substringBefore('"'))
         }
 
+        val spDate = findViewById<Spinner>(R.id.spDateSelect)
+        spDate.onItemSelectedListener = this
+
+        val ad2: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_item, dateList as List<Any?>)
+
+        ad2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spDate.adapter = ad2
+
+        val spTime = findViewById<Spinner>(R.id.spTimeSelect)
+        spTime.onItemSelectedListener = this
+
+        val ad3: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_item, timeList as List<Any?>)
+
+        ad3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spTime.adapter = ad3
+
         // status list
         val statusList = arrayListOf<String>()
         statusList.add("any")
         statusList.add("General")
         statusList.add("Club Leader")
 
-        // figure out which ones have been changed, any vs something
+        val spStat = findViewById<Spinner>(R.id.spStatusSelect)
+        spStat.onItemSelectedListener = this
+
+        val ad4: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_item, statusList as List<Any?>)
+
+        ad4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spStat.adapter = ad4
+
+                // figure out which ones have been changed, any vs something
         // make an array to see if any spinners have been selected
         val spinnerChanges = arrayListOf<String>()
-        spinnerChanges.add("")
-        spinnerChanges.add("")
-        spinnerChanges.add("")
-        spinnerChanges.add("")
+        spinnerChanges.add("") // for building list
+        spinnerChanges.add("") // for date list
+        spinnerChanges.add("") // for time list
+        spinnerChanges.add("") // for status list
 
+        // set the button
+        btnFilter.setOnClickListener {
 
+        }
 
     }
 
