@@ -3,8 +3,11 @@ package com.example.SaveMeARoom
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.room_request.*
 import java.net.URL
 
 class RoomRequests : AppCompatActivity()  {
@@ -15,6 +18,71 @@ class RoomRequests : AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.room_request)
+
+        // get the lists for the spinner values (building, date, time, status)
+        val college = intent.getStringExtra("college")
+
+        val ip = "http://3.132.20.107:3000"
+
+        // building list
+        var query = "/search?query=SELECT%20DISTINCT%20Building_name%20FROM%20reservations%20WHERE%20College=%27"+college+"%27%"
+
+        var url = URL(ip.plus(query))
+
+        var text = url.readText()
+
+        val buildings = text.split(',')
+
+        var buildingList = arrayListOf<String>()
+
+        buildingList.add("any")
+
+        for(i in buildings.indices){
+            buildingList.add(buildings[i].substringAfter(':').substringAfter('"').substringBefore('"'))
+        }
+
+        val spBuild = findViewById<Spinner>(R.id.spBuildingSelect)
+
+        val ad: ArrayAdapter<*> = ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_dropdown_item)
+
+        // date list and time list
+        query = "/search?query=SELECT%20DISTINCT%20Start_Date_Time%20FROM%20reservations%20WHERE%20College=%27"+college+"%27%"
+
+        url = URL(ip.plus(query))
+
+        text = url.readText()
+
+        val dateTimes = text.split(',')
+
+        var dateList = arrayListOf<String>()
+
+        dateList.add("any")
+
+        var timeList  = arrayListOf<String>()
+
+        timeList.add("any")
+
+        for(i in dateTimes.indices){
+            dateList.add(dateTimes[i].substringAfter(':').substringAfter('"').substringBefore(' '))
+            timeList.add(dateTimes[i].substringAfter(':').substringAfter('"').substringAfter(' ').substringBefore('"'))
+        }
+
+        // status list
+        val statusList = arrayListOf<String>()
+        statusList.add("any")
+        statusList.add("General")
+        statusList.add("Club Leader")
+
+        // figure out which ones have been changed, any vs something
+        // make an array to see if any spinners have been selected
+        val spinnerChanges = arrayListOf<String>()
+        spinnerChanges.add("")
+        spinnerChanges.add("")
+        spinnerChanges.add("")
+        spinnerChanges.add("")
+
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
