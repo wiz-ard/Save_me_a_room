@@ -14,6 +14,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var pendingResList: ArrayList<adminPendingData>
     private lateinit var groupBy: ArrayList<String>
+    private lateinit var adaptor: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,16 +109,86 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 // figure out which ones have been changed, any vs something
         // make an array to see if any spinners have been selected
         val spinnerChanges = arrayListOf<String>()
-        spinnerChanges.add("") // for building list
-        spinnerChanges.add("") // for date list
-        spinnerChanges.add("") // for time list
-        spinnerChanges.add("") // for status list
+        spinnerChanges.add("any") // for building list
+        spinnerChanges.add("any") // for date list
+        spinnerChanges.add("any") // for time list
+        spinnerChanges.add("any") // for status list
 
         // set the button
         btnFilter.setOnClickListener {
+            val ip = "http://3.132.20.107:3000"
+
+            var query = "/search?query=SELECT%20*%20FROM%20reservations"
+
+            var url:URL
+
+            var text:String
+
+            // if buildings spinner was modified
+            if(!(spinnerChanges[0].equals("any"))){
+                query += "%20WHERE%20Building_Name=%27" + spinnerChanges[0] + "%27"
+
+                // if date spinner was also modified
+                if(!(spinnerChanges[1].equals("any"))){
+                    query += "%20AND%20Start_Date_Time%20LIKE%20%27%" + spinnerChanges[1] + "%%27"
+                }
+
+                // if time spinner was also modified
+                if(!(spinnerChanges[2].equals("any"))){
+                    query += "%20AND%20Start_Date_Time%20LIKE%20%27%" + spinnerChanges[2] + "%%27"
+                }
+
+                // if status spinner was also modified
+                if(!(spinnerChanges[3].equals("any"))){
+                    query += "%20AND%20Club_Request=%27%" + spinnerChanges[3] + "%%27"
+                }
+            }
+
+            // if date spinner was modified
+            else if(!(spinnerChanges[1].equals("any"))){
+                query += "%20WHERE%20Start_Date_Time%20LIKE%20%27%" + spinnerChanges[1] + "%%27"
+
+                // if time spinner was also modified
+                if(!(spinnerChanges[2].equals("any"))){
+                    query += "%20AND%20Start_Date_Time%20LIKE%20%27%" + spinnerChanges[2] + "%%27"
+                }
+
+                // if status spinner was also modified
+                if(!(spinnerChanges[3].equals("any"))){
+                    query += "%20AND%20Club_Request=%27%" + spinnerChanges[3] + "%%27"
+                }
+            }
+
+            // if time spinner was modified
+            else if(!(spinnerChanges[2].equals("any"))){
+                query += "%20WHERE%20Start_Date_Time%20LIKE%20%27%" + spinnerChanges[2] + "%%27"
+
+                // if status spinner was also modified
+                if(!(spinnerChanges[3].equals("any"))){
+                    query += "%20AND%20Club_Request=%27%" + spinnerChanges[3] + "%%27"
+                }
+            }
+
+            // if status spinner was modified
+            else{
+                query += "%20WHERE%20Club_Request=%27%" + spinnerChanges[3] + "%%27"
+            }
+
+            // after deciding what the query is based on the list, grab the correct requests
+            url = URL(ip.plus(query))
+
+            text = url.readText()
+
+            // convert the big string into individual requests
+            val requests = text.split(',')
+
+            var requestList = arrayListOf<String>()
+
+            for(i in requests.indices){
+                requestList.add(requests[i].substringAfter(':').substringAfter('"').substringBefore('"'))
+            }
 
         }
-
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -177,7 +248,24 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {}
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        if(parent!!.id == R.id.spBuildingSelect){
+            val item = parent!!.getItemAtPosition(position)
+            spinnerChanges[0] = item.toString()
+        }
+        else if(parent!!.id == R.id.spDateSelect){
+            val item = parent!!.getItemAtPosition(position)
+            spinnerChanges[1] = item.toString()
+        }
+        else if(parent!!.id == R.id.spTimeSelect){
+            val item = parent!!.getItemAtPosition(position)
+            spinnerChanges[2] = item.toString()
+        }
+        else if(parent!!.id == R.id.spStatusSelect){
+            val item = parent!!.getItemAtPosition(position)
+            spinnerChanges[3] = item.toString()
+        }
+    }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {}
 }
