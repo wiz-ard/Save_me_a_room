@@ -80,11 +80,33 @@ class myReservationConfirmation : AppCompatActivity() {
         tvMyRoom.text = "Room: " + room
 
         btnMyCancel.setOnClickListener {
+
             val intent = Intent(this, cancelConfirmation::class.java)
-            intent.putExtra("resid", resId)
-            intent.putExtra("email", email)
-            startActivity(intent)
-            finish()
+            // make sure that the reservation isn't being currently viewed
+            query = "/search?query=SELECT%20Viewing%20FROM%20reservations%20WHERE%20Reservation_Id=" + resId
+
+            url = URL(ip.plus(query))
+
+            val view = url.readText().substringAfter(':').substringAfter('"').substringBefore('"').toInt()
+
+            //if pending and updating are both 0, then send to UpdateDateSelectionPage
+            if(view == 0) {
+                // set the request as in progress
+                query =
+                    "/search?query=UPDATE%20reservations%20SET%20Viewing=1%20WHERE%20Reservation_Id=" + resId
+
+                url = URL(ip.plus(query))
+
+                url.readText()
+
+                intent.putExtra("resid", resId)
+                intent.putExtra("email", email)
+                startActivity(intent)
+                finish()
+            }
+            else{
+                Toast.makeText(this, "Reservation is currently being viewed, please try again later.", Toast.LENGTH_SHORT).show()
+            }
         }
         btnMyUpdate.setOnClickListener {
             //gets updating value of reservation
@@ -103,19 +125,41 @@ class myReservationConfirmation : AppCompatActivity() {
             text = url.readText()
 
             val pending = text.substringAfter(":").substringAfter('"').substringBefore('"')
+
+            // make sure that the reservation isn't being currently viewed
+            query = "/search?query=SELECT%20Viewing%20FROM%20reservations%20WHERE%20Reservation_Id=" + resId
+
+            url = URL(ip.plus(query))
+
+            val view = url.readText().substringAfter(':').substringAfter('"').substringBefore('"').toInt()
+
             //if pending and updating are both 0, then send to UpdateDateSelectionPage
-            val intent = Intent(this, UpdateDateSelection::class.java)
-            intent.putExtra("building name", buildingName)
-            intent.putExtra("occupancy", occupancy)
-            intent.putExtra("room", room)
-            intent.putExtra("email",email)
-            intent.putExtra("oldtime",time)
-            intent.putExtra("olddate",date)
-            intent.putExtra("resId",resId)
-            intent.putExtra("pending",pending)
-            intent.putExtra("updating",updating)
-            startActivity(intent)
-            finish()
+            if(view == 0){
+                // set the request as in progress
+                query = "/search?query=UPDATE%20reservations%20SET%20Viewing=1%20WHERE%20Reservation_Id=" + resId
+
+                url = URL(ip.plus(query))
+
+                url.readText()
+
+                // go to the next page
+                val intent = Intent(this, UpdateDateSelection::class.java)
+                intent.putExtra("building name", buildingName)
+                intent.putExtra("occupancy", occupancy)
+                intent.putExtra("room", room)
+                intent.putExtra("email",email)
+                intent.putExtra("oldtime",time)
+                intent.putExtra("olddate",date)
+                intent.putExtra("resId",resId)
+                intent.putExtra("pending",pending)
+                intent.putExtra("updating",updating)
+                startActivity(intent)
+                finish()
+            }
+            else{
+                // inform the user they can't change the request
+                Toast.makeText(this, "Reservation is currently being viewed, please try again later.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
