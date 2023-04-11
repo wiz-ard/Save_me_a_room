@@ -1,12 +1,15 @@
 package com.example.SaveMeARoom
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.widget.Button
+import androidx.annotation.RequiresApi
+import kotlinx.android.synthetic.main.admin_home_fragment.*
 
 class AdminHomefragment : Fragment() {
     override fun onCreateView(
@@ -17,23 +20,23 @@ class AdminHomefragment : Fragment() {
         return inflater.inflate(R.layout.admin_home_fragment, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val resReq: Button? = view?.findViewById(R.id.resReq)
-        val statReq: Button? = view?.findViewById(R.id.statReq)
+        val bundle = arguments
 
-        resReq?.setOnClickListener(){
+        val college = bundle!!.getString("college")
+
+        resReq.setOnClickListener {
             val intent = Intent(activity, RoomRequests::class.java)
+            intent.putExtra("college", college)
             startActivity(intent)
         }
-    }
-
-    private fun resButtonClicked(view: View) {
-
-    }
-
-    private fun statButtonClicked(view: View) {
-
+        statReq.setOnClickListener {
+            val intent = Intent(activity, RoomRequests::class.java)
+            intent.putExtra("college", college)
+            startActivity(intent)
+        }
     }
 }
