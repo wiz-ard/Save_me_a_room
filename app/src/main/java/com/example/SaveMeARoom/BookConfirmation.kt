@@ -115,7 +115,7 @@ class BookConfirmation : AppCompatActivity() {
                         resId += 1
                     }
                     //inserts reservation into database
-                    query ="/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1, %27"+college+"%27,%27" + resId + "%27,0,%20%27" + club + "%27)"
+                    query ="/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1, %27"+college+"%27,%27" + resId + "%27,0,%20%27" + club + "%27,0)"
 
                     url = URL(ip.plus(query))
 
@@ -176,7 +176,7 @@ class BookConfirmation : AppCompatActivity() {
                         resId += 1
                     }
                     //inserts reservation into database
-                    query ="/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1, %27"+college+"%27,%27" + resId + "%27,0,%20%27" + club + "%27)"
+                    query ="/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1, %27"+college+"%27,%27" + resId + "%27,0,%20%27" + club + "%27,0)"
 
                     url = URL(ip.plus(query))
 
