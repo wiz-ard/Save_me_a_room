@@ -97,25 +97,45 @@ class Homefragment: Fragment() {
             infoList.add(info2)
         }
 
-        val college = infoList[3]
-        //queries for building names based on your college
-        query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20locations%20WHERE%20Associated_College=%27" + college + "%27%20OR%20Associated_College=%27General%27%20ORDER%20BY%20Building_Name"
 
-        url = URL(ip.plus(query))
+        val club = infoList[5].toInt()
+        // check if the user is a club leader
+        if(club == 0){
+            val college = infoList[3]
+            //queries for building names based on your college
+            query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20locations%20WHERE%20Associated_College=%27" + college + "%27%20OR%20Associated_College=%27General%27%20ORDER%20BY%20Building_Name"
 
-        text = url.readText()
+            url = URL(ip.plus(query))
 
-        val buildingName = text.split(",")
+            text = url.readText()
 
-        buildingList = arrayListOf()
-        //adds building names to the list to go to the recycler view
-        for (i in buildingName.indices){
+            val buildingName = text.split(",")
 
-            val building = buildingname(buildingName[i].substringAfter(":").substringAfter('"').substringBefore('"'))
-            buildingList.add(building)
+            buildingList = arrayListOf()
+            //adds building names to the list to go to the recycler view
+            for (i in buildingName.indices){
+
+                val building = buildingname(buildingName[i].substringAfter(":").substringAfter('"').substringBefore('"'))
+                buildingList.add(building)
+            }
+        } else{
+            val college = infoList[3]
+            //queries for building names based on your college
+            query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20locations%20ORDER%20BY%20Building_Name"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
+
+            val buildingName = text.split(",")
+
+            buildingList = arrayListOf()
+            //adds building names to the list to go to the recycler view
+            for (i in buildingName.indices){
+
+                val building = buildingname(buildingName[i].substringAfter(":").substringAfter('"').substringBefore('"'))
+                buildingList.add(building)
+            }
         }
-
     }
-
-
 }
