@@ -247,6 +247,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     }
                 }
                 requestList.add(roomResData(combine))
+                combine = ""
             }
 
             RoomReqRecyler = findViewById(R.id.rvRequests)
