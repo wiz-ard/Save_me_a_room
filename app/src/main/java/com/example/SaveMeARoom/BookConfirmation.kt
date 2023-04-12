@@ -72,57 +72,124 @@ class BookConfirmation : AppCompatActivity() {
         tvRoomConfirm.text = "Room: " + room
 
         btnConfirm.setOnClickListener {
-            //checks if you have reservations available
-            if(resNum < 3) {
-                val buildingName = intent.getStringExtra("building name")
-                val date = intent.getStringExtra("date")
-                val time = intent.getStringExtra("time")
-                val college = intent.getStringExtra("college")
-                var start = ""
-                var end = ""
-                //formatting the time
-                if (time.equals("5:00pm - 7:00pm")) {
-                    start = "17:00:00"
-                    end = "19:00:00"
-                } else if (time.equals("7:00pm - 9:00pm")) {
-                    start = "19:00:00"
-                    end = "21:00:00"
+            query = "/search?query=SELECT%20Club_Leader%20FROM%20users%20WHERE%20email=%27" + email + "%27"
+            url = URL(ip.plus(query))
+            text = url.readText()
+            var club = text.substringAfter(":").substringAfter('"').substringBefore('"').toInt()
+            // checks if you're a club leader
+            if(club == 0){
+                //checks if you have reservations available
+                if(resNum < 3) {
+                    val buildingName = intent.getStringExtra("building name")
+                    val date = intent.getStringExtra("date")
+                    val time = intent.getStringExtra("time")
+                    val college = intent.getStringExtra("college")
+                    var start = ""
+                    var end = ""
+                    //formatting the time
+                    if (time.equals("5:00pm - 7:00pm")) {
+                        start = "17:00:00"
+                        end = "19:00:00"
+                    } else if (time.equals("7:00pm - 9:00pm")) {
+                        start = "19:00:00"
+                        end = "21:00:00"
+                    } else {
+                        start = "21:00:00"
+                        end = "23:00:00"
+                    }
+                    val occupancy = intent.getStringExtra("occupancy")
+                    val room = intent.getStringExtra("room")
+                    val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+                    StrictMode.setThreadPolicy(policy)
+                    //gets reservation ID based on given information
+                    query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20ORDER%20BY%20Reservation_Id%20DESC%20LIMIT%201"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+                    //default reservation ID
+                    var resId = 1
+                    //if there are reservations, make resID +1 from highest resID in database
+                    if(text.length == 2){
+
+                    }else{
+                        resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"").toInt()
+                        resId += 1
+                    }
+                    //inserts reservation into database
+                    query ="/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1, %27"+college+"%27,%27" + resId + "%27,0,%20%27" + club + "%27)"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+
+                    Toast.makeText(this, "Reservation successful!", Toast.LENGTH_SHORT).show()
+
+                    resNum += 1
+                    //updates user's number of reservations
+                    query =
+                        "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=%27"+resNum+"%27%20WHERE%20Username=%27"+username+"%27%20AND%20Email=%27"+email+"%27"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+
+                    finish()
                 } else {
-                    start = "21:00:00"
-                    end = "23:00:00"
+                    Toast.makeText(this, "You have reached the maximum number of reservations.", Toast.LENGTH_SHORT).show()
                 }
-                val occupancy = intent.getStringExtra("occupancy")
-                val room = intent.getStringExtra("room")
-                val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-                StrictMode.setThreadPolicy(policy)
-                //gets reservation ID based on given information
-                query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20ORDER%20BY%20Reservation_Id%20DESC%20LIMIT%201"
+            } else {
+                //checks if you have reservations available
+                if(resNum < 6) {
+                    val buildingName = intent.getStringExtra("building name")
+                    val date = intent.getStringExtra("date")
+                    val time = intent.getStringExtra("time")
+                    val college = intent.getStringExtra("college")
+                    var start = ""
+                    var end = ""
+                    //formatting the time
+                    if (time.equals("5:00pm - 7:00pm")) {
+                        start = "17:00:00"
+                        end = "19:00:00"
+                    } else if (time.equals("7:00pm - 9:00pm")) {
+                        start = "19:00:00"
+                        end = "21:00:00"
+                    } else {
+                        start = "21:00:00"
+                        end = "23:00:00"
+                    }
+                    val occupancy = intent.getStringExtra("occupancy")
+                    val room = intent.getStringExtra("room")
+                    val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+                    StrictMode.setThreadPolicy(policy)
+                    //gets reservation ID based on given information
+                    query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20ORDER%20BY%20Reservation_Id%20DESC%20LIMIT%201"
 
-                url = URL(ip.plus(query))
+                    url = URL(ip.plus(query))
 
-                text = url.readText()
-                //default reservation ID
-                var resId = 1
-                //if there are reservations, make resID +1 from highest resID in database
-                if(text.length == 2){
+                    text = url.readText()
+                    //default reservation ID
+                    var resId = 1
+                    //if there are reservations, make resID +1 from highest resID in database
+                    if(text.length == 2){
 
-                }else{
-                    resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"").toInt()
-                    resId += 1
-                }
-                //inserts reservation into database
-                query ="/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1, %27"+college+"%27,%27" + resId + "%27,0,0)"
+                    }else{
+                        resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"").toInt()
+                        resId += 1
+                    }
+                    //inserts reservation into database
+                    query ="/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1, %27"+college+"%27,%27" + resId + "%27,0,%20%27" + club + "%27)"
 
-                url = URL(ip.plus(query))
+                    url = URL(ip.plus(query))
 
-                text = url.readText()
+                    text = url.readText()
 
-                Toast.makeText(this, "Reservation successful!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Reservation successful!", Toast.LENGTH_SHORT).show()
 
-                resNum += 1
-                //updates user's number of reservations
-                query =
-                    "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=%27"+resNum+"%27%20WHERE%20Username=%27"+username+"%27%20AND%20Email=%27"+email+"%27"
+                    resNum += 1
+                    //updates user's number of reservations
+                    query =
+                        "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=%27"+resNum+"%27%20WHERE%20Username=%27"+username+"%27%20AND%20Email=%27"+email+"%27"
 
                 url = URL(ip.plus(query))
 
@@ -140,11 +207,12 @@ class BookConfirmation : AppCompatActivity() {
 
                 url = URL(ip.plus(query))
 
-                text = url.readText()
+                    text = url.readText()
 
-                finish()
-            } else {
-                Toast.makeText(this, "You have reached the maximum number of reservations.", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Toast.makeText(this, "You have reached the maximum number of reservations.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         //restarts reservation process

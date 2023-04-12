@@ -29,11 +29,11 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
 
         val ip = "http://3.132.20.107:3000"
 
-        val query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + bundle!!.getString("email") + "%27"
+        var query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + bundle!!.getString("email") + "%27"
 
-        val url = URL(ip.plus(query))
+        var url = URL(ip.plus(query))
 
-        val text = url.readText()
+        var text = url.readText()
 
         val numRes = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
 
@@ -47,7 +47,16 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
         displayUsername?.text = bundle!!.getString("username")
         displayEmail?.text = bundle!!.getString("email")
         displayCollege?.text = bundle!!.getString("college")
-        displayReservation?.text = numRes + "/3"
+        query = "/search?query=SELECT%20Club_Leader%20FROM%20users%20WHERE%20Email=%27" + bundle!!.getString("email") + "%27"
+        url = URL(ip.plus(query))
+        text = url.readText()
+        var club = text.substringAfter(":").substringAfter('"').substringBefore('"').toInt()
+        if(club == 0){
+            displayReservation?.text = numRes + "/3"
+        } else {
+            displayReservation?.text = numRes + "/6"
+        }
+
 
 
 

@@ -29,6 +29,13 @@ class AdminConfirmation : AppCompatActivity() {
         var date = resSplit[3].substringAfter(" ")
         val room = resSplit[1].substringAfter(" ")
         val adminEmail = intent.getStringExtra("email")
+        var club = 0
+        if(resSplit.size == 6){
+            if(resSplit[5].substringAfter(" ").equals("Club Request")){
+                club = 1
+            }
+        }
+
         val modifiedTime = date + " " + (time.substringAfter(" ").substringBefore("pm").toInt() + 12).toString() + ":00:00"
         //getting reserver email
         var query = "/search?query=SELECT%20Reserver_Email%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
@@ -124,13 +131,14 @@ class AdminConfirmation : AppCompatActivity() {
             intent.putExtra("email",email)
             intent.putExtra("college",college)
             intent.putExtra("adminemail",adminEmail)
+            intent.putExtra("club", club)
             startActivity(intent)
             finish()
         }
 
         btnConfirm.setOnClickListener {
             //get reservation ID of reservation
-            var query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+            var query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27%20AND%20Club_Request=" + club
 
             var url = URL(ip.plus(query))
 
@@ -138,11 +146,51 @@ class AdminConfirmation : AppCompatActivity() {
 
             var resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
 
-            query = "/search?query=UPDATE%20reservations%20SET%20Pending=0%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+            query = "/search?query=UPDATE%20reservations%20SET%20Pending=0%20WHERE%20Reservation_Id="+resId
 
             url = URL(ip.plus(query))
 
             text = url.readText()
+
+            if(club == 1){
+                // see if there are any reservations at the same from non club leaders
+                query = "/search?query=SELECT%20Reservation_Id,Reserver_Email%20FROM%20reservations%20WHERE%20Club_Request=0%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+
+                // if there are any (should only be 1 at most), get rid of them
+                if(!(text.equals("[]"))){
+                    // grab the resid and resemail of the reservation
+                    var id = text.substringAfter(':').substringAfter('"').substringBefore('"')
+                    var resEmail = text.substringAfter(',').substringAfter(':').substringAfter('"').substringBefore('"')
+
+                    // delete the reservation
+                    query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + id + "%27"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+
+                    // decrement the user's reservation count
+                    query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + resEmail + "%27"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+
+                    var resnum = text.substringAfter(':').substringAfter('"').substringBefore('"').toInt()
+
+                    resnum -= 1
+
+                    query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + resnum + "%20WHERE%20Email=%27" + resEmail + "%27"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+                }
+            }
 
             Toast.makeText(this, "Reservation accepted.", Toast.LENGTH_SHORT).show()
 

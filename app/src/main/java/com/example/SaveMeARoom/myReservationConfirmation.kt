@@ -103,7 +103,7 @@ class myReservationConfirmation : AppCompatActivity() {
 
             text = url.readText()
 
-            val pending = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
+            val pending = text.substringAfter(":").substringAfter('"').substringBefore('"')
             //if pending and updating are both 0, then send to UpdateDateSelectionPage
             val intent = Intent(this, UpdateDateSelection::class.java)
             intent.putExtra("college", college)
