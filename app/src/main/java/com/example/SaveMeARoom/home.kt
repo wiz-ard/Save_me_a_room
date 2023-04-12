@@ -56,7 +56,6 @@ class home : AppCompatActivity() {
         mBundle.putString("college", college)
         mBundle.putString("admin", admin)
         mFragment.arguments = mBundle
-        mFragmentTransaction.add(R.id.flFragment, mFragment)
         mFragmentTransaction.replace(R.id.flFragment,mFragment).commit()
 
     }
