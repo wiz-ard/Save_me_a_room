@@ -10,7 +10,7 @@ class RoomRequestRecycleAdaptor (var acceptedRes: List<roomResData>, private val
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuildingViewHolder {
-        val vh = BuildingViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.room_request, parent, false)){
+        val vh = BuildingViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.room_request_items, parent, false)){
 
             clickListener(acceptedRes[it])
         }
