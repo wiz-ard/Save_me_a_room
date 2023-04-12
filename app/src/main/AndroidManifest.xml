@@ -87,6 +87,16 @@
             android:exported="false"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
+        <activity android:name=".RoomRequests"
+            android:exported="false"
+            android:label="RoomRequests"
+            android:parentActivityName=".home"
+            android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
+        <activity android:name=".StatusRequests"
+            android:exported="false"
+            android:label="StatusRequests"
+            android:parentActivityName=".home"
+            android:theme="@style/Theme.SaveMeARoom.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
