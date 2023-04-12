@@ -1,5 +1,6 @@
 package com.example.SaveMeARoom
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
@@ -27,6 +28,8 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         // get the lists for the spinner values (building, date, time, status)
         val college = intent.getStringExtra("college")
+
+        val email = intent.getStringExtra("email")
 
         val ip = "http://3.132.20.107:3000"
 
@@ -254,7 +257,32 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             RoomReqRecyler.layoutManager = LinearLayoutManager(this)
             RoomReqRecyler.setHasFixedSize(true)
             adaptor = RoomRequestRecycleAdaptor(requestList){
-
+                val intent = Intent(this, AdminConfirmation::class.java)
+                var vals = ""
+                for(i in requestList){
+                    doctor = i.toString().split(',')
+                    for(j in doctor.indices){
+                        if(j == 0 || j == 1 || j == 2 || j == 4){
+                            if(j == 0){
+                                vals += doctor[j].substringAfter('=').substringBefore('"') + ","
+                            }
+                            else if(j == 2){
+                                vals += doctor[j].substringBefore('@') + ","
+                            }
+                            else if(j == 4){
+                                vals += (doctor[j]).substringAfter(' ').substringBefore(' ') + " " + ((doctor[j].substringAfter(' ').substringAfter(' ').substringBefore(':').toInt())-12).toString().plus("-").plus(((doctor[j+1].substringAfter(' ').substringAfter(' ').substringBefore(':').toInt())-12)) + "pm,"
+                                vals += doctor[j].substringBefore(' ')
+                            }
+                            else{
+                                vals += doctor[j]  + ","
+                            }
+                        }
+                    }
+                }
+                intent.putExtra("res info", vals)
+                intent.putExtra("email", email)
+                startActivity(intent)
+                finish()
             }
             RoomReqRecyler.adapter = adaptor
         }

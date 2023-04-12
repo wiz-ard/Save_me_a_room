@@ -28,6 +28,8 @@ class AdminHomefragment : Fragment() {
 
         val college = bundle!!.getString("college")
 
+        val email = bundle!!.getString("email")
+
         resReq.setOnClickListener {
             val intent = Intent(activity, RoomRequests::class.java)
             intent.putExtra("college", college)
@@ -36,6 +38,7 @@ class AdminHomefragment : Fragment() {
         statReq.setOnClickListener {
             val intent = Intent(activity, StatusRequests::class.java)
             intent.putExtra("college", college)
+            intent.putExtra("email", email)
             startActivity(intent)
         }
     }
