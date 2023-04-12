@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.room_request.*
 import java.net.URL
 
@@ -14,8 +16,10 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var pendingResList: ArrayList<adminPendingData>
     private lateinit var groupBy: ArrayList<String>
-    private lateinit var adaptor: ArrayList<String>
+    private lateinit var adaptor: RoomRequestRecycleAdaptor
     private lateinit var spinnerChanges: ArrayList<String>
+    private lateinit var RoomReqRecyler: RecyclerView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -187,14 +191,14 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 }
             }
 
-            // if time spinner was modified
+            // if status spinner was modified
             else if(!(spinnerChanges[2].equals("any"))) {
                 if (spinnerChanges[2].equals("Pending")) {
-                    query += "%20AND%20Pending=1"
+                    query += "%20WHERE%20Pending=1"
                 } else if (spinnerChanges[2].equals("Updating")) {
-                    query += "%20AND%20Updating=1"
+                    query += "%20WHERE%20Updating=1"
                 } else {
-                    query += "%20AND%20Pending=0%20AND%20Updating=0"
+                    query += "%20WHERE%20Pending=0%20AND%20Updating=0"
                 }
 
                 // if club spinner was also modified
@@ -223,13 +227,35 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             text = url.readText()
 
             // convert the big string into individual requests
-            val requests = text.split(',')
+            val requests = text.split("},")
 
-            var requestList = arrayListOf<String>()
+            var doctor : List<String>
 
-            for(i in requests.indices){
-                requestList.add(requests[i].substringAfter(':').substringAfter('"').substringBefore('"'))
+            var combine = ""
+
+            var requestList = arrayListOf<roomResData>()
+
+            for(i in requests){
+                doctor = i.split(',')
+                for(j in doctor.indices){
+                    if(j < doctor.size){
+                        combine += doctor[j].substringAfter(':').substringAfter('"').substringBefore('"')
+                        combine += ", "
+                    }
+                    else{
+                        combine += doctor[j]
+                    }
+                }
+                requestList.add(roomResData(combine))
             }
+
+            RoomReqRecyler = findViewById(R.id.rvRequests)
+            RoomReqRecyler.layoutManager = LinearLayoutManager(this)
+            RoomReqRecyler.setHasFixedSize(true)
+            adaptor = RoomRequestRecycleAdaptor(requestList){
+
+            }
+            RoomReqRecyler.adapter = adaptor
         }
     }
 
