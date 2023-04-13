@@ -12,7 +12,9 @@
         android:layout_height="wrap_content"
         android:background="@color/teal_700"
         android:gravity="start"
+        android:backgroundTint="@color/red"
         android:text="Hello"
+        android:textColor="@color/white"
         android:paddingStart="45dp"
         android:paddingEnd="0dp"
         android:paddingVertical="7dp"
@@ -34,39 +36,52 @@
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:backgroundTint="@color/blue"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/teal_700"
-        android:orientation="horizontal">
+        app:layout_constraintStart_toStartOf="parent">
 
         <RadioButton
             android:id="@+id/rbTwo_nine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2 - 10"
             android:layout_marginStart="25dp"
-            android:checked="true"/>
+            android:checked="true"
+            android:text="2 - 10"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/blue"
+            android:textColorLink="@color/blue" />
 
         <RadioButton
             android:id="@+id/rbTen_twentynine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
             android:text="11 - 29"
-            android:layout_marginStart="25dp"/>
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/blue"
+            android:textColorLink="@color/blue" />
 
         <RadioButton
             android:id="@+id/rbThirty_fortynine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
             android:text="30 - 49"
-            android:layout_marginStart="25dp"/>
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/blue"
+            android:textColorLink="@color/blue" />
 
         <RadioButton
             android:id="@+id/rbFifty_plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
             android:text="50+"
-            android:layout_marginStart="25dp"/>
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/blue"
+            android:textColorLink="@color/blue" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
