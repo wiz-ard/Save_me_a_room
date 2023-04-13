@@ -6,11 +6,11 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/tvAdminCalendarItem"
+        android:id="@+id/tvAdminLogItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="accepted res"
+        android:text="logs"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

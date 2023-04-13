@@ -10,6 +10,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.net.URL
+import java.time.LocalDate
+import java.time.LocalTime
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +32,20 @@ class MainActivity : AppCompatActivity() {
             val username = username.text.toString()
             val password = password.text.toString()
             val hashed = password.hashCode()
+
+            val curTime = LocalTime.now()
+            val curDate = LocalDate.now()
+            val logTime = curTime.toString() + " " + curDate.toString()
+
+            //logging attempt
+            val ip = "http://3.132.20.107:3000"
+
+            val query = "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + username + "%27,%27" + logTime + "%27, 'NULL','NULL','NULL')"
+
+            val url = URL(ip.plus(query))
+
+            val text = url.readText()
+
             //checks for SQL injection characters
             if(validInput(username) && validInput(password)){
                 val ip = "http://3.132.20.107:3000"
@@ -62,6 +78,13 @@ class MainActivity : AppCompatActivity() {
                     nextPage.putExtra("college", infoList[3])
                     nextPage.putExtra("admin", infoList[4])
 
+                    val ip = "http://3.132.20.107:3000"
+
+                    val query = "/search?query=UPDATE%20userlogs%20SET%20Successful=%27True%27,College=%27" + infoList[3] + "%27%20WHERE%20Time_Of_Login=%27" + logTime + "%27"
+
+                    val url = URL(ip.plus(query))
+
+                    val text = url.readText()
 
                     Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
                     startActivity(nextPage)
@@ -69,6 +92,14 @@ class MainActivity : AppCompatActivity() {
 
                 } else {
                     Toast.makeText(this, "Incorrect Login", Toast.LENGTH_SHORT).show()
+                    //show unsuccessful login
+                    val ip = "http://3.132.20.107:3000"
+
+                    val query = "/search?query=UPDATE%20userlogs%20SET%20Successful=%27False%27%20WHERE%20Time_Of_Login=%27" + logTime + "%27"
+
+                    val url = URL(ip.plus(query))
+
+                    val text = url.readText()
                 }
             }else{
                 Toast.makeText(this, "Banned characters are < > = ' and \"", Toast.LENGTH_SHORT).show()

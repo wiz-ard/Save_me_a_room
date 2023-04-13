@@ -22,7 +22,7 @@ class AdminHome : AppCompatActivity() {
 
         // setting variables to each of the fragment layout views
         val homeFragment = AdminHomefragment()
-        val calendarFragment = AdminCalendarFragment()
+        val logFragment = AdminLogFragment()
         val profileFragment = Profilefragment()
 
         //sets the initial fragment for when first launched
@@ -33,7 +33,7 @@ class AdminHome : AppCompatActivity() {
         adminBottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.AdminHome -> setCurrentFragment(homeFragment,username.toString(), email.toString())
-                R.id.AdminCalandar -> setCurrentFragment(calendarFragment,username.toString(), email.toString())
+                R.id.AdminLogs -> setCurrentFragment(logFragment,username.toString(), email.toString())
                 R.id.AdminProfile -> setCurrentFragment(profileFragment,username.toString(), email.toString(),admin.toString())
             }
             true

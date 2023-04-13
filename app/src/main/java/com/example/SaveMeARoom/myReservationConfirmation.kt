@@ -21,6 +21,7 @@ class myReservationConfirmation : AppCompatActivity() {
         //pulls reservation information
         val resInfo = intent.getStringExtra("reservation info")
         val email = intent.getStringExtra("email")
+        val college = intent.getStringExtra("college")
         //splits reservation info and assigns it to specific variables
         val splitRes = resInfo.toString().split(",")
         val buildingName = splitRes[0]
@@ -80,7 +81,6 @@ class myReservationConfirmation : AppCompatActivity() {
         tvMyRoom.text = "Room: " + room
 
         btnMyCancel.setOnClickListener {
-
             val intent = Intent(this, cancelConfirmation::class.java)
             // make sure that the reservation isn't being currently viewed
             query = "/search?query=SELECT%20Viewing%20FROM%20reservations%20WHERE%20Reservation_Id=" + resId
@@ -147,6 +147,7 @@ class myReservationConfirmation : AppCompatActivity() {
                 intent.putExtra("building name", buildingName)
                 intent.putExtra("occupancy", occupancy)
                 intent.putExtra("room", room)
+                intent.putExtra("college", college)
                 intent.putExtra("email",email)
                 intent.putExtra("oldtime",time)
                 intent.putExtra("olddate",date)

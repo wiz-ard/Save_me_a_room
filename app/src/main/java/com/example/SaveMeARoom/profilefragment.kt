@@ -8,6 +8,8 @@ import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.profilefragment.*
 import java.net.URL
+import java.time.LocalDate
+import java.time.LocalTime
 
 class Profilefragment: Fragment(R.layout.profilefragment) {
 
@@ -22,6 +24,8 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
         val resStatic = view.findViewById<TextView>(R.id.tvReservationsLeftStatic)
 
         val bundle = arguments
+
+        val username = bundle!!.getString("username")
 
         val ip = "http://3.132.20.107:3000"
 
@@ -57,9 +61,30 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
 
 
         btnLogout.setOnClickListener {
+            val curTime = LocalTime.now()
+            val curDate = LocalDate.now()
+            val logTime = curTime.toString() + " " + curDate.toString()
+            //log logout
+            val ip = "http://3.132.20.107:3000"
+
+            val query = "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + username + "%27,%27NULL%27,%27" + logTime + "%27,%27NULL%27,%27" + bundle!!.getString("college") + "%27)"
+
+            val url = URL(ip.plus(query))
+
+            val text = url.readText()
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
             activity?.finish()
+        }
+        btnEditProfile.setOnClickListener {
+            val intent = Intent(activity, editProfile::class.java)
+            intent.putExtra("olduser", bundle!!.getString("username"))
+            startActivity(intent)
+        }
+        btnClubRequest.setOnClickListener {
+            val intent = Intent(activity, clubConfirm::class.java)
+            intent.putExtra("username", bundle!!.getString("username"))
+            startActivity(intent)
         }
     }
 }

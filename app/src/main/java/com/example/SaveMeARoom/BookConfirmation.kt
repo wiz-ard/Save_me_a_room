@@ -9,6 +9,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.time_items.*
 import java.net.URL
+import java.time.LocalDate
+import java.time.LocalTime
 
 class BookConfirmation : AppCompatActivity() {
     private lateinit var infoList: ArrayList<String>
@@ -176,7 +178,7 @@ class BookConfirmation : AppCompatActivity() {
                         resId += 1
                     }
                     //inserts reservation into database
-                    query ="/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1, %27"+college+"%27,%27" + resId + "%27,0,%20%27" + club + "%27,0)"
+                    query ="/search?query=INSERT%20INTO%20reservations%20VALUES(%27" + buildingName + "%27," + room + ",%27" + email + "%27," + occupancy + ",%27" + date + "%20" + start + "%27,%27" + date + "%20" + end + "%27, 1, %27"+college+"%27,%27" + resId + "%27,0,%20%27" + club + "%27, 0)"
 
                     url = URL(ip.plus(query))
 
@@ -188,6 +190,19 @@ class BookConfirmation : AppCompatActivity() {
                     //updates user's number of reservations
                     query =
                         "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=%27"+resNum+"%27%20WHERE%20Username=%27"+username+"%27%20AND%20Email=%27"+email+"%27"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+
+                    val curTime = LocalTime.now()
+                    val curDate = LocalDate.now()
+                    val logTime = curTime.toString() + " " + curDate.toString()
+
+                    var resTime = date + " " + start + " - " + date + " " + end
+
+                    //logs reservation request
+                    query = "/search?query=INSERT%20INTO%20reservationlogs%20VALUES(%27" + resId + "%27,%27" + buildingName + "%27,%27" + room + "%27,%27" + resTime + "%27,%27" + email + "%27,%27" + college + "%27,%27" + logTime + "%27,%27" + email + "%27,%27True%27,%27False%27,%27False%27,%27False%27,%27False%27,%27False%27,%27False%27)"
 
                     url = URL(ip.plus(query))
 

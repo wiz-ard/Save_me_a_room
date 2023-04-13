@@ -10,6 +10,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.admin_reservation_confirmation.*
 import kotlinx.android.synthetic.main.time_items.*
 import java.net.URL
+import java.time.LocalDate
+import java.time.LocalTime
 
 class AdminConfirmation : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +28,7 @@ class AdminConfirmation : AppCompatActivity() {
         var time = resSplit[2]
         var date = resSplit[3].substringAfter(" ")
         val room = resSplit[1].substringAfter(" ")
+        val adminEmail = intent.getStringExtra("email")
         var club = "0"
         if(resSplit.size == 6){
             if(resSplit[5].substringAfter(" ").equals("Club Request")){
@@ -80,6 +83,17 @@ class AdminConfirmation : AppCompatActivity() {
         querysplit = text.split(",")
 
         var occupancy = querysplit[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+        //selecting college
+        query = "/search?query=SELECT%20College%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+
+        url = URL(ip.plus(query))
+
+        text = url.readText()
+        querysplit = text.split(",")
+
+        var college = querysplit[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
+
         val tvBuildingNameConfirm = findViewById<TextView>(R.id.tvAdminBuildingNameConfirm)
         val tvDateConfirm = findViewById<TextView>(R.id.tvAdminDateConfirm)
         val tvTimeConfirm = findViewById<TextView>(R.id.tvAdminTimeConfirm)
@@ -115,6 +129,8 @@ class AdminConfirmation : AppCompatActivity() {
             intent.putExtra("occupancy",occupancy)
             intent.putExtra("room",room)
             intent.putExtra("email",email)
+            intent.putExtra("college",college)
+            intent.putExtra("adminemail",adminEmail)
             intent.putExtra("club", club)
             startActivity(intent)
             finish()
@@ -183,6 +199,38 @@ class AdminConfirmation : AppCompatActivity() {
                         text = url.readText()
                     }
                 }
+                //log accept
+                val curTime = LocalTime.now()
+                val curDate = LocalDate.now()
+                val logTime = curTime.toString() + " " + curDate.toString()
+
+                //getting initial reservation time
+                query =
+                    "/search?query=SELECT%20Start_Date_Time,End_Date_Time%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + resId + "%27"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+
+                val times = text.split(",")
+
+                val initialDate = times[0].substringAfter(":").substringAfter("\"").substringBefore(" ")
+
+                val initialStart = times[0].substringAfter(":").substringAfter("\"").substringBefore("\"").substringAfter(" ")
+
+                val initialEnd = times[1].substringAfter(":").substringAfter("\"").substringBefore("\"").substringAfter(" ")
+
+                val resTime = initialDate + " " + initialStart + " - " + initialDate + " " + initialEnd
+
+                val adminEmail = intent.getStringExtra("email")
+
+                //inserting into logs
+                query =
+                    "/search?query=INSERT%20INTO%20reservationlogs%20VALUES(%27" + resId + "%27,%27" + buildingName + "%27,%27" + room + "%27,%27" + resTime + "%27,%27" + email + "%27,%27" + college + "%27,%27" + logTime + "%27,%27" + adminEmail + "%27,%27False%27,%27False%27,%27False%27,%27True%27,%27False%27,%27False%27,%27False%27)"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
 
                 Toast.makeText(this, "Reservation accepted.", Toast.LENGTH_SHORT).show()
 
@@ -211,6 +259,38 @@ class AdminConfirmation : AppCompatActivity() {
             val view = url.readText().substringAfter(':').substringAfter('"').substringBefore('"').toInt()
 
             if(view == 0){
+                //log deny
+                val curTime = LocalTime.now()
+                val curDate = LocalDate.now()
+                val logTime = curTime.toString() + " " + curDate.toString()
+
+                //getting initial reservation time
+                query =
+                    "/search?query=SELECT%20Start_Date_Time,End_Date_Time%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + resId + "%27"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+
+                val times = text.split(",")
+
+                val initialDate = times[0].substringAfter(":").substringAfter("\"").substringBefore(" ")
+
+                val initialStart = times[0].substringAfter(":").substringAfter("\"").substringBefore("\"").substringAfter(" ")
+
+                val initialEnd = times[1].substringAfter(":").substringAfter("\"").substringBefore("\"").substringAfter(" ")
+
+                val resTime = initialDate + " " + initialStart + " - " + initialDate + " " + initialEnd
+
+                val adminEmail = intent.getStringExtra("email")
+
+                //inserting into logs
+                query =
+                    "/search?query=INSERT%20INTO%20reservationlogs%20VALUES(%27" + resId + "%27,%27" + buildingName + "%27,%27" + room + "%27,%27" + resTime + "%27,%27" + email + "%27,%27" + college + "%27,%27" + logTime + "%27,%27" + adminEmail + "%27,%27False%27,%27False%27,%27False%27,%27False%27,%27True%27,%27False%27,%27False%27)"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
                 //deleting reservation from reservations table
                 query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
 

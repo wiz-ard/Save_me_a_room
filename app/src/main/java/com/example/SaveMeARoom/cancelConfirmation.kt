@@ -10,6 +10,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.book_confirmation.*
 import kotlinx.android.synthetic.main.my_reservation_confirmation.*
 import java.net.URL
+import java.time.LocalDate
+import java.time.LocalTime
 
 class cancelConfirmation : AppCompatActivity() {
 
@@ -47,6 +49,9 @@ class cancelConfirmation : AppCompatActivity() {
 
             if(updating.equals("1")){
                 val ip = "http://3.132.20.107:3000"
+                //log cancel
+
+
                 //deletes reservation from updates database
                 var query = "/search?query=DELETE%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
 
@@ -62,15 +67,86 @@ class cancelConfirmation : AppCompatActivity() {
 
                 Toast.makeText(this, "Update request cancelled.", Toast.LENGTH_SHORT).show()
 
+                //log cancel
+                val curTime = LocalTime.now()
+                val curDate = LocalDate.now()
+                val logTime = curTime.toString() + " " + curDate.toString()
+
+                //getting reservation info
+                query = "/search?query=SELECT%20Building_Name,%20Room_Number,%20College,%20Start_Date_Time,%20End_Date_Time%20FROM%20Capstone.reservations%20WHERE%20Reservation_Id=%27" + resId + "%27"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+
+                val resInfo = text.split(",")
+
+                val buildingName = resInfo[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+                val room = resInfo[1].substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+                val college = resInfo[2].substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+                val initialDate = resInfo[3].substringAfter(":").substringAfter("\"").substringBefore(" ")
+
+                val initialStart = resInfo[3].substringAfter(":").substringAfter("\"").substringBefore("\"").substringAfter(" ")
+
+                val initialEnd = resInfo[4].substringAfter(":").substringAfter("\"").substringBefore("\"").substringAfter(" ")
+
+                val resTime = initialDate + " " + initialStart + " - " + initialDate + " " + initialEnd
+
+                //inserting into logs
+                query =
+                    "/search?query=INSERT%20INTO%20reservationlogs%20VALUES(%27" + resId + "%27,%27" + buildingName + "%27,%27" + room + "%27,%27" + resTime + "%27,%27" + email + "%27,%27" + college + "%27,%27" + logTime + "%27,%27" + email + "%27,%27False%27,%27False%27,%27True%27,%27False%27,%27False%27,%27False%27,%27False%27)"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+
                 finish()
             }else{
                 val ip = "http://3.132.20.107:3000"
-                //deletes reservation from reservation database
-                var query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + resId + "%27"
+                //log cancel
+                val curTime = LocalTime.now()
+                val curDate = LocalDate.now()
+                val logTime = curTime.toString() + " " + curDate.toString()
+
+                //getting reservation info
+                var query = "/search?query=SELECT%20Building_Name,%20Room_Number,%20College,%20Start_Date_Time,%20End_Date_Time%20FROM%20Capstone.reservations%20WHERE%20Reservation_Id=%27" + resId + "%27"
 
                 var url = URL(ip.plus(query))
 
                 var text = url.readText()
+
+                val resInfo = text.split(",")
+
+                val buildingName = resInfo[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+                val room = resInfo[1].substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+                val college = resInfo[2].substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+                val initialDate = resInfo[3].substringAfter(":").substringAfter("\"").substringBefore(" ")
+
+                val initialStart = resInfo[3].substringAfter(":").substringAfter("\"").substringBefore("\"").substringAfter(" ")
+
+                val initialEnd = resInfo[4].substringAfter(":").substringAfter("\"").substringBefore("\"").substringAfter(" ")
+
+                val resTime = initialDate + " " + initialStart + " - " + initialDate + " " + initialEnd
+
+                //inserting into logs
+                query =
+                "/search?query=INSERT%20INTO%20reservationlogs%20VALUES(%27" + resId + "%27,%27" + buildingName + "%27,%27" + room + "%27,%27" + resTime + "%27,%27" + email + "%27,%27" + college + "%27,%27" + logTime + "%27,%27" + email + "%27,%27False%27,%27False%27,%27True%27,%27False%27,%27False%27,%27False%27,%27False%27)"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+                //deletes reservation from reservation database
+                query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + resId + "%27"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
                 //gets users number of reservations
                 query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + email + "%27"
 
