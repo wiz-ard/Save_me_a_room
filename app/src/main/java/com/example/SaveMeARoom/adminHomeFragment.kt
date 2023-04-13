@@ -8,6 +8,8 @@ import android.os.StrictMode.ThreadPolicy
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,41 +84,18 @@ class AdminHomefragment: Fragment() {
 
         val pendingreservations = text.split(",")
 
-        pendingResList = arrayListOf()
+        val email = bundle!!.getString("email")
 
-        groupBy = arrayListOf()
-
-        var track = 1
-        //loop to add reservations to the recycle view
-        for(i in pendingreservations.indices){
-            val reservation = myReservationData(pendingreservations[i].substringAfter(":").substringAfter('"').substringBefore('"'))
-            val reservationtrim = reservation.toString().substringAfter("=").substringBefore(")")
-            groupBy.add(reservationtrim)
-            if(track % 7 == 0){
-                var finalreservation:adminPendingData
-                val club = groupBy[i-6]
-                val update = groupBy[i-5]
-                if(update.toInt() == 1){
-                    if(club.toInt() == 1){
-                        finalreservation = adminPendingData(groupBy[i-4].toString() + ", " + groupBy[i-3].toString() + ", " + ((groupBy[i-2].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i-1].toString().substringBefore(" ") + ", " + groupBy[i].substringBefore("@") + ", Update Request, Club Request")
-
-                    }
-                    else{
-                        finalreservation = adminPendingData(groupBy[i-4].toString() + ", " + groupBy[i-3].toString() + ", " + ((groupBy[i-2].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i-1].toString().substringBefore(" ") + ", " + groupBy[i].substringBefore("@") + ", Update Request")
-                        }
-                    }
-                else{
-                    if(club.toInt() == 1){
-                        finalreservation = adminPendingData(groupBy[i-4].toString() + ", " + groupBy[i-3].toString() + ", " + ((groupBy[i-2].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i-1].toString().substringBefore(" ") + ", " + groupBy[i].substringBefore("@")  + ", Club Request")
-                    }
-                    else {
-                        finalreservation = adminPendingData(groupBy[i-4].toString() + ", " + groupBy[i-3].toString() + ", " + ((groupBy[i-2].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm-" + ((groupBy[i-1].toString().substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm, " + groupBy[i-1].toString().substringBefore(" ") + ", " + groupBy[i].substringBefore("@"))
-                    }
-
-                }
-                pendingResList.add(finalreservation)
-            }
-            track += 1
+        resReq.setOnClickListener {
+            val intent = Intent(activity, RoomRequests::class.java)
+            intent.putExtra("college", college)
+            startActivity(intent)
+        }
+        statReq.setOnClickListener {
+            val intent = Intent(activity, StatusRequests::class.java)
+            intent.putExtra("college", college)
+            intent.putExtra("email", email)
+            startActivity(intent)
         }
     }
 }

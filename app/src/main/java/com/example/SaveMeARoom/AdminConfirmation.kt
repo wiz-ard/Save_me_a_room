@@ -25,8 +25,8 @@ class AdminConfirmation : AppCompatActivity() {
         val resInfo = intent.getStringExtra("res info")
         val resSplit = resInfo.toString().split(",")
         val buildingName = resSplit[0]
-        var time = resSplit[2]
-        var date = resSplit[3].substringAfter(" ")
+        var time = resSplit[3].substringAfter(" ")
+        var date = resSplit[3].substringBefore(" ")
         val room = resSplit[1].substringAfter(" ")
         val adminEmail = intent.getStringExtra("email")
         var club = "0"
@@ -36,7 +36,7 @@ class AdminConfirmation : AppCompatActivity() {
             }
         }
 
-        val modifiedTime = date + " " + (time.substringAfter(" ").substringBefore("pm").toInt() + 12).toString() + ":00:00"
+        val modifiedTime = date + " " + (time.substringBefore("-").toInt() + 12).toString() + ":00:00"
         //getting reserver email
         var query = "/search?query=SELECT%20Reserver_Email%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
 
