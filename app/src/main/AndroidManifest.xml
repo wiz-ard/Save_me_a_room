@@ -20,6 +20,12 @@
             android:name=".AdminConfirmation"
             android:exported="false" />
         <activity
+            android:name=".StatusRequests"
+            android:exported="false" />
+        <activity
+            android:name=".RoomRequests"
+            android:exported="false" />
+        <activity
             android:name=".AdminUpdateConfirmation"
             android:exported="false" />
         <activity
