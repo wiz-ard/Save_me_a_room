@@ -134,6 +134,19 @@ class BookConfirmation : AppCompatActivity() {
 
                     text = url.readText()
 
+                    val curTime = LocalTime.now()
+                    val curDate = LocalDate.now()
+                    val logTime = curTime.toString() + " " + curDate.toString()
+
+                    var resTime = date + " " + start + " - " + date + " " + end
+
+                    //logs reservation request
+                    query = "/search?query=INSERT%20INTO%20reservationlogs%20VALUES(%27" + resId + "%27,%27" + buildingName + "%27,%27" + room + "%27,%27" + resTime + "%27,%27" + email + "%27,%27" + college + "%27,%27" + logTime + "%27,%27" + email + "%27,%27True%27,%27False%27,%27False%27,%27False%27,%27False%27,%27False%27,%27False%27)"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+
                     finish()
                 } else {
                     Toast.makeText(this, "You have reached the maximum number of reservations.", Toast.LENGTH_SHORT).show()
