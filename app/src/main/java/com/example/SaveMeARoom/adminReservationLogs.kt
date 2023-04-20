@@ -46,8 +46,10 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
         var buildingList = ArrayList<String>()
         buildingList.add("Any")
         for (i in buildings.indices) {
-            val spBuilding = buildings[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-            buildingList.add(spBuilding)
+            if(buildings[i] != "[]"){
+                val spBuilding = buildings[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                buildingList.add(spBuilding)
+            }
         }
 
         //gets list of actions for spinner
@@ -653,8 +655,10 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
             val rooms = text.split(",")
             roomList.add("Any")
             for (i in rooms.indices) {
-                val spRoom = rooms[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                roomList.add(spRoom)
+                if(rooms[i] != "[]"){
+                    val spRoom = rooms[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                    roomList.add(spRoom)
+                }
             }
             // Take the instance of Spinner and
             // apply OnItemSelectedListener on it which
@@ -682,8 +686,10 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
             var rooms = text.split(",")
             roomList.add("Any")
             for (i in rooms.indices) {
-                val spRoom = rooms[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                roomList.add(spRoom)
+                if(rooms[i] != "[]"){
+                    val spRoom = rooms[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                    roomList.add(spRoom)
+                }
             }
         }
     }
@@ -697,8 +703,10 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
             val emails = text.split(",")
             emailList.add("Any")
             for (i in emails.indices) {
-                val spEmail = emails[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                emailList.add(spEmail)
+                if(emails[i] != "[]"){
+                    val spEmail = emails[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                    emailList.add(spEmail)
+                }
             }
             // Take the instance of Spinner and
             // apply OnItemSelectedListener on it which
@@ -725,8 +733,10 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
             var emails = text.split(",")
             emailList.add("Any")
             for (i in emails.indices) {
-                val spRoom = emails[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                emailList.add(spRoom)
+                if(emails[i] != "[]"){
+                    val spEmail = emails[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                    emailList.add(spEmail)
+                }
             }
         }
     }
