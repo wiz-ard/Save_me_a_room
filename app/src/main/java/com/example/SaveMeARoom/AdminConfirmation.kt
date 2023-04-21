@@ -25,74 +25,60 @@ class AdminConfirmation : AppCompatActivity() {
         val resInfo = intent.getStringExtra("res info")
         val resSplit = resInfo.toString().split(",")
         val buildingName = resSplit[0]
-        var time = resSplit[3].substringAfter(" ")
-        var date = resSplit[3].substringBefore(" ")
         val room = resSplit[1].substringAfter(" ")
+        val email = resSplit[2].substringAfter(' ')
+        var time = resSplit[4].substringAfter(" ")
+        var date = resSplit[5].substringAfter(" ")
         val adminEmail = intent.getStringExtra("email")
         var club = "0"
-        if(resSplit.size == 6){
-            if(resSplit[5].substringAfter(" ").equals("Club Request")){
+        var update = "0"
+        if(resSplit.size == 9){
+            if(resSplit[7].substringAfter(" ").equals("Club Request") || resSplit[8].substringAfter(" ").equals("Club Request")){
                 club = "1"
             }
+            if(resSplit[7].substringAfter(" ").equals("Update Request")){
+                update = "1"
+            }
         }
-
+        else if(resSplit.size >= 8){
+            if(resSplit[7].substringAfter(" ").equals("Club Request")){
+                club = "1"
+            }
+            else if(resSplit[7].substringAfter(" ").equals("Update Request")){
+                update = "1"
+            }
+        }
         val modifiedTime = date + " " + (time.substringBefore("-").toInt() + 12).toString() + ":00:00"
-        //getting reserver email
-        var query = "/search?query=SELECT%20Reserver_Email%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+
+        //get reservation ID of reservation
+        var query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27%20AND%20Reserver_Email=%27" + email + "%27"
 
         var url = URL(ip.plus(query))
 
         var text = url.readText()
 
-        var querysplit = text.split(",")
-
-        var email = querysplit[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
-
-        //get reservation ID of reservation
-        query = "/search?query=SELECT%20Reservation_Id%20FROM%20reservations%20WHERE%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27%20AND%20Reserver_Email=%27" + email + "%27"
-
-        url = URL(ip.plus(query))
-
-        text = url.readText()
-
-        var resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
-
-        //check if its an update
-        query = "/search?query=SELECT%20New_Start_Time,New_End_Time%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
-
-        url = URL(ip.plus(query))
-
-        text = url.readText()
+        var resId = text.substringAfter(":").substringAfter('"').substringBefore('"')
 
         var newtime = "null"
         var newdate = "null"
-        if(text.length > 2){
+        if(update.equals("1")){
+            //check if its an update
+            query = "/search?query=SELECT%20New_Start_Time,New_End_Time%20FROM%20updates%20WHERE%20Reservation_Id=%27" + resId + "%27"
+
+            url = URL(ip.plus(query))
+
+            text = url.readText()
+
             var times = text.split(",")
-            var newStart = times[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
-            var newEnd = times[1].substringAfter(":").substringAfter("\"").substringBefore("\"")
+            var newStart = times[0].substringAfter(":").substringAfter('"').substringBefore('"')
+            var newEnd = times[1].substringAfter(":").substringAfter('"').substringBefore('"')
             newdate = newStart.substringBefore(" ")
             newtime = ((newStart.substringAfter(" ").substringBefore(":").toInt())-12).toString() + "-" + ((newEnd.substringAfter(" ").substringBefore(":").toInt())-12).toString() + "pm"
         }
 
-        //selecting occupancy range to format
-        query = "/search?query=SELECT%20Occupancy_Range%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+        var occupancy = resSplit[3]
 
-        url = URL(ip.plus(query))
-
-        text = url.readText()
-        querysplit = text.split(",")
-
-        var occupancy = querysplit[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
-
-        //selecting college
-        query = "/search?query=SELECT%20College%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
-
-        url = URL(ip.plus(query))
-
-        text = url.readText()
-        querysplit = text.split(",")
-
-        var college = querysplit[0].substringAfter(":").substringAfter("\"").substringBefore("\"")
+        var college = resSplit[6]
 
         val tvBuildingNameConfirm = findViewById<TextView>(R.id.tvAdminBuildingNameConfirm)
         val tvDateConfirm = findViewById<TextView>(R.id.tvAdminDateConfirm)
@@ -144,7 +130,7 @@ class AdminConfirmation : AppCompatActivity() {
 
             var text = url.readText()
 
-            var resId = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
+            var resId = text.substringAfter(":").substringAfter('"').substringBefore('"')
 
             // make sure that the reservation isn't being currently viewed
             query = "/search?query=SELECT%20Viewing%20FROM%20reservations%20WHERE%20Reservation_Id=" + resId
@@ -162,7 +148,46 @@ class AdminConfirmation : AppCompatActivity() {
 
                 if(club.equals("1")){
                     // see if there are any reservations at the same from non club leaders
-                    query = "/search?query=SELECT%20Reservation_Id,Reserver_Email%20FROM%20reservations%20WHERE%20Club_Request=0%20AND%20Start_Date_Time=%27" + modifiedTime + "%27"
+                    query = "/search?query=SELECT%20Reservation_Id,Reserver_Email%20FROM%20reservations%20WHERE%20Club_Request=0%20AND%20Start_Date_Time=%27" + modifiedTime + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+
+                    // if there are any (should only be 1 at most), get rid of them
+                    if(!(text.equals("[]"))){
+                        // grab the resid and resemail of the reservation
+                        var id = text.substringAfter(':').substringAfter('"').substringBefore('"')
+                        var resEmail = text.substringAfter(',').substringAfter(':').substringAfter('"').substringBefore('"')
+
+                        // delete the reservation
+                        query = "/search?query=DELETE%20FROM%20reservations%20WHERE%20Reservation_Id=%27" + id + "%27"
+
+                        url = URL(ip.plus(query))
+
+                        text = url.readText()
+
+                        // decrement the user's reservation count
+                        query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + resEmail + "%27"
+
+                        url = URL(ip.plus(query))
+
+                        text = url.readText()
+
+                        var resnum = text.substringAfter(':').substringAfter('"').substringBefore('"').toInt()
+
+                        resnum -= 1
+
+                        query = "/search?query=UPDATE%20users%20SET%20Number_of_Reservations=" + resnum + "%20WHERE%20Email=%27" + resEmail + "%27"
+
+                        url = URL(ip.plus(query))
+
+                        text = url.readText()
+                    }
+                }
+                else{
+                    // see if there are any reservations at the same from non club leaders
+                    query = "/search?query=SELECT%20Reservation_Id,Reserver_Email%20FROM%20reservations%20WHERE%20Club_Request=1%20AND%20Start_Date_Time=%27" + modifiedTime + "%27%20AND%20Building_Name=%27" + buildingName + "%27%20AND%20Room_Number=%27" + room + "%27"
 
                     url = URL(ip.plus(query))
 

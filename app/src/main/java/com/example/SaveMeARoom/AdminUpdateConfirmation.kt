@@ -33,7 +33,7 @@ class AdminUpdateConfirmation : AppCompatActivity() {
         var email = intent.getStringExtra("email")
         var college = intent.getStringExtra("college")
         val club = intent.getStringExtra("club")
-        val modifiedTime = date + " " + (time.substringAfter(" ").substringBefore("pm").toInt() + 12).toString() + ":00:00"
+        val modifiedTime = date + " " + (time.substringBefore("-").toInt() + 12).toString() + ":00:00"
 
         //setting variables to the different fillable text fields
         val tvBuildingNameConfirm = findViewById<TextView>(R.id.tvAdminUpdateBuildingNameConfirm)
@@ -120,7 +120,7 @@ class AdminUpdateConfirmation : AppCompatActivity() {
                 text = url.readText()
 
                 // get rid of any requests at the same time as the new time for the same building
-                query = "/search?query=SELECT%20Reservation_Id,Reserver_Email%20FROM%20reservations%20WHERE%20Club_Request=0%20AND%20Start_Date_Time=%27" + newStart + "%27"
+                query = "/search?query=SELECT%20Reservation_Id,Reserver_Email%20FROM%20reservations%20WHERE%20Club_Request=0%20AND%20Start_Date_Time=%27" + newStart + "%27%20AND%20Reservation_Id!=%27" + resId + "%27"
 
                 url = URL(ip.plus(query))
 

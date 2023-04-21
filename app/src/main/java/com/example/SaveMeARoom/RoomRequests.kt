@@ -238,48 +238,58 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             var requestList = arrayListOf<roomResData>()
 
-            for(i in requests){
+            for(i in requests) {
                 doctor = i.split(',')
-                for(j in doctor.indices){
-                    if(j < doctor.size){
-                        combine += doctor[j].substringAfter(':').substringAfter('"').substringBefore('"')
-                        combine += ", "
+                if (doctor.size != 1) {
+                    for(j in doctor.indices){
+                        if(j < doctor.size-1 && j != 4 && j != 5 && j != 6 && j != 7 && j != 8 && j != 9 && j != 10 && j != 11){
+                            combine += doctor[j].substringAfter(':').substringAfter('"').substringBefore('"')
+                            combine += ", "
+                        }
+                        else if(j == 4){
+                            combine += (doctor[j].substringAfter(':').substringAfter(' ').substringBefore(':').toInt()-12).toString() +
+                                    "-" + (doctor[j+1].substringAfter(':').substringAfter(' ').substringBefore(':').toInt()-12).toString() +
+                                    "pm, " + doctor[j].substringAfter(':').substringAfter('"').substringBefore(' ') + ", "
+                        }
+                        else if(j == 7){
+                            combine += doctor[j].substringAfter(':').substringAfter('"').substringBefore('"')
+                        }
+                    }
+                    if(doctor.size >=10 && doctor[9].substringAfter(':').substringAfter('"').substringBefore('"').toInt() == 1){
+                        if(doctor[10].substringAfter(':').substringAfter('"').substringBefore('"').toInt() == 1){
+                            combine += ", Update Request, Club Request"
+                        }
+                        else{
+                            combine += ", Update Request"
+                        }
                     }
                     else{
-                        combine += doctor[j]
+                        if(doctor[6].substringAfter(':').substringAfter('"').substringBefore('"').toInt() == 1){
+                            combine += ", Pending"
+                        }
+                        else{
+                            combine += ", Accepted"
+                        }
+                        if(doctor.size >= 11 && doctor[10].substringAfter(':').substringAfter('"').substringBefore('"').toInt() == 1){
+                            combine += ", Club Request"
+                        }
                     }
+
+                }
+                else{
+                    combine = "No reservations at this time"
                 }
                 requestList.add(roomResData(combine))
                 combine = ""
             }
+
 
             RoomReqRecyler = findViewById(R.id.rvRequests)
             RoomReqRecyler.layoutManager = LinearLayoutManager(this)
             RoomReqRecyler.setHasFixedSize(true)
             adaptor = RoomRequestRecycleAdaptor(requestList){
                 val intent = Intent(this, AdminConfirmation::class.java)
-                var vals = ""
-                for(i in requestList){
-                    doctor = i.toString().split(',')
-                    for(j in doctor.indices){
-                        if(j == 0 || j == 1 || j == 2 || j == 4){
-                            if(j == 0){
-                                vals += doctor[j].substringAfter('=').substringBefore('"') + ","
-                            }
-                            else if(j == 2){
-                                vals += doctor[j].substringBefore('@') + ","
-                            }
-                            else if(j == 4){
-                                vals += (doctor[j]).substringAfter(' ').substringBefore(' ') + " " + ((doctor[j].substringAfter(' ').substringAfter(' ').substringBefore(':').toInt())-12).toString().plus("-").plus(((doctor[j+1].substringAfter(' ').substringAfter(' ').substringBefore(':').toInt())-12)) + "pm,"
-                                vals += doctor[j].substringBefore(' ')
-                            }
-                            else{
-                                vals += doctor[j]  + ","
-                            }
-                        }
-                    }
-                }
-                intent.putExtra("res info", vals)
+                intent.putExtra("res info", it.component1())
                 intent.putExtra("email", email)
                 startActivity(intent)
                 finish()
