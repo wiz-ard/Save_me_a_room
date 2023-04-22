@@ -6,99 +6,171 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvIdLog"
+        android:id="@+id/tvIdLogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Res ID"
-        android:textSize="45sp"
+        android:text="Res ID:"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvIdLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Res ID"
+        android:textSize="35sp"
+        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintStart_toEndOf="@+id/tvIdLogTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvIdLogTitle" />
+
+    <TextView
+        android:id="@+id/tvResRoomLogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Room:"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvBldgLog"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tvResRoomLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Room"
         android:textSize="35sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvBldgLog" />
+        app:layout_constraintStart_toEndOf="@+id/tvResRoomLogTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvResRoomLogTitle" />
 
     <TextView
-        android:id="@+id/tvResEmailLog"
+        android:id="@+id/tvResEmailLogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:text="Reserver Email"
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvResTimeLog" />
+        app:layout_constraintTop_toBottomOf="@+id/tvResTimeLog"
+        android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/tvResTimeActionLog"
+        android:id="@+id/tvResEmailLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
+        android:text="Reserver Email"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResEmailLogTitle" />
+
+    <TextView
+        android:id="@+id/tvResTimeActionLogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Time of Action"
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvResEmailLog" />
+        app:layout_constraintTop_toBottomOf="@+id/tvResEmailLog"
+        android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/tvResEmailActionLog"
+        android:id="@+id/tvResTimeActionLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
+        android:text="Time of Action"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResTimeActionLogTitle" />
+
+    <TextView
+        android:id="@+id/tvResEmailActionLogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Email of Action"
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvResTimeActionLog" />
+        app:layout_constraintTop_toBottomOf="@+id/tvResTimeActionLog"
+        android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/tvActionLog"
+        android:id="@+id/tvResEmailActionLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Action"
-        android:textSize="35sp"
+        android:layout_marginTop="10dp"
+        android:text="Email of Action"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvResEmailActionLog" />
+        app:layout_constraintTop_toBottomOf="@+id/tvResEmailActionLogTitle" />
+
+    <TextView
+        android:id="@+id/tvResTimeLogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Reservation Time"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResRoomLog"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tvResTimeLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
         android:text="Reservation Time"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResTimeLogTitle" />
+
+    <TextView
+        android:id="@+id/tvBldgLogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Building:"
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvResRoomLog" />
+        app:layout_constraintTop_toBottomOf="@+id/tvIdLog"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tvBldgLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Building"
         android:textSize="35sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvIdLog" />
+        app:layout_constraintStart_toEndOf="@+id/tvBldgLogTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvBldgLogTitle" />
 
     <Button
         android:id="@+id/btnResBackLog"
@@ -110,6 +182,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvActionLog"
+        app:layout_constraintTop_toBottomOf="@+id/tvResEmailActionLog"
         app:layout_constraintVertical_bias="0.094" />
 </androidx.constraintlayout.widget.ConstraintLayout>
