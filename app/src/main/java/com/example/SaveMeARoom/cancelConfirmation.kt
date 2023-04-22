@@ -173,7 +173,7 @@ class cancelConfirmation : AppCompatActivity() {
             // set viewing to false
             val ip = "http://3.132.20.107:3000"
 
-            var query = "UPDATE%20reservations%20SET%20Viewing=0%20WHERE%20Reservation_Id=" + resId
+            var query = "/search?query=UPDATE%20reservations%20SET%20Viewing=0%20WHERE%20Reservation_Id=" + resId
 
             var url = URL(ip.plus(query))
 

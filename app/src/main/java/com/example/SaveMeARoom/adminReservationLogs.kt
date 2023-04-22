@@ -22,6 +22,9 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
     private lateinit var resLogList: ArrayList<adminLogData>
     private lateinit var resLogText: ArrayList<String>
     private lateinit var spinData: ArrayList<String>
+    private lateinit var bldg: String
+    private lateinit var room: String
+    private lateinit var email: String
     private lateinit var college: String
     private lateinit var building: String
     private lateinit var action: String
@@ -35,6 +38,7 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.admin_reservation_logs)
         college = intent.getStringExtra("college").toString()
+        displayId = ""
 
         //gets list of buildings for spinner
         val ip = "http://3.132.20.107:3000"
@@ -46,8 +50,10 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
         var buildingList = ArrayList<String>()
         buildingList.add("Any")
         for (i in buildings.indices) {
-            val spBuilding = buildings[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-            buildingList.add(spBuilding)
+            if(buildings[i] != "[]"){
+                val spBuilding = buildings[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                buildingList.add(spBuilding)
+            }
         }
 
         //gets list of actions for spinner
@@ -200,444 +206,47 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
     private fun getResLogs(spinData: ArrayList<String>) {
         if (spinData.size == 0) {
         } else {
-            val bldg = spinData[0]
-            val action = spinData[1]
-            val room = spinData[2]
-            val email = spinData[3]
+            bldg = spinData[0]
+            action = spinData[1]
+            room = spinData[2]
+            email = spinData[3]
             if(spinData.size == 0){
             }else {
                 if (bldg.equals("Any") && action.equals("Any") && room.equals("Any") && email.equals("Any")) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 7 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 6] + ", " + resLogText[i - 5] + ", " + resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "1"
-
+                    getLogs("1")
                 } else if (bldg.equals("Any") && action.equals("Any") && room.equals("Any") && !(email.equals("Any"))) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Email_Of_Action=%27" + email + "%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 6 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 5] + ", " + resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "2"
-
+                    getLogs("2")
                 } else if (bldg.equals("Any") && action.equals("Any") && !(room.equals("Any")) && email.equals("Any")) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query = "/search?query=SELECT%20Reservation_Id,Building,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Room=%27" + room + "%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 6 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 5] + ", " + resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "3"
-
+                    getLogs("3")
                 } else if (bldg.equals("Any") && action.equals("Any") && !(room.equals("Any")) && !(email.equals("Any"))) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Building,Reservation_Time,Reserver_Email,Time_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20And%20Room=%27" + room + "%27%20AND%20Email_Of_Action=%27" + email + "%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 5 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "4"
-
+                    getLogs("4")
                 } else if (bldg.equals("Any") && !(action.equals("Any")) && room.equals("Any") && email.equals("Any")) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20And%20" + action + "=%27True%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 7 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 6] + ", " + resLogText[i - 5] + ", " + resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "5"
-
+                    getLogs("5")
                 } else if (bldg.equals("Any") && !(action.equals("Any")) && room.equals("Any") && !(email.equals("Any"))) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Email_Of_Action=%27" + email + "%27%20AND%20" + action + "=%27True%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 6 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 5] + ", " + resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "6"
-
+                    getLogs("6")
                 } else if (bldg.equals("Any") && !(action.equals("Any")) && !(room.equals("Any")) && email.equals("Any")) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Building,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Room=%27" + room + "%27%20AND%20" + action + "=%27True%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 6 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 5] + ", " + resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "7"
-
+                    getLogs("7")
                 } else if (bldg.equals("Any") && !(action.equals("Any")) && !(room.equals("Any")) && !(email.equals("Any"))) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Building,Reservation_Time,Reserver_Email,Time_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Room=%27" + room + "%27%20AND%20" + action + "=%27True%27%20AND%20Email_Of_Action=%27" + email + "%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 5 == 0) {
-                            var finalLog =
-                                adminLogData(resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "8"
-
+                    getLogs("8")
                 } else if (!(bldg.equals("Any")) && action.equals("Any") && room.equals("Any") && email.equals("Any")) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 6 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 5] + ", " + resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "9"
-
+                    getLogs("9")
                 } else if (!(bldg.equals("Any")) && action.equals("Any") && room.equals("Any") && !(email.equals("Any"))) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Room,Reservation_Time,Reserver_Email,Time_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20Email_Of_Action=%27" + email + "%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 5 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "10"
-
+                    getLogs("10")
                 } else if (!(bldg.equals("Any")) && action.equals("Any") && !(room.equals("Any")) && email.equals("Any")) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20Room=%27" + room + "%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 5 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "11"
-
+                    getLogs("11")
                 } else if (!(bldg.equals("Any")) && action.equals("Any") && !(room.equals("Any")) && !(email.equals("Any"))) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Reservation_Time,Reserver_Email,Time_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20Room=%27" + room + "%27%20AND%20Email_Of_Action=%27" + email + "%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 4 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "12"
-
+                    getLogs("12")
                 } else if (!(bldg.equals("Any")) && !(action.equals("Any")) && room.equals("Any") && email.equals("Any")) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20" + action + "=%27True%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 6 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 5] + ", " + resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "13"
-
+                    getLogs("13")
                 } else if (!(bldg.equals("Any")) && !(action.equals("Any")) && room.equals("Any") && !(email.equals("Any"))) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Room,Reservation_Time,Reserver_Email,Time_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20" + action + "=%27True%27%20AND%20Email_Of_Action=%27" + email + "%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 5 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "14"
-
+                    getLogs("14")
                 } else if (!(bldg.equals("Any")) && !(action.equals("Any")) && !(room.equals("Any")) && email.equals("Any")) {
-                    resLogList = arrayListOf()
-                    resLogText = arrayListOf()
-                    val ip = "http://3.132.20.107:3000"
-                    var query =
-                        "/search?query=SELECT%20Reservation_Id,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20" + action + "=%27True%27%20AND%20Room=%27" + room + "%27"
-                    var url = URL(ip.plus(query))
-                    var text = url.readText()
-                    var logs = text.split(",")
-
-                    var track = 1
-                    //loop to add reservations to the recycle view
-                    for (i in logs.indices) {
-
-                        val log = adminLogData(
-                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                        )
-                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                        resLogText.add(logtrim)
-                        if (track % 5 == 0) {
-                            var finalLog = adminLogData(resLogText[i - 4] + ", " + resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                            resLogList.add(finalLog)
-                        }
-                        track += 1
-                    }
-                    displayId = "15"
+                    getLogs("15")
                 } else {
                     if(bldg.equals("")){
 
                     }else{
-                        resLogList = arrayListOf()
-                        resLogText = arrayListOf()
-                        val ip = "http://3.132.20.107:3000"
-                        var query =
-                            "/search?query=SELECT%20Reservation_Id,Reservation_Time,Reserver_Email,Time_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20" + action + "=%27True%27%20AND%20Room=%27" + room + "%27%20AND%20Email_Of_Action=%27" + email + "%27"
-                        var url = URL(ip.plus(query))
-                        var text = url.readText()
-                        var logs = text.split(",")
-
-                        var track = 1
-                        //loop to add reservations to the recycle view
-                        for (i in logs.indices) {
-
-                            val log = adminLogData(
-                                logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                            )
-                            val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                            resLogText.add(logtrim)
-                            if (track % 4 == 0) {
-                                var finalLog = adminLogData(resLogText[i - 3] + ", " + resLogText[i - 2] + ", " + resLogText[i - 1] + ", " + resLogText[i - 0])
-                                resLogList.add(finalLog)
-                            }
-                            track += 1
-                        }
-                        displayId = "16"
+                        getLogs("16")
                     }
                 }
             }
@@ -653,8 +262,10 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
             val rooms = text.split(",")
             roomList.add("Any")
             for (i in rooms.indices) {
-                val spRoom = rooms[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                roomList.add(spRoom)
+                if(rooms[i] != "[]"){
+                    val spRoom = rooms[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                    roomList.add(spRoom)
+                }
             }
             // Take the instance of Spinner and
             // apply OnItemSelectedListener on it which
@@ -682,8 +293,10 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
             var rooms = text.split(",")
             roomList.add("Any")
             for (i in rooms.indices) {
-                val spRoom = rooms[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                roomList.add(spRoom)
+                if(rooms[i] != "[]"){
+                    val spRoom = rooms[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                    roomList.add(spRoom)
+                }
             }
         }
     }
@@ -697,8 +310,10 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
             val emails = text.split(",")
             emailList.add("Any")
             for (i in emails.indices) {
-                val spEmail = emails[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                emailList.add(spEmail)
+                if(emails[i] != "[]"){
+                    val spEmail = emails[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                    emailList.add(spEmail)
+                }
             }
             // Take the instance of Spinner and
             // apply OnItemSelectedListener on it which
@@ -725,9 +340,65 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
             var emails = text.split(",")
             emailList.add("Any")
             for (i in emails.indices) {
-                val spRoom = emails[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                emailList.add(spRoom)
+                if(emails[i] != "[]"){
+                    val spEmail = emails[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                    emailList.add(spEmail)
+                }
             }
+        }
+    }
+    private fun getLogs(dId:String){
+        var query = ""
+        resLogList = arrayListOf()
+        resLogText = arrayListOf()
+        val ip = "http://3.132.20.107:3000"
+        when(dId){
+            "1" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27"
+            "2" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Email_Of_Action=%27" + email + "%27"
+            "3" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Room=%27" + room + "%27"
+            "4" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20And%20Room=%27" + room + "%27%20AND%20Email_Of_Action=%27" + email + "%27"
+            "5" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20And%20" + action + "=%27True%27"
+            "6" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Email_Of_Action=%27" + email + "%27%20AND%20" + action + "=%27True%27"
+            "7" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Room=%27" + room + "%27%20AND%20" + action + "=%27True%27"
+            "8" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Room=%27" + room + "%27%20AND%20" + action + "=%27True%27%20AND%20Email_Of_Action=%27" + email + "%27"
+            "9" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27"
+            "10" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20Email_Of_Action=%27" + email + "%27"
+            "11" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20Room=%27" + room + "%27"
+            "12" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20Room=%27" + room + "%27%20AND%20Email_Of_Action=%27" + email + "%27"
+            "13" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20" + action + "=%27True%27"
+            "14" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20" + action + "=%27True%27%20AND%20Email_Of_Action=%27" + email + "%27"
+            "15" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20" + action + "=%27True%27%20AND%20Room=%27" + room + "%27"
+            "16" -> query = "/search?query=SELECT%20Reservation_Id,Building,Room,Reservation_Time,Reserver_Email,Time_Of_Action,Email_Of_Action%20FROM%20reservationlogs%20WHERE%20College=%27" + college + "%27%20AND%20Building=%27" + bldg + "%27%20AND%20" + action + "=%27True%27%20AND%20Room=%27" + room + "%27%20AND%20Email_Of_Action=%27" + email + "%27"
+        }
+        var url = URL(ip.plus(query))
+        var text = url.readText()
+        var logs = text.split(",")
+
+        var track = 1
+        //loop to add reservations to the recycle view
+        for (i in logs.indices) {
+            val log = adminLogData(logs[i].substringAfter(":").substringAfter('"').substringBefore('"'))
+            val logtrim = log.toString().substringAfter("=").substringBefore(")")
+            resLogText.add(logtrim)
+            if(track % 7 == 0){
+                val timeOfRes = resLogText[i-3]
+                var date = timeOfRes.substringBefore(" ") + " "
+                val start = (timeOfRes.substringAfter(" ").substringBefore(":").toInt()-12).toString() + " - "
+                val end = (timeOfRes.substringAfter(" - ").substringAfter(" ").substringBefore(":").toInt()-12).toString() + "pm"
+                val finalTime = date + start + end
+                val timeOfAction = resLogText[i-1]
+                date = timeOfAction.substringAfter(" ") + " "
+                var actionTime = timeOfAction.substringBefore(" ").substringBefore(".")
+                if(actionTime.substringBefore(":").toInt() > 12){
+                    actionTime = (actionTime.substringBefore(":").toInt()-12).toString() + ":" + actionTime.substringAfter(":") + "pm"
+                }else{
+                    actionTime = actionTime + "am"
+                }
+                val finalActionTime = date + actionTime
+                var finalLog = adminLogData(resLogText[i - 6] + ", " + resLogText[i - 5] + ", " + resLogText[i - 4] + ", " + finalTime + ", " + resLogText[i - 2] + ", " + finalActionTime + ", " + resLogText[i - 0])
+                resLogList.add(finalLog)
+            }
+            track += 1
         }
     }
 }
