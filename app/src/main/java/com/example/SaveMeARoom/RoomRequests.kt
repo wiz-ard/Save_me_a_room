@@ -35,7 +35,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val ip = "http://3.132.20.107:3000"
 
         // building list
-        var query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20reservations%20WHERE%20College=%27"+college+"%27"
+        var query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20reservations%20WHERE%20College=%27"+college+"%27%20OR%20College=%27General%27"
 
         var url = URL(ip.plus(query))
 
@@ -128,7 +128,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         btnFilter.setOnClickListener {
             val ip = "http://3.132.20.107:3000"
 
-            var query = "/search?query=SELECT%20*%20FROM%20reservations"
+            var query = "/search?query=SELECT%20*%20FROM%20reservations%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27General%27)"
 
             var url:URL
 
@@ -136,7 +136,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             // if buildings spinner was modified
             if(!(spinnerChanges[0].equals("any"))){
-                query += "%20WHERE%20Building_Name=%27" + spinnerChanges[0] + "%27"
+                query += "%20AND%20Building_Name=%27" + spinnerChanges[0] + "%27"
 
                 // if date time spinner was also modified
                 if(!(spinnerChanges[1].equals("any"))){
@@ -169,7 +169,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             // if date spinner was modified
             else if(!(spinnerChanges[1].equals("any"))){
-                query += "%20WHERE%20Start_Date_Time=%27" + spinnerChanges[1] + "%27"
+                query += "%20AND%20Start_Date_Time=%27" + spinnerChanges[1] + "%27"
 
                 // if status spinner was also modified
                 if(!(spinnerChanges[2].equals("any"))){
@@ -198,11 +198,11 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // if status spinner was modified
             else if(!(spinnerChanges[2].equals("any"))) {
                 if (spinnerChanges[2].equals("Pending")) {
-                    query += "%20WHERE%20Pending=1"
+                    query += "%20AND%20Pending=1"
                 } else if (spinnerChanges[2].equals("Updating")) {
-                    query += "%20WHERE%20Updating=1"
+                    query += "%20AND%20Updating=1"
                 } else {
-                    query += "%20WHERE%20Pending=0%20AND%20Updating=0"
+                    query += "%20AND%20Pending=0%20AND%20Updating=0"
                 }
 
                 // if club spinner was also modified
@@ -218,10 +218,10 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // if club spinner was modified
             else if(!(spinnerChanges[3].equals("any"))){
                 if(spinnerChanges[3].equals("General")){
-                    query += "%20WHERE%20Club_Request=%27" + 0 + "%27"
+                    query += "%20AND%20Club_Request=%27" + 0 + "%27"
                 }
                 else{
-                    query += "%20WHERE%20Club_Request=%27" + 1 + "%27"
+                    query += "%20AND%20Club_Request=%27" + 1 + "%27"
                 }
             }
 
