@@ -7,6 +7,7 @@ import android.os.StrictMode
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.admin_reservation_confirmation.*
 import kotlinx.android.synthetic.main.time_items.*
 import java.net.URL
@@ -32,6 +33,9 @@ class AdminConfirmation : AppCompatActivity() {
         val adminEmail = intent.getStringExtra("email")
         var club = "0"
         var update = "0"
+
+        val accepted = intent.getStringExtra("accepted")
+
         if(resSplit.size == 9){
             if(resSplit[7].substringAfter(" ").equals("Club Request") || resSplit[8].substringAfter(" ").equals("Club Request")){
                 club = "1"
@@ -88,6 +92,11 @@ class AdminConfirmation : AppCompatActivity() {
 
         val btnConfirm = findViewById<Button>(R.id.btnAdminConfirm)
         val btnDeny = findViewById<Button>(R.id.btnAdminDeny)
+
+        if(accepted == "1"){
+            btnConfirm.isVisible = false
+            btnDeny.isVisible = false
+        }
 
         tvBuildingNameConfirm.text = buildingName
         if(occupancy.equals("0")){

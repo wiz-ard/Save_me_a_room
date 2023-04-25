@@ -20,6 +20,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var adaptor: RoomRequestRecycleAdaptor
     private lateinit var spinnerChanges: ArrayList<String>
     private lateinit var RoomReqRecyler: RecyclerView
+    private lateinit var accepted: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -291,6 +292,12 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 val intent = Intent(this, AdminConfirmation::class.java)
                 intent.putExtra("res info", it.component1())
                 intent.putExtra("email", email)
+                if(it.component1().contains("Accepted")){
+                    intent.putExtra("accepted", "1")
+                }
+                else{
+                    intent.putExtra("accepted", "0")
+                }
                 startActivity(intent)
                 finish()
             }
