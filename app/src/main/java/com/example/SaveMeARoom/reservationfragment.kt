@@ -34,24 +34,16 @@ class Reservationfragment: Fragment() {
 
         val bundle = arguments
 
-        val username = bundle!!.getString("username")
-
         val ip = "http://3.132.20.107:3000"
-        //gets user email
-        var query = "/search?query=SELECT%20Email%20FROM%20users%20WHERE%20Username=%27" + username + "%27"
+
+        val email = bundle!!.getString("email").toString()
+
+        //gets user college
+        var query = "/search?query=SELECT%20College%20FROM%20users%20WHERE%20Email=%27" + email + "%27"
 
         var url = URL(ip.plus(query))
 
         var text = url.readText()
-
-        val email = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
-
-        //gets user college
-        query = "/search?query=SELECT%20College%20FROM%20users%20WHERE%20Username=%27" + username + "%27"
-
-        url = URL(ip.plus(query))
-
-        text = url.readText()
 
         val college = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
         //gets user reservations

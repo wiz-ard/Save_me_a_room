@@ -23,6 +23,12 @@
             android:name=".StatusRequests"
             android:exported="false" />
         <activity
+            android:name=".adminClubConfirmation"
+            android:exported="false" />
+        <activity
+            android:name=".adminCollegeConfirmation"
+            android:exported="false" />
+        <activity
             android:name=".RoomRequests"
             android:exported="false" />
         <activity
