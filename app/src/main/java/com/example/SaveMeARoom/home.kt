@@ -23,7 +23,6 @@ class home : AppCompatActivity() {
 
         // setting variables to each of the fragment layout views
         val homeFragment = Homefragment()
-        val mapFragment = Mapfragment()
         val reservationFragment = Reservationfragment()
         val profileFragment = Profilefragment()
 
@@ -35,7 +34,6 @@ class home : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.Home -> setCurrentFragment(homeFragment,username.toString(), email.toString(), college.toString())
-                R.id.Map -> setCurrentFragment(mapFragment,username.toString(), email.toString(), college.toString())
                 R.id.Reservations -> setCurrentFragment(reservationFragment,username.toString(), email.toString(), college.toString())
                 R.id.Profile -> setCurrentFragment(profileFragment,username.toString(), email.toString(), college.toString(), admin.toString())
             }

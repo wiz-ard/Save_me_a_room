@@ -7,11 +7,6 @@
         android:icon="@drawable/ic_home"/>
 
     <item
-        android:id="@+id/Map"
-        android:title="Map"
-        android:icon="@drawable/ic_map"/>
-
-    <item
         android:id="@+id/Reservations"
         android:title="Reservations"
         android:icon="@drawable/ic_reservation"/>
