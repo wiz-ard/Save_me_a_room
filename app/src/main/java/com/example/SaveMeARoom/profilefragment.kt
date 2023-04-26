@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.profilefragment.*
@@ -25,8 +26,6 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
 
         val bundle = arguments
 
-        val username = bundle!!.getString("username")
-
         val ip = "http://3.132.20.107:3000"
 
         var query = "/search?query=SELECT%20Number_of_Reservations%20FROM%20users%20WHERE%20Email=%27" + bundle!!.getString("email") + "%27"
@@ -39,14 +38,34 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
 
         val admin = bundle!!.getString("admin")
 
-        if(admin.equals("1")){
+        query = "/search?query=SELECT%20Club_Leader%20FROM%20users%20WHERE%20Email=%27" + bundle!!.getString("email") + "%27"
+
+        url = URL(ip.plus(query))
+
+        var clubLeader = url.readText().substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+        if(admin.equals("1") || clubLeader == "1"){
             displayReservation.visibility = View.INVISIBLE
             resStatic.visibility = View.INVISIBLE
+            btnClubRequest.visibility = View.INVISIBLE
         }
 
-        displayUsername?.text = bundle!!.getString("username")
+        query = "/search?query=SELECT%20Username%20FROM%20users%20WHERE%20Email=%27" + bundle!!.getString("email") + "%27"
+
+        url = URL(ip.plus(query))
+
+        var userName = url.readText().substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+        displayUsername?.text = userName
         displayEmail?.text = bundle!!.getString("email")
-        displayCollege?.text = bundle!!.getString("college")
+
+        query = "/search?query=SELECT%20College%20FROM%20users%20WHERE%20Email=%27" + bundle!!.getString("email") + "%27"
+
+        url = URL(ip.plus(query))
+
+        var college = url.readText().substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+        displayCollege?.text = college
         query = "/search?query=SELECT%20Club_Leader%20FROM%20users%20WHERE%20Email=%27" + bundle!!.getString("email") + "%27"
         url = URL(ip.plus(query))
         text = url.readText()
@@ -67,7 +86,7 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
             //log logout
             val ip = "http://3.132.20.107:3000"
 
-            val query = "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + username + "%27,%27NULL%27,%27" + logTime + "%27,%27NULL%27,%27" + bundle!!.getString("college") + "%27)"
+            val query = "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + userName + "%27,%27NULL%27,%27" + logTime + "%27,%27NULL%27,%27" + bundle!!.getString("college") + "%27)"
 
             val url = URL(ip.plus(query))
 
@@ -78,13 +97,39 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
         }
         btnEditProfile.setOnClickListener {
             val intent = Intent(activity, editProfile::class.java)
-            intent.putExtra("olduser", bundle!!.getString("username"))
+            intent.putExtra("olduser", userName)
+
+            var query = "/search?query=SELECT%20Admin%20FROM%20users%20WHERE%20Email=%27" + bundle!!.getString("email") + "%27"
+
+            var url = URL(ip.plus(query))
+
+            val admin = url.readText().substringAfter(":").substringAfter("\"").substringBefore("\"")
+
+            query = "/search?query=UPDATE%20statusrequests%20SET%20Viewing=1%20WHERE%20College_Request=1%20AND%20Email=%27" + bundle.getString("email") + "%27"
+
+            url = URL(ip.plus(query))
+
+            url.readText()
+
+            intent.putExtra("admin", admin)
             startActivity(intent)
         }
         btnClubRequest.setOnClickListener {
             val intent = Intent(activity, clubConfirm::class.java)
-            intent.putExtra("username", bundle!!.getString("username"))
-            startActivity(intent)
+
+            val query = "/search?query=SELECT%20*%20FROM%20statusrequests%20WHERE%20Email=%27" + bundle.getString("email") + "%27%20AND%20Club_Leader_Request=%271%27"
+
+            val url = URL(ip.plus(query))
+
+            val text = url.readText()
+
+            if(text.length > 2){
+                Toast.makeText(activity, "Already have a pending club request.", Toast.LENGTH_SHORT).show()
+            }else{
+                intent.putExtra("email", bundle!!.getString("email"))
+                intent.putExtra("college", bundle.getString("college"))
+                startActivity(intent)
+            }
         }
     }
 }
