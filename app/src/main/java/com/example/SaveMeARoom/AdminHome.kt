@@ -61,7 +61,6 @@ class AdminHome : AppCompatActivity() {
         mBundle.putString("admin", admin)
         mBundle.putString("club", club)
         mFragment.arguments = mBundle
-        mFragmentTransaction.add(R.id.flAdminFragment, mFragment)
         mFragmentTransaction.replace(R.id.flAdminFragment,mFragment).commit()
 
     }

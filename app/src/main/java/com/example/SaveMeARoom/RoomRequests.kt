@@ -20,6 +20,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var adaptor: RoomRequestRecycleAdaptor
     private lateinit var spinnerChanges: ArrayList<String>
     private lateinit var RoomReqRecyler: RecyclerView
+    private lateinit var accepted: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +35,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val ip = "http://3.132.20.107:3000"
 
         // building list
-        var query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20reservations%20WHERE%20College=%27"+college+"%27"
+        var query = "/search?query=SELECT%20DISTINCT%20Building_Name%20FROM%20reservations%20WHERE%20College=%27"+college+"%27%20OR%20College=%27General%27"
 
         var url = URL(ip.plus(query))
 
@@ -127,7 +128,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         btnFilter.setOnClickListener {
             val ip = "http://3.132.20.107:3000"
 
-            var query = "/search?query=SELECT%20*%20FROM%20reservations"
+            var query = "/search?query=SELECT%20*%20FROM%20reservations%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27General%27)"
 
             var url:URL
 
@@ -135,7 +136,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             // if buildings spinner was modified
             if(!(spinnerChanges[0].equals("any"))){
-                query += "%20WHERE%20Building_Name=%27" + spinnerChanges[0] + "%27"
+                query += "%20AND%20Building_Name=%27" + spinnerChanges[0] + "%27"
 
                 // if date time spinner was also modified
                 if(!(spinnerChanges[1].equals("any"))){
@@ -168,7 +169,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             // if date spinner was modified
             else if(!(spinnerChanges[1].equals("any"))){
-                query += "%20WHERE%20Start_Date_Time=%27" + spinnerChanges[1] + "%27"
+                query += "%20AND%20Start_Date_Time=%27" + spinnerChanges[1] + "%27"
 
                 // if status spinner was also modified
                 if(!(spinnerChanges[2].equals("any"))){
@@ -197,11 +198,11 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // if status spinner was modified
             else if(!(spinnerChanges[2].equals("any"))) {
                 if (spinnerChanges[2].equals("Pending")) {
-                    query += "%20WHERE%20Pending=1"
+                    query += "%20AND%20Pending=1"
                 } else if (spinnerChanges[2].equals("Updating")) {
-                    query += "%20WHERE%20Updating=1"
+                    query += "%20AND%20Updating=1"
                 } else {
-                    query += "%20WHERE%20Pending=0%20AND%20Updating=0"
+                    query += "%20AND%20Pending=0%20AND%20Updating=0"
                 }
 
                 // if club spinner was also modified
@@ -217,10 +218,10 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // if club spinner was modified
             else if(!(spinnerChanges[3].equals("any"))){
                 if(spinnerChanges[3].equals("General")){
-                    query += "%20WHERE%20Club_Request=%27" + 0 + "%27"
+                    query += "%20AND%20Club_Request=%27" + 0 + "%27"
                 }
                 else{
-                    query += "%20WHERE%20Club_Request=%27" + 1 + "%27"
+                    query += "%20AND%20Club_Request=%27" + 1 + "%27"
                 }
             }
 
@@ -238,49 +239,65 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             var requestList = arrayListOf<roomResData>()
 
-            for(i in requests){
+            for(i in requests) {
                 doctor = i.split(',')
-                for(j in doctor.indices){
-                    if(j < doctor.size){
-                        combine += doctor[j].substringAfter(':').substringAfter('"').substringBefore('"')
-                        combine += ", "
+                if (doctor.size != 1) {
+                    for(j in doctor.indices){
+                        if(j < doctor.size-1 && j != 4 && j != 5 && j != 6 && j != 7 && j != 8 && j != 9 && j != 10 && j != 11){
+                            combine += doctor[j].substringAfter(':').substringAfter('"').substringBefore('"')
+                            combine += ", "
+                        }
+                        else if(j == 4){
+                            combine += (doctor[j].substringAfter(':').substringAfter(' ').substringBefore(':').toInt()-12).toString() +
+                                    "-" + (doctor[j+1].substringAfter(':').substringAfter(' ').substringBefore(':').toInt()-12).toString() +
+                                    "pm, " + doctor[j].substringAfter(':').substringAfter('"').substringBefore(' ') + ", "
+                        }
+                        else if(j == 7){
+                            combine += doctor[j].substringAfter(':').substringAfter('"').substringBefore('"')
+                        }
+                    }
+                    if(doctor.size >=10 && doctor[9].substringAfter(':').substringAfter('"').substringBefore('"').toInt() == 1){
+                        if(doctor[10].substringAfter(':').substringAfter('"').substringBefore('"').toInt() == 1){
+                            combine += ", Update Request, Club Request"
+                        }
+                        else{
+                            combine += ", Update Request"
+                        }
                     }
                     else{
-                        combine += doctor[j]
+                        if(doctor[6].substringAfter(':').substringAfter('"').substringBefore('"').toInt() == 1){
+                            combine += ", Pending"
+                        }
+                        else{
+                            combine += ", Accepted"
+                        }
+                        if(doctor.size >= 11 && doctor[10].substringAfter(':').substringAfter('"').substringBefore('"').toInt() == 1){
+                            combine += ", Club Request"
+                        }
                     }
+
+                }
+                else{
+                    combine = "No reservations at this time"
                 }
                 requestList.add(roomResData(combine))
                 combine = ""
             }
+
 
             RoomReqRecyler = findViewById(R.id.rvRequests)
             RoomReqRecyler.layoutManager = LinearLayoutManager(this)
             RoomReqRecyler.setHasFixedSize(true)
             adaptor = RoomRequestRecycleAdaptor(requestList){
                 val intent = Intent(this, AdminConfirmation::class.java)
-                var vals = ""
-                for(i in requestList){
-                    doctor = i.toString().split(',')
-                    for(j in doctor.indices){
-                        if(j == 0 || j == 1 || j == 2 || j == 4){
-                            if(j == 0){
-                                vals += doctor[j].substringAfter('=').substringBefore('"') + ","
-                            }
-                            else if(j == 2){
-                                vals += doctor[j].substringBefore('@') + ","
-                            }
-                            else if(j == 4){
-                                vals += (doctor[j]).substringAfter(' ').substringBefore(' ') + " " + ((doctor[j].substringAfter(' ').substringAfter(' ').substringBefore(':').toInt())-12).toString().plus("-").plus(((doctor[j+1].substringAfter(' ').substringAfter(' ').substringBefore(':').toInt())-12)) + "pm,"
-                                vals += doctor[j].substringBefore(' ')
-                            }
-                            else{
-                                vals += doctor[j]  + ","
-                            }
-                        }
-                    }
-                }
-                intent.putExtra("res info", vals)
+                intent.putExtra("res info", it.component1())
                 intent.putExtra("email", email)
+                if(it.component1().contains("Accepted")){
+                    intent.putExtra("accepted", "1")
+                }
+                else{
+                    intent.putExtra("accepted", "0")
+                }
                 startActivity(intent)
                 finish()
             }
