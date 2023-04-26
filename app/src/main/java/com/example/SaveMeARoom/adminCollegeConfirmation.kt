@@ -44,16 +44,8 @@ class adminCollegeConfirmation : AppCompatActivity() {
         val btnNoCancel = findViewById<Button>(R.id.btnNoCancel)
 
         btnYesCancel.setOnClickListener {
-            var query = "/search?query=SELECT%20Viewing%20FROM%20statusrequests%20WHERE%20College_Request=%271%27%20AND%20Email=%27" + email + "%27"
-            var url = URL(ip.plus(query))
-            val viewing = url.readText().substringAfter(":").substringAfter('"').substringBefore('"')
-
-            if(viewing == "1"){
-                Toast.makeText(this, "Request is being viewed by another admin.", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                query = "/search?query=UPDATE%20users%20SET%20College=%27" + newCollege + "%27%20WHERE%20Email=%27" + email + "%27"
-                url = URL(ip.plus(query))
+                var query = "/search?query=UPDATE%20users%20SET%20College=%27" + newCollege + "%27%20WHERE%20Email=%27" + email + "%27"
+                var url = URL(ip.plus(query))
                 url.readText()
 
                 query = "/search?query=DELETE%20FROM%20statusrequests%20WHERE%20Email=%27" + email + "%27%20AND%20College_Request=%271%27"
@@ -63,24 +55,14 @@ class adminCollegeConfirmation : AppCompatActivity() {
                 Toast.makeText(this, "College change request accepted.", Toast.LENGTH_SHORT).show()
 
                 finish()
-            }
 
         }
         btnNoCancel.setOnClickListener {
-            var query = "/search?query=SELECT%20Viewing%20FROM%20statusrequests%20WHERE%20College_Request=%271%27%20AND%20Email=%27" + email + "%27"
-            var url = URL(ip.plus(query))
-            val viewing = url.readText().substringAfter(":").substringAfter('"').substringBefore('"')
-
-            if(viewing == "1"){
-                Toast.makeText(this, "Request is being viewed by another admin.", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                val query = "/search?query=DELETE%20FROM%20statusrequests%20WHERE%20Email=%27" + email + "%27%20AND%20College_Request=%271%27"
-                val url = URL(ip.plus(query))
-                url.readText()
-                Toast.makeText(this, "College change request denied.", Toast.LENGTH_SHORT).show()
-                finish()
-            }
+            val query = "/search?query=DELETE%20FROM%20statusrequests%20WHERE%20Email=%27" + email + "%27%20AND%20College_Request=%271%27"
+            val url = URL(ip.plus(query))
+            url.readText()
+            Toast.makeText(this, "College change request denied.", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 }

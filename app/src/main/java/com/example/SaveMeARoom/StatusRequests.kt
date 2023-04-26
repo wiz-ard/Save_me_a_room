@@ -62,12 +62,6 @@ class StatusRequests : AppCompatActivity() {
 
                 val ip = "http://3.132.20.107:3000"
 
-                val query = "/search?query=UPDATE%20statusrequests%20SET%20Viewing=1%20WHERE%20Email=%27" + email + "%27"
-
-                val url = URL(ip.plus(query))
-
-                url.readText()
-
                 startActivity(intent)
                 finish()
             }
@@ -110,12 +104,6 @@ class StatusRequests : AppCompatActivity() {
                 val email = vals[0]
 
                 val ip = "http://3.132.20.107:3000"
-
-                val query = "/search?query=UPDATE%20statusrequests%20SET%20Viewing=1%20WHERE%20Email=%27" + email + "%27"
-
-                val url = URL(ip.plus(query))
-
-                url.readText()
 
                 intent.putExtra("college", college)
                 startActivity(intent)

@@ -105,12 +105,6 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
 
             val admin = url.readText().substringAfter(":").substringAfter("\"").substringBefore("\"")
 
-            query = "/search?query=UPDATE%20statusrequests%20SET%20Viewing=1%20WHERE%20College_Request=1%20AND%20Email=%27" + bundle.getString("email") + "%27"
-
-            url = URL(ip.plus(query))
-
-            url.readText()
-
             intent.putExtra("admin", admin)
             startActivity(intent)
         }

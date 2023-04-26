@@ -115,12 +115,6 @@ class editProfile : AppCompatActivity(), OnItemSelectedListener {
 
                                     url.readText()
 
-                                    query = "/search?query=UPDATE%20statusrequests%20SET%20Viewing=0%20WHERE%20College_Request=1%20AND%20Email=%27" + email + "%27"
-
-                                    url = URL(ip.plus(query))
-
-                                    url.readText()
-
                                     Toast.makeText(this, "Username updated.", Toast.LENGTH_SHORT).show()
                                 }
                                 finish()
@@ -142,14 +136,14 @@ class editProfile : AppCompatActivity(), OnItemSelectedListener {
 
                                 if(text.length > 2){
                                     query =
-                                        "/search?query=UPDATE%20statusrequests%20SET%20New_College=%27" + newcollege + "%27%20AND%20Viewing=0%20WHERE%20Email=%27" + email + "%27%20AND%20College_Request=%271%27"
+                                        "/search?query=UPDATE%20statusrequests%20SET%20New_College=%27" + newcollege + "%27%20WHERE%20Email=%27" + email + "%27%20AND%20College_Request=%271%27"
 
                                     url = URL(ip.plus(query))
 
                                     url.readText()
                                 }else{
                                     query =
-                                        "/search?query=INSERT%20INTO%20statusrequests%20VALUES(%27" + email + "%27,%270%27,%271%27,%27null%27,%27" + college + "%27,%27" + newcollege + "%27,0)"
+                                        "/search?query=INSERT%20INTO%20statusrequests%20VALUES(%27" + email + "%27,%270%27,%271%27,%27null%27,%27" + college + "%27,%27" + newcollege + "%27)"
 
                                     url = URL(ip.plus(query))
 
@@ -209,7 +203,7 @@ class editProfile : AppCompatActivity(), OnItemSelectedListener {
 
                             if(text.length > 2){
                                 query =
-                                    "/search?query=UPDATE%20statusrequests%20SET%20New_College=%27" + newcollege + "%27%20AND%20Viewing=0%20WHERE%20Email=%27" + email + "%27%20AND%20College_Request=%271%27"
+                                    "/search?query=UPDATE%20statusrequests%20SET%20New_College=%27" + newcollege + "%27%20WHERE%20Email=%27" + email + "%27%20AND%20College_Request=%271%27"
 
                                 url = URL(ip.plus(query))
 
@@ -218,7 +212,7 @@ class editProfile : AppCompatActivity(), OnItemSelectedListener {
                                 Toast.makeText(this, "College change request updated.", Toast.LENGTH_SHORT).show()
                             }else{
                                 query =
-                                    "/search?query=INSERT%20INTO%20statusrequests%20VALUES(%27" + email + "%27,%270%27,%271%27,%27null%27,%27" + college + "%27,%27" + newcollege + "%27,0)"
+                                    "/search?query=INSERT%20INTO%20statusrequests%20VALUES(%27" + email + "%27,%270%27,%271%27,%27null%27,%27" + college + "%27,%27" + newcollege + "%27)"
 
                                 url = URL(ip.plus(query))
 
@@ -246,11 +240,6 @@ class editProfile : AppCompatActivity(), OnItemSelectedListener {
                                 finish()
                             }else{
                                 Toast.makeText(this, "Nothing changed.", Toast.LENGTH_SHORT).show()
-                                query = "/search?query=UPDATE%20statusrequests%20SET%20Viewing=0%20WHERE%20College_Request=1%20AND%20Email=%27" + email + "%27"
-
-                                url = URL(ip.plus(query))
-
-                                url.readText()
                                 finish()
                             }
                         }
@@ -274,12 +263,6 @@ class editProfile : AppCompatActivity(), OnItemSelectedListener {
             var url = URL(ip.plus(query))
 
             email = url.readText().substringAfter(":").substringAfter("\"").substringBefore("\"")
-
-            query = "/search?query=UPDATE%20statusrequests%20SET%20Viewing=0%20WHERE%20College_Request=1%20AND%20Email=%27" + email + "%27"
-
-            url = URL(ip.plus(query))
-
-            url.readText()
             finish()
         }
         // Take the instance of Spinner and
