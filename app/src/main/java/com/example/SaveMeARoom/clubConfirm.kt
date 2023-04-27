@@ -40,12 +40,21 @@ class clubConfirm : AppCompatActivity() {
 
             val clubName = club.text.toString()
 
+            val curTime = LocalTime.now()
+            val curDate = LocalDate.now()
+            val logTime = curTime.toString().substringBefore(".") + " " + curDate.toString()
+
             val ip = "http://3.132.20.107:3000"
 
-            val query = "/search?query=INSERT%20INTO%20statusrequests%20VALUES(%27" + email + "%27, %271%27, %270%27, %27" + clubName + "%27, %27" + college + "%27, %27null%27,0)"
+            var query = "/search?query=INSERT%20INTO%20statusrequests%20VALUES(%27" + email + "%27, %271%27, %270%27, %27" + clubName + "%27, %27" + college + "%27, %27null%27)"
 
-            val url = URL(ip.plus(query))
+            var url = URL(ip.plus(query))
 
+            url.readText()
+
+            query =
+                "/search?query=INSERT%20INTO%20statuslogs%20VALUES(%27" + email + "%27,%27" + college + "%27,%27" + email + "%27,%27" + logTime + "%27,%271%27,%270%27,%270%27,%270%27)"
+            url = URL(ip.plus(query))
             url.readText()
 
             Toast.makeText(this, "Club request sent.", Toast.LENGTH_SHORT).show()

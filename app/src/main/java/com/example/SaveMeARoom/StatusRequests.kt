@@ -19,8 +19,8 @@ class StatusRequests : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.status_request)
 
-        // get the lists for the spinner values (building, date, time, status)
         val college = intent.getStringExtra("college")
+        val adminEmail = intent.getStringExtra("email")
 
         // set the button
         btnClubReq.setOnClickListener {
@@ -55,13 +55,8 @@ class StatusRequests : AppCompatActivity() {
             adaptor = StatusRequestRecycleAdaptor(requestList){
                 val intent = Intent(this, adminClubConfirmation::class.java)
                 intent.putExtra("request info", it.component1())
-
-                val vals = it.component1().split(",")
-
-                val email = vals[0]
-
-                val ip = "http://3.132.20.107:3000"
-
+                intent.putExtra("college", college)
+                intent.putExtra("adminemail", adminEmail)
                 startActivity(intent)
                 finish()
             }
@@ -99,13 +94,8 @@ class StatusRequests : AppCompatActivity() {
             adaptor = StatusRequestRecycleAdaptor(requestList){
                 val intent = Intent(this, adminCollegeConfirmation::class.java)
                 intent.putExtra("request info", it.component1())
-                val vals = it.component1().split(",")
-
-                val email = vals[0]
-
-                val ip = "http://3.132.20.107:3000"
-
                 intent.putExtra("college", college)
+                intent.putExtra("adminemail", adminEmail)
                 startActivity(intent)
                 finish()
             }

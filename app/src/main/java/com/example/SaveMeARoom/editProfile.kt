@@ -142,12 +142,22 @@ class editProfile : AppCompatActivity(), OnItemSelectedListener {
 
                                     url.readText()
                                 }else{
+                                    val curTime = LocalTime.now()
+                                    val curDate = LocalDate.now()
+                                    val logTime = curTime.toString().substringBefore(".") + " " + curDate.toString()
+
                                     query =
                                         "/search?query=INSERT%20INTO%20statusrequests%20VALUES(%27" + email + "%27,%270%27,%271%27,%27null%27,%27" + college + "%27,%27" + newcollege + "%27)"
 
                                     url = URL(ip.plus(query))
 
                                     url.readText()
+                                    //log college change
+                                    query =
+                                        "/search?query=INSERT%20INTO%20statuslogs%20VALUES(%27" + email + "%27,%27" + college + "%27,%27" + email + "%27,%27" + logTime + "%27,%270%27,%271%27,%270%27,%270%27)"
+                                    url = URL(ip.plus(query))
+                                    url.readText()
+
                                 }
                                 Toast.makeText(this, "Account updated.", Toast.LENGTH_SHORT).show()
                             }
@@ -202,20 +212,38 @@ class editProfile : AppCompatActivity(), OnItemSelectedListener {
                             val text = url.readText()
 
                             if(text.length > 2){
+                                val curTime = LocalTime.now()
+                                val curDate = LocalDate.now()
+                                val logTime = curTime.toString().substringBefore(".") + " " + curDate.toString()
+
                                 query =
                                     "/search?query=UPDATE%20statusrequests%20SET%20New_College=%27" + newcollege + "%27%20WHERE%20Email=%27" + email + "%27%20AND%20College_Request=%271%27"
 
                                 url = URL(ip.plus(query))
 
                                 url.readText()
+                                //log college update
+                                query =
+                                    "/search?query=INSERT%20INTO%20statuslogs%20VALUES(%27" + email + "%27,%27" + college + "%27,%27" + email + "%27,%27" + logTime + "%27,%270%27,%271%27,%270%27,%270%27)"
+                                url = URL(ip.plus(query))
+                                url.readText()
 
                                 Toast.makeText(this, "College change request updated.", Toast.LENGTH_SHORT).show()
                             }else{
+                                val curTime = LocalTime.now()
+                                val curDate = LocalDate.now()
+                                val logTime = curTime.toString().substringBefore(".") + " " + curDate.toString()
+
                                 query =
                                     "/search?query=INSERT%20INTO%20statusrequests%20VALUES(%27" + email + "%27,%270%27,%271%27,%27null%27,%27" + college + "%27,%27" + newcollege + "%27)"
 
                                 url = URL(ip.plus(query))
 
+                                url.readText()
+                                //log college change
+                                query =
+                                    "/search?query=INSERT%20INTO%20statuslogs%20VALUES(%27" + email + "%27,%27" + college + "%27,%27" + email + "%27,%27" + logTime + "%27,%270%27,%271%27,%270%27,%270%27)"
+                                url = URL(ip.plus(query))
                                 url.readText()
 
                                 Toast.makeText(this, "College change request sent.", Toast.LENGTH_SHORT).show()
