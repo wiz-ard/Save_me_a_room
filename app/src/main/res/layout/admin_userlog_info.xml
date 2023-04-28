@@ -9,12 +9,12 @@
         android:id="@+id/tvUserLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
         android:gravity="center"
         android:text="User"
         android:textSize="45sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvDateLog"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,9 +22,9 @@
         android:id="@+id/tvLoginLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Time of Login"
         android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvLogoutLog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,9 +34,9 @@
         android:id="@+id/tvSuccessfulLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Successful"
         android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnBackLog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,10 +46,11 @@
         android:id="@+id/tvLogoutLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Time of Logout"
         android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvSuccessfulLog"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLoginLog" />
 
@@ -57,10 +58,11 @@
         android:id="@+id/tvDateLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Date"
         android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvLoginLog"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUserLog" />
 
@@ -68,12 +70,10 @@
         android:id="@+id/btnBackLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSuccessfulLog"
-        app:layout_constraintVertical_bias="0.094" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSuccessfulLog" />
 </androidx.constraintlayout.widget.ConstraintLayout>
