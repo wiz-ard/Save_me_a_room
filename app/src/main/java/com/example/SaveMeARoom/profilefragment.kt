@@ -86,7 +86,11 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
         var clubLeader =
             url.readText().substringAfter(":").substringAfter("\"").substringBefore("\"")
 
-        if (admin.equals("1") || clubLeader == "1") {
+        if (clubLeader == "1") {
+            btnClubRequest.visibility = View.INVISIBLE
+        }
+
+        if(admin.equals("1")){
             displayReservation.visibility = View.INVISIBLE
             resStatic.visibility = View.INVISIBLE
             btnClubRequest.visibility = View.INVISIBLE
