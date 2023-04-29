@@ -47,22 +47,22 @@
                 android:id="@+id/imageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginBottom="400dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginBottom="400dp"
                 app:srcCompat="@drawable/latechsupport" />
 
             <TextView
                 android:id="@+id/tvUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="310dp"
                 android:text="Username"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:layout_marginBottom="310dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.501"
@@ -73,10 +73,10 @@
                 android:id="@+id/tvEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="280dp"
                 android:text="Email"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:layout_marginBottom="280dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -87,10 +87,10 @@
                 android:id="@+id/tvCollege"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="250dp"
                 android:text="College"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:layout_marginBottom="250dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -108,7 +108,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCollege" />
+                app:layout_constraintTop_toBottomOf="@+id/tvCollege"
+                app:layout_constraintVertical_chainStyle="spread" />
 
             <TextView
                 android:id="@+id/tvUsernameStatic"
@@ -120,7 +121,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvUsername"
                 app:layout_constraintStart_toStartOf="@+id/tvEmailStatic"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <TextView
                 android:id="@+id/tvEmailStatic"
@@ -163,7 +164,6 @@
                 android:backgroundTint="@color/red"
                 android:text="Logout"
                 android:textSize="15sp"
-                android:layout_marginBottom="70dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
