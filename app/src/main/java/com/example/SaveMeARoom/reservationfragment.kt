@@ -32,6 +32,17 @@ class Reservationfragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
 
+        reservationLoad()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        reservationLoad()
+    }
+
+    fun reservationLoad(){
+
+
         val bundle = arguments
 
         val ip = "http://3.132.20.107:3000"
@@ -50,7 +61,7 @@ class Reservationfragment: Fragment() {
         getReservations(email)
 
         val layoutManager = LinearLayoutManager(context)
-        recycleView = view.findViewById(R.id.rvMyReservations)
+        recycleView = requireView().findViewById(R.id.rvMyReservations)
         recycleView.layoutManager = layoutManager
         recycleView.setHasFixedSize(true)
         adaptor = myReservationRecycleAdaptor(myReservationList){
@@ -63,7 +74,6 @@ class Reservationfragment: Fragment() {
 
         }
         recycleView.adapter = adaptor
-
     }
 
     private fun getReservations(email:String) {
