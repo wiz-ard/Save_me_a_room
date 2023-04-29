@@ -10,10 +10,12 @@
         android:id="@+id/resReq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="245dp"
+        android:layout_marginTop="90dp"
         android:text="Reservation Requests"
         app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@+id/statReq"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,9 +23,10 @@
         android:id="@+id/statReq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="230dp"
+        android:layout_marginBottom="180dp"
         android:text="Status Requests"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resReq" />
 </androidx.constraintlayout.widget.ConstraintLayout>

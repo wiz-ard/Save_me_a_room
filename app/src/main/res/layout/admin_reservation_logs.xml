@@ -10,6 +10,7 @@
         android:id="@+id/spBuildingSelect"
         android:layout_width="205dp"
         android:layout_height="48dp"
+        android:background="@drawable/edit_text_background"
         android:contentDescription="Select Building"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,6 +19,7 @@
         android:id="@+id/spActionSelect"
         android:layout_width="205dp"
         android:layout_height="48dp"
+        android:background="@drawable/edit_text_background"
         android:contentDescription="Select Action"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,6 +28,7 @@
         android:id="@+id/spRoomSelect"
         android:layout_width="205dp"
         android:layout_height="48dp"
+        android:background="@drawable/edit_text_background"
         android:contentDescription="Select Room"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spBuildingSelect" />
@@ -34,6 +37,7 @@
         android:id="@+id/spEmailSelect"
         android:layout_width="205dp"
         android:layout_height="48dp"
+        android:background="@drawable/edit_text_background"
         android:contentDescription="Select Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spActionSelect" />
@@ -42,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
+        android:backgroundTint="@color/red"
         android:text="Search Logs"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
