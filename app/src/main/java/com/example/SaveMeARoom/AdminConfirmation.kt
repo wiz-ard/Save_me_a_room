@@ -127,6 +127,7 @@ class AdminConfirmation : AppCompatActivity() {
             intent.putExtra("college",college)
             intent.putExtra("adminemail",adminEmail)
             intent.putExtra("club", club)
+            intent.putExtra("res info", resInfo)
             startActivity(intent)
             finish()
         }

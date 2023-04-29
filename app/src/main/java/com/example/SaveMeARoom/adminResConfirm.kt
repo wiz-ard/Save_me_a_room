@@ -26,7 +26,7 @@ class adminResConfirm : AppCompatActivity() {
         val email = resSplit[2].substringAfter(' ')
         var time = resSplit[4].substringAfter(" ")
         var date = resSplit[5].substringAfter(" ")
-        var college = resSplit[6]
+        var college = resSplit[6].substringAfter(" ")
         var club = "0"
         val modifiedTime = date + " " + (time.substringBefore("-").toInt() + 12).toString() + ":00:00"
         val flag = intent.getStringExtra("flag")
