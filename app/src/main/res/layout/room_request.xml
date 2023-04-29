@@ -10,6 +10,7 @@
         android:id="@+id/spBuildingSelect"
         android:layout_width="205dp"
         android:layout_height="48dp"
+        android:background="@drawable/edit_text_background"
         android:contentDescription="Select Building"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,6 +19,7 @@
         android:id="@+id/spDateSelect"
         android:layout_width="205dp"
         android:layout_height="48dp"
+        android:background="@drawable/edit_text_background"
         android:contentDescription="Select Date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,6 +28,7 @@
         android:id="@+id/spTimeSelect"
         android:layout_width="205dp"
         android:layout_height="48dp"
+        android:background="@drawable/edit_text_background"
         android:contentDescription="Select Time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spBuildingSelect" />
@@ -34,6 +37,7 @@
         android:id="@+id/spStatusSelect"
         android:layout_width="205dp"
         android:layout_height="48dp"
+        android:background="@drawable/edit_text_background"
         android:contentDescription="Select Status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spDateSelect" />
@@ -42,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
+        android:backgroundTint="@color/red"
         android:text="Filter Requests"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
