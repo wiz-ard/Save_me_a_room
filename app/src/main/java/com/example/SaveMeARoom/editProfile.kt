@@ -119,6 +119,7 @@ class editProfile : AppCompatActivity(), OnItemSelectedListener {
                                 }
                                 finish()
 
+
                             } else {
                                 query =
                                     "/search?query=UPDATE%20users%20SET%20Username=%27" + newusername + "%27%20WHERE%20Email=%27" + email + "%27"
