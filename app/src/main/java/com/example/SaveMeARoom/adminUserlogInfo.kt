@@ -34,8 +34,8 @@ class adminUserlogInfo : AppCompatActivity() {
 
         tvUserLog.text = "User: " + logSplit[0]
         if(!(logSplit[1].equals(" NULL"))){
-            val inTime = logSplit[1].substringAfter(" ").substringBefore(" ").substringBefore(".")
-            tvDateLog.text = "Date: " + logSplit[1].substringAfter(" ").substringAfter(" ")
+            val inTime = logSplit[1].substringAfter(" ").substringBefore(" 2")
+            tvDateLog.text = "Date: " + logSplit[1].substringAfter(" ").substringAfter(" ").substringAfter(" ")
             tvLoginLog.text = "Login Time: " + inTime
             tvSuccessfulLog.isInvisible = true
             tvLogoutLog.text = "Successful: " + logSplit[3]
@@ -44,8 +44,8 @@ class adminUserlogInfo : AppCompatActivity() {
         }
         if(!(logSplit[2].equals(" NULL"))){
             val test = logSplit[2]
-            val outTime = logSplit[2].substringAfter(" ").substringBefore(" ").substringBefore(".")
-            tvDateLog.text = "Date: " + logSplit[2].substringAfter(" ").substringAfter(" ")
+            val outTime = logSplit[2].substringAfter(" ").substringBefore(" 2")
+            tvDateLog.text = "Date: " + logSplit[2].substringAfter(" ").substringAfter(" ").substringAfter(" ")
             tvLoginLog.text = "Logout Time: " + outTime
             tvLogoutLog.isInvisible = true
             tvSuccessfulLog.isInvisible = true

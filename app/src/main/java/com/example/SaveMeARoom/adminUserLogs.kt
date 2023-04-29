@@ -165,8 +165,38 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                     val logtrim = log.toString().substringAfter("=").substringBefore(")")
                     userLogText.add(logtrim)
                     if (track % 5 == 0) {
+                        var finalLoginTime = ""
+                        val dateTime = userLogText[i - 3]
+                        val date = dateTime.substringAfter(" ")
+                        val time = dateTime.substringBefore(" ").substringBefore(".")
+                        if(time != "NULL"){
+                            var nonMilitary = (time.substringBefore(":").toInt())
+                            if(nonMilitary > 12){
+                                nonMilitary = (nonMilitary-12)
+                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                            }else{
+                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                            }
+                        }else{
+                            finalLoginTime = "NULL"
+                        }
+                        var finalLogoutTime = ""
+                        val dateTime2 = userLogText[i - 2]
+                        val date2 = dateTime2.substringAfter(" ")
+                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                        if(time2 != "NULL"){
+                            var nonMilitary = (time2.substringBefore(":").toInt())
+                            if(nonMilitary > 12){
+                                nonMilitary = (nonMilitary-12)
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            }else{
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                            }
+                        }else{
+                            finalLogoutTime = "NULL"
+                        }
                         var finalLog =
-                            adminLogData(userLogText[i - 4] + ", " + userLogText[i - 3] + ", " + userLogText[i - 2] + ", " + userLogText[i - 1])
+                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
                         userLogList.add(finalLog)
                     }
                     track += 1
@@ -192,8 +222,38 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                     val logtrim = log.toString().substringAfter("=").substringBefore(")")
                     userLogText.add(logtrim)
                     if (track % 5 == 0) {
+                        var finalLoginTime = ""
+                        val dateTime = userLogText[i - 3]
+                        val date = dateTime.substringAfter(" ")
+                        val time = dateTime.substringBefore(" ").substringBefore(".")
+                        if(time != "NULL"){
+                            var nonMilitary = (time.substringBefore(":").toInt())
+                            if(nonMilitary > 12){
+                                nonMilitary = (nonMilitary-12)
+                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                            }else{
+                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                            }
+                        }else{
+                            finalLoginTime = "NULL"
+                        }
+                        var finalLogoutTime = ""
+                        val dateTime2 = userLogText[i - 2]
+                        val date2 = dateTime2.substringAfter(" ")
+                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                        if(time2 != "NULL"){
+                            var nonMilitary = (time2.substringBefore(":").toInt())
+                            if(nonMilitary > 12){
+                                nonMilitary = (nonMilitary-12)
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            }else{
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                            }
+                        }else{
+                            finalLogoutTime = "NULL"
+                        }
                         var finalLog =
-                            adminLogData(userLogText[i - 4] + ", " + userLogText[i - 3] + ", " + userLogText[i - 2] + ", " + userLogText[i - 1])
+                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
                         userLogList.add(finalLog)
                     }
                     track += 1
@@ -219,8 +279,38 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                     val logtrim = log.toString().substringAfter("=").substringBefore(")")
                     userLogText.add(logtrim)
                     if (track % 5 == 0) {
+                        var finalLoginTime = ""
+                        val dateTime = userLogText[i - 3]
+                        val date = dateTime.substringAfter(" ")
+                        val time = dateTime.substringBefore(" ").substringBefore(".")
+                        if(time != "NULL"){
+                            var nonMilitary = (time.substringBefore(":").toInt())
+                            if(nonMilitary > 12){
+                                nonMilitary = (nonMilitary-12)
+                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                            }else{
+                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                            }
+                        }else{
+                            finalLoginTime = "NULL"
+                        }
+                        var finalLogoutTime = ""
+                        val dateTime2 = userLogText[i - 2]
+                        val date2 = dateTime2.substringAfter(" ")
+                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                        if(time2 != "NULL"){
+                            var nonMilitary = (time2.substringBefore(":").toInt())
+                            if(nonMilitary > 12){
+                                nonMilitary = (nonMilitary-12)
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            }else{
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                            }
+                        }else{
+                            finalLogoutTime = "NULL"
+                        }
                         var finalLog =
-                            adminLogData(userLogText[i - 4] + ", " + userLogText[i - 3] + ", " + userLogText[i - 2] + ", " + userLogText[i - 1])
+                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
                         userLogList.add(finalLog)
                     }
                     track += 1
@@ -246,8 +336,38 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                     val logtrim = log.toString().substringAfter("=").substringBefore(")")
                     userLogText.add(logtrim)
                     if (track % 5 == 0) {
+                        var finalLoginTime = ""
+                        val dateTime = userLogText[i - 3]
+                        val date = dateTime.substringAfter(" ")
+                        val time = dateTime.substringBefore(" ").substringBefore(".")
+                        if(time != "NULL"){
+                            var nonMilitary = (time.substringBefore(":").toInt())
+                            if(nonMilitary > 12){
+                                nonMilitary = (nonMilitary-12)
+                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                            }else{
+                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                            }
+                        }else{
+                            finalLoginTime = "NULL"
+                        }
+                        var finalLogoutTime = ""
+                        val dateTime2 = userLogText[i - 2]
+                        val date2 = dateTime2.substringAfter(" ")
+                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                        if(time2 != "NULL"){
+                            var nonMilitary = (time2.substringBefore(":").toInt())
+                            if(nonMilitary > 12){
+                                nonMilitary = (nonMilitary-12)
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            }else{
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                            }
+                        }else{
+                            finalLogoutTime = "NULL"
+                        }
                         var finalLog =
-                            adminLogData(userLogText[i - 4] + ", " + userLogText[i - 3] + ", " + userLogText[i - 2] + ", " + userLogText[i - 1])
+                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
                         userLogList.add(finalLog)
                     }
                     track += 1
@@ -273,8 +393,38 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                     val logtrim = log.toString().substringAfter("=").substringBefore(")")
                     userLogText.add(logtrim)
                     if (track % 5 == 0) {
+                        var finalLoginTime = ""
+                        val dateTime = userLogText[i - 3]
+                        val date = dateTime.substringAfter(" ")
+                        val time = dateTime.substringBefore(" ").substringBefore(".")
+                        if(time != "NULL"){
+                            var nonMilitary = (time.substringBefore(":").toInt())
+                            if(nonMilitary > 12){
+                                nonMilitary = (nonMilitary-12)
+                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                            }else{
+                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                            }
+                        }else{
+                            finalLoginTime = "NULL"
+                        }
+                        var finalLogoutTime = ""
+                        val dateTime2 = userLogText[i - 2]
+                        val date2 = dateTime2.substringAfter(" ")
+                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                        if(time2 != "NULL"){
+                            var nonMilitary = (time2.substringBefore(":").toInt())
+                            if(nonMilitary > 12){
+                                nonMilitary = (nonMilitary-12)
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            }else{
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                            }
+                        }else{
+                            finalLogoutTime = "NULL"
+                        }
                         var finalLog =
-                            adminLogData(userLogText[i - 4] + ", " + userLogText[i - 3] + ", " + userLogText[i - 2] + ", " + userLogText[i - 1])
+                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
                         userLogList.add(finalLog)
                     }
                     track += 1
@@ -284,7 +434,8 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
 
                 userLogText = arrayListOf()
                 val ip = "http://3.132.20.107:3000"
-                var query = "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)"
+                var query =
+                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
                 var logs = text.split(",")
@@ -293,12 +444,47 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                 //loop to add reservations to the recycle view
                 for (i in logs.indices) {
 
-                    val log = adminLogData(logs[i].substringAfter(":").substringAfter('"').substringBefore('"'))
+                    val log = adminLogData(
+                        logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
+                    )
 
                     val logtrim = log.toString().substringAfter("=").substringBefore(")")
                     userLogText.add(logtrim)
                     if (track % 5 == 0) {
-                        var finalLog = adminLogData(userLogText[i - 4] + ", " + userLogText[i - 3] + ", " + userLogText[i - 2] + ", " + userLogText[i - 1])
+                        var finalLoginTime = ""
+                        val dateTime = userLogText[i - 3]
+                        val date = dateTime.substringAfter(" ")
+                        val time = dateTime.substringBefore(" ").substringBefore(".")
+                        if (time != "NULL") {
+                            var nonMilitary = (time.substringBefore(":").toInt())
+                            if (nonMilitary > 12) {
+                                nonMilitary = (nonMilitary - 12)
+                                finalLoginTime =
+                                    nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                            } else {
+                                finalLoginTime =
+                                    nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                            }
+                        } else {
+                            finalLoginTime = "NULL"
+                        }
+                        var finalLogoutTime = ""
+                        val dateTime2 = userLogText[i - 2]
+                        val date2 = dateTime2.substringAfter(" ")
+                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                        if(time2 != "NULL"){
+                            var nonMilitary = (time2.substringBefore(":").toInt())
+                            if(nonMilitary > 12){
+                                nonMilitary = (nonMilitary-12)
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            }else{
+                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                            }
+                        }else{
+                            finalLogoutTime = "NULL"
+                        }
+                        var finalLog =
+                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
                         userLogList.add(finalLog)
                     }
                     track += 1
