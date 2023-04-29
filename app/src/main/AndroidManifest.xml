@@ -35,6 +35,9 @@
             android:name=".AdminUpdateConfirmation"
             android:exported="false" />
         <activity
+            android:name=".adminResUpdateConfirm"
+            android:exported="false" />
+        <activity
             android:name=".AdminHome"
             android:exported="false" />
         <activity
