@@ -109,7 +109,7 @@ class RoomSelection : AppCompatActivity() {
         roomList = arrayListOf()
 
         for (i in rooms.indices){
-            val roomData = roomData(rooms[i].substringAfter(":").substringBefore('}'))
+            val roomData = roomData(rooms[i].substringAfter(":").substringBefore('}').substringAfter("\"").substringBefore("\""))
             roomList.add(roomData)
         }
 
