@@ -137,6 +137,7 @@ class AdminConfirmation : AppCompatActivity() {
             intent.putExtra("res info", resInfo)
             intent.putExtra("email",adminEmail)
             intent.putExtra("flag","1")
+            intent.putExtra("club", club)
             startActivity(intent)
             finish()
         }
@@ -146,6 +147,7 @@ class AdminConfirmation : AppCompatActivity() {
             intent.putExtra("res info", resInfo)
             intent.putExtra("email",adminEmail)
             intent.putExtra("flag","0")
+            intent.putExtra("club", club)
             startActivity(intent)
             finish()
         }
