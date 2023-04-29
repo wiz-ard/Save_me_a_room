@@ -5,10 +5,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.net.URL
 import java.time.LocalDate
 
 class UpdateDateSelection : AppCompatActivity() {
@@ -38,6 +40,8 @@ class UpdateDateSelection : AppCompatActivity() {
         val topBuildingTitle : TextView = findViewById(R.id.tvUpdateDateTitle)
         topBuildingTitle.text = buildingName +" reservation"
 
+        val btnCancel = findViewById<Button>(R.id.btnCancel)
+
         getDate()
 
         dateRecycleView = findViewById(R.id.rvUpdateDate)
@@ -63,6 +67,14 @@ class UpdateDateSelection : AppCompatActivity() {
             finish()
         }
         dateRecycleView.adapter = adaptor
+
+        btnCancel.setOnClickListener{
+            val ip = "http://3.132.20.107:3000"
+            val query = "/search?query=UPDATE%20reservations%20SET%20Viewing=0%20WHERE%20Reservation_Id=" + resId
+            val url = URL(ip.plus(query))
+            url.readText()
+            finish()
+        }
     }
 
     private fun getDate(){
