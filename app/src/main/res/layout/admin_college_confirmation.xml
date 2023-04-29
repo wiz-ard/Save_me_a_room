@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvOldCollegeText" />
 
     <Button
-        android:id="@+id/btnYesCancel"
+        android:id="@+id/btnYesCollege"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -72,7 +72,7 @@
         app:layout_constraintVertical_bias="0.211" />
 
     <Button
-        android:id="@+id/btnNoCancel"
+        android:id="@+id/btnNoCollege"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
@@ -82,6 +82,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnYesCancel"
+        app:layout_constraintTop_toBottomOf="@+id/btnYesCollege"
         app:layout_constraintVertical_bias="0.131" />
 </androidx.constraintlayout.widget.ConstraintLayout>
