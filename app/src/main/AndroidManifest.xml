@@ -23,16 +23,31 @@
             android:name=".StatusRequests"
             android:exported="false" />
         <activity
+            android:name=".adminClubConfirmation"
+            android:exported="false" />
+        <activity
+            android:name=".adminCollegeConfirmation"
+            android:exported="false" />
+        <activity
             android:name=".RoomRequests"
             android:exported="false" />
         <activity
             android:name=".AdminUpdateConfirmation"
             android:exported="false" />
         <activity
+            android:name=".adminStatusConfirm"
+            android:exported="false" />
+        <activity
+            android:name=".adminResUpdateConfirm"
+            android:exported="false" />
+        <activity
             android:name=".AdminHome"
             android:exported="false" />
         <activity
             android:name=".adminReservationLogs"
+            android:exported="false" />
+        <activity
+            android:name=".adminStatusLogs"
             android:exported="false" />
         <activity
             android:name=".adminUserLogs"
@@ -42,6 +57,12 @@
             android:exported="false" />
         <activity
             android:name=".adminReservationlogInfo"
+            android:exported="false" />
+        <activity
+            android:name=".adminResConfirm"
+            android:exported="false" />
+        <activity
+            android:name=".adminStatuslogInfo"
             android:exported="false" />
         <activity
             android:name=".myReservationConfirmation"

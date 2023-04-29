@@ -8,20 +8,23 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.book_confirmation.*
+import kotlinx.android.synthetic.main.club_confirm.*
+import kotlinx.android.synthetic.main.create_account.*
 import kotlinx.android.synthetic.main.my_reservation_confirmation.*
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalTime
 
 class clubConfirm : AppCompatActivity() {
-
+    private lateinit var email:String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.club_confirm)
 
-        val username = intent.getStringExtra("username")
+        email = intent.getStringExtra("email").toString()
+        val college = intent.getStringExtra("college")
 
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
 
@@ -35,13 +38,24 @@ class clubConfirm : AppCompatActivity() {
 
             StrictMode.setThreadPolicy(policy)
 
+            val clubName = club.text.toString()
+
+            val curTime = LocalTime.now()
+            val curDate = LocalDate.now()
+            val logTime = curTime.toString().substringBefore(".") + " " + curDate.toString()
+
             val ip = "http://3.132.20.107:3000"
 
-            val query = "/search?query=INSERT%20INTO%20clubrequests%20VALUES(%27" + username + "%27)"
+            var query = "/search?query=INSERT%20INTO%20statusrequests%20VALUES(%27" + email + "%27, %271%27, %270%27, %27" + clubName + "%27, %27" + college + "%27, %27null%27)"
 
-            val url = URL(ip.plus(query))
+            var url = URL(ip.plus(query))
 
-            val text = url.readText()
+            url.readText()
+
+            query =
+                "/search?query=INSERT%20INTO%20statuslogs%20VALUES(%27" + email + "%27,%27" + college + "%27,%27" + email + "%27,%27" + logTime + "%27,%271%27,%270%27,%270%27,%270%27)"
+            url = URL(ip.plus(query))
+            url.readText()
 
             Toast.makeText(this, "Club request sent.", Toast.LENGTH_SHORT).show()
 

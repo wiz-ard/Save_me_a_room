@@ -42,5 +42,10 @@ class AdminLogFragment: Fragment() {
             intent.putExtra("college", college)
             startActivity(intent)
         }
+        btnStatus.setOnClickListener {
+            val intent = Intent(activity, adminStatusLogs::class.java)
+            intent.putExtra("college", college)
+            startActivity(intent)
+        }
     }
 }

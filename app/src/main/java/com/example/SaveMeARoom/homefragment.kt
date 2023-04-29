@@ -77,11 +77,11 @@ class Homefragment: Fragment() {
 
         val bundle = arguments
 
-        val username = bundle!!.getString("username")
+        val email = bundle!!.getString("email")
 
         val ip = "http://3.132.20.107:3000"
-        //gets user information based on username
-        var query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username  + "%27"
+        //gets user information based on email
+        var query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Email=%27" + email  + "%27"
 
         var url = URL(ip.plus(query))
 

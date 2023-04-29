@@ -32,33 +32,36 @@ class Reservationfragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
 
+        reservationLoad()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        reservationLoad()
+    }
+
+    fun reservationLoad(){
+
+
         val bundle = arguments
 
-        val username = bundle!!.getString("username")
-
         val ip = "http://3.132.20.107:3000"
-        //gets user email
-        var query = "/search?query=SELECT%20Email%20FROM%20users%20WHERE%20Username=%27" + username + "%27"
+
+        val email = bundle!!.getString("email").toString()
+
+        //gets user college
+        var query = "/search?query=SELECT%20College%20FROM%20users%20WHERE%20Email=%27" + email + "%27"
 
         var url = URL(ip.plus(query))
 
         var text = url.readText()
-
-        val email = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
-
-        //gets user college
-        query = "/search?query=SELECT%20College%20FROM%20users%20WHERE%20Username=%27" + username + "%27"
-
-        url = URL(ip.plus(query))
-
-        text = url.readText()
 
         val college = text.substringAfter(":").substringAfter("\"").substringBefore("\"")
         //gets user reservations
         getReservations(email)
 
         val layoutManager = LinearLayoutManager(context)
-        recycleView = view.findViewById(R.id.rvMyReservations)
+        recycleView = requireView().findViewById(R.id.rvMyReservations)
         recycleView.layoutManager = layoutManager
         recycleView.setHasFixedSize(true)
         adaptor = myReservationRecycleAdaptor(myReservationList){
@@ -71,7 +74,6 @@ class Reservationfragment: Fragment() {
 
         }
         recycleView.adapter = adaptor
-
     }
 
     private fun getReservations(email:String) {
