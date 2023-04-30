@@ -348,6 +348,7 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
         }
     }
     private fun getLogs(dId:String){
+        tvNoResLog.text = ""
         var query = ""
         resLogList = arrayListOf()
         resLogText = arrayListOf()
@@ -372,33 +373,41 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
         }
         var url = URL(ip.plus(query))
         var text = url.readText()
-        var logs = text.split(",")
+        if(text.length > 2){
+            var logs = text.split(",")
 
-        var track = 1
-        //loop to add reservations to the recycle view
-        for (i in logs.indices) {
-            val log = adminLogData(logs[i].substringAfter(":").substringAfter('"').substringBefore('"'))
-            val logtrim = log.toString().substringAfter("=").substringBefore(")")
-            resLogText.add(logtrim)
-            if(track % 7 == 0){
-                val timeOfRes = resLogText[i-3]
-                var date = timeOfRes.substringBefore(" ") + " "
-                val start = (timeOfRes.substringAfter(" ").substringBefore(":").toInt()-12).toString() + " - "
-                val end = (timeOfRes.substringAfter(" - ").substringAfter(" ").substringBefore(":").toInt()-12).toString() + "pm"
-                val finalTime = date + start + end
-                val timeOfAction = resLogText[i-1]
-                date = timeOfAction.substringAfter(" ") + " "
-                var actionTime = timeOfAction.substringBefore(" ").substringBefore(".")
-                if(actionTime.substringBefore(":").toInt() > 12){
-                    actionTime = (actionTime.substringBefore(":").toInt()-12).toString() + ":" + actionTime.substringAfter(":") + "pm"
-                }else{
-                    actionTime = actionTime + "am"
+            var track = 1
+            //loop to add reservations to the recycle view
+            for (i in logs.indices) {
+                val log = adminLogData(logs[i].substringAfter(":").substringAfter('"').substringBefore('"'))
+                val logtrim = log.toString().substringAfter("=").substringBefore(")")
+                resLogText.add(logtrim)
+                if(track % 7 == 0){
+                    val timeOfRes = resLogText[i-3]
+                    var date = timeOfRes.substringBefore(" ") + " "
+                    val start = (timeOfRes.substringAfter(" ").substringBefore(":").toInt()-12).toString() + " - "
+                    val end = (timeOfRes.substringAfter(" - ").substringAfter(" ").substringBefore(":").toInt()-12).toString() + "pm"
+                    val finalTime = date + start + end
+                    val timeOfAction = resLogText[i-1]
+                    date = timeOfAction.substringAfter(" ") + " "
+                    var actionTime = timeOfAction.substringBefore(" ").substringBefore(".")
+                    if(actionTime.substringBefore(":").toInt() > 12){
+                        actionTime = (actionTime.substringBefore(":").toInt()-12).toString() + ":" + actionTime.substringAfter(":") + "pm"
+                    }else{
+                        actionTime = actionTime + "am"
+                    }
+                    val finalActionTime = date + actionTime
+                    var finalLog = adminLogData(resLogText[i - 6] + ", " + resLogText[i - 5] + ", " + resLogText[i - 4] + ", " + finalTime + ", " + resLogText[i - 2] + ", " + finalActionTime + ", " + resLogText[i - 0])
+                    resLogList.add(finalLog)
                 }
-                val finalActionTime = date + actionTime
-                var finalLog = adminLogData(resLogText[i - 6] + ", " + resLogText[i - 5] + ", " + resLogText[i - 4] + ", " + finalTime + ", " + resLogText[i - 2] + ", " + finalActionTime + ", " + resLogText[i - 0])
-                resLogList.add(finalLog)
+                track += 1
             }
-            track += 1
+        }else{
+            if(dId == "1"){
+                tvNoResLog.text = "There are no reservation logs to see."
+            }else {
+                tvNoResLog.text = "There are no logs to see based off of these filters."
+            }
         }
     }
 }

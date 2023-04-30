@@ -38,9 +38,11 @@ class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
         var emailList = ArrayList<String>()
         emailList.add("Any")
         for (i in emails.indices) {
-            val spEmail =
-                emails[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-            emailList.add(spEmail)
+            if(emails[i] != "[]") {
+                val spEmail =
+                    emails[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                emailList.add(spEmail)
+            }
         }
 
         //gets list of types for spinner
@@ -137,6 +139,7 @@ class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     private fun getStatusLogs(spinData: ArrayList<String>) {
+        tvNoStatusLog.text = ""
         if (spinData.size == 0) {
         } else {
             val type = spinData[0]
@@ -150,44 +153,48 @@ class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
                     "/search?query=SELECT%20Email_Of_Request,Email_Of_Action,Time_Of_Action,Club_Request,College_Request,Accept,Deny%20FROM%20statuslogs%20WHERE%20College=%27" + college + "%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
-                var logs = text.split(",")
+                if(text.length > 2){
+                    var logs = text.split(",")
 
-                var track = 1
-                //loop to add reservations to the recycle view
-                for (i in logs.indices) {
+                    var track = 1
+                    //loop to add reservations to the recycle view
+                    for (i in logs.indices) {
 
-                    val log = adminLogData(logs[i].substringAfter(":").substringAfter('"').substringBefore('"'))
-                    val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                    statusLogText.add(logtrim)
-                    if (track % 7 == 0) {
-                        val clubRequest = statusLogText[i-3]
-                        val collegeRequest = statusLogText[i-2]
-                        val accept = statusLogText[i-1]
-                        val deny = statusLogText[i]
+                        val log = adminLogData(logs[i].substringAfter(":").substringAfter('"').substringBefore('"'))
+                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
+                        statusLogText.add(logtrim)
+                        if (track % 7 == 0) {
+                            val clubRequest = statusLogText[i-3]
+                            val collegeRequest = statusLogText[i-2]
+                            val accept = statusLogText[i-1]
+                            val deny = statusLogText[i]
 
-                        if(clubRequest == "1"){
-                            var finalLog =
-                                adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Club Request")
-                            statusLogList.add(finalLog)
-                        }
+                            if(clubRequest == "1"){
+                                var finalLog =
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Club Request")
+                                statusLogList.add(finalLog)
+                            }
 
-                        if(collegeRequest == "1"){
-                            var finalLog =
-                                adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", College Request")
-                            statusLogList.add(finalLog)
+                            if(collegeRequest == "1"){
+                                var finalLog =
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", College Request")
+                                statusLogList.add(finalLog)
+                            }
+                            if(accept == "1"){
+                                var finalLog =
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Accept")
+                                statusLogList.add(finalLog)
+                            }
+                            if(deny == "1"){
+                                var finalLog =
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Deny")
+                                statusLogList.add(finalLog)
+                            }
                         }
-                        if(accept == "1"){
-                            var finalLog =
-                                adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Accept")
-                            statusLogList.add(finalLog)
-                        }
-                        if(deny == "1"){
-                            var finalLog =
-                                adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Deny")
-                            statusLogList.add(finalLog)
-                        }
+                        track += 1
                     }
-                    track += 1
+                }else{
+                    tvNoStatusLog.text = "There are no status logs to see."
                 }
             } else if (type.equals("Any") && !(email.equals("Any"))) {
                 statusLogList = arrayListOf()
@@ -198,44 +205,48 @@ class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
                     "/search?query=SELECT%20Email_Of_Request,Email_Of_Action,Time_Of_Action,Club_Request,College_Request,Accept,Deny%20FROM%20statuslogs%20WHERE%20College=%27" + college + "%27%20AND%20(Email_Of_Request=%27" + email + "%27%20OR%20Email_Of_Action=%27" + email + "%27)"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
-                var logs = text.split(",")
+                if(text.length > 2){
+                    var logs = text.split(",")
 
-                var track = 1
-                //loop to add reservations to the recycle view
-                for (i in logs.indices) {
+                    var track = 1
+                    //loop to add reservations to the recycle view
+                    for (i in logs.indices) {
 
-                    val log = adminLogData(logs[i].substringAfter(":").substringAfter('"').substringBefore('"'))
-                    val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                    statusLogText.add(logtrim)
-                    if (track % 7 == 0) {
-                        val clubRequest = statusLogText[i-3]
-                        val collegeRequest = statusLogText[i-2]
-                        val accept = statusLogText[i-1]
-                        val deny = statusLogText[i]
+                        val log = adminLogData(logs[i].substringAfter(":").substringAfter('"').substringBefore('"'))
+                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
+                        statusLogText.add(logtrim)
+                        if (track % 7 == 0) {
+                            val clubRequest = statusLogText[i-3]
+                            val collegeRequest = statusLogText[i-2]
+                            val accept = statusLogText[i-1]
+                            val deny = statusLogText[i]
 
-                        if(clubRequest == "1"){
-                            var finalLog =
-                                adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Club Request")
-                            statusLogList.add(finalLog)
-                        }
+                            if(clubRequest == "1"){
+                                var finalLog =
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Club Request")
+                                statusLogList.add(finalLog)
+                            }
 
-                        if(collegeRequest == "1"){
-                            var finalLog =
-                                adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", College Request")
-                            statusLogList.add(finalLog)
+                            if(collegeRequest == "1"){
+                                var finalLog =
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", College Request")
+                                statusLogList.add(finalLog)
+                            }
+                            if(accept == "1"){
+                                var finalLog =
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Accept")
+                                statusLogList.add(finalLog)
+                            }
+                            if(deny == "1"){
+                                var finalLog =
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Deny")
+                                statusLogList.add(finalLog)
+                            }
                         }
-                        if(accept == "1"){
-                            var finalLog =
-                                adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Accept")
-                            statusLogList.add(finalLog)
-                        }
-                        if(deny == "1"){
-                            var finalLog =
-                                adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Deny")
-                            statusLogList.add(finalLog)
-                        }
+                        track += 1
                     }
-                    track += 1
+                }else{
+                    tvNoStatusLog.text = "There are no status logs to see based on these filters."
                 }
             } else if (!(type.equals("Any")) && (email.equals("Any"))) {
                 statusLogList = arrayListOf()
@@ -246,22 +257,26 @@ class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
                     "/search?query=SELECT%20Email_Of_Request,Email_Of_Action,Time_Of_Action%20FROM%20statuslogs%20WHERE%20College=%27" + college + "%27%20AND%20" + type + "=%271%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
-                var logs = text.split(",")
+                if(text.length > 2){
+                    var logs = text.split(",")
 
-                var track = 1
-                //loop to add reservations to the recycle view
-                for (i in logs.indices) {
+                    var track = 1
+                    //loop to add reservations to the recycle view
+                    for (i in logs.indices) {
 
-                    val log = adminLogData(
-                        logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                    )
-                    val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                    statusLogText.add(logtrim)
-                    if (track % 3 == 0) {
-                        var finalLog = adminLogData(statusLogText[i - 2] + ", " + statusLogText[i - 1] + ", " + (statusLogText[i].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i].substringAfter(" ") + ", " + type)
-                        statusLogList.add(finalLog)
+                        val log = adminLogData(
+                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
+                        )
+                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
+                        statusLogText.add(logtrim)
+                        if (track % 3 == 0) {
+                            var finalLog = adminLogData(statusLogText[i - 2] + ", " + statusLogText[i - 1] + ", " + (statusLogText[i].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i].substringAfter(" ") + ", " + type)
+                            statusLogList.add(finalLog)
+                        }
+                        track += 1
                     }
-                    track += 1
+                }else{
+                    tvNoStatusLog.text = "There are no status logs to see based on these filters."
                 }
             } else {
                 statusLogList = arrayListOf()
@@ -271,21 +286,25 @@ class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
                 var query = "/search?query=SELECT%20Email_Of_Request,Email_Of_Action,Time_Of_Action%20FROM%20statuslogs%20WHERE%20College=%27" + college + "%27%20AND%20" + type + "=%271%27%20AND%20(Email_Of_Request=%27" + email + "%27%20OR%20Email_Of_Action=%27" + email + "%27)"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
-                var logs = text.split(",")
+                if(text.length > 2){
+                    var logs = text.split(",")
 
-                var track = 1
-                //loop to add reservations to the recycle view
-                for (i in logs.indices) {
+                    var track = 1
+                    //loop to add reservations to the recycle view
+                    for (i in logs.indices) {
 
-                    val log = adminLogData(logs[i].substringAfter(":").substringAfter('"').substringBefore('"'))
+                        val log = adminLogData(logs[i].substringAfter(":").substringAfter('"').substringBefore('"'))
 
-                    val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                    statusLogText.add(logtrim)
-                    if (track % 3 == 0) {
-                        var finalLog = adminLogData(statusLogText[i - 2] + ", " + statusLogText[i - 1] + ", " + (statusLogText[i].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i].substringAfter(" ") + ", " + type)
-                        statusLogList.add(finalLog)
+                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
+                        statusLogText.add(logtrim)
+                        if (track % 3 == 0) {
+                            var finalLog = adminLogData(statusLogText[i - 2] + ", " + statusLogText[i - 1] + ", " + (statusLogText[i].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i].substringAfter(" ") + ", " + type)
+                            statusLogList.add(finalLog)
+                        }
+                        track += 1
                     }
-                    track += 1
+                }else{
+                    tvNoStatusLog.text = "There are no status logs to see based on these filters."
                 }
             }
         }

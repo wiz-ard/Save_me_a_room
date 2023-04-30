@@ -35,9 +35,11 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
         var usernameList = ArrayList<String>()
         usernameList.add("Any")
         for (i in usernames.indices) {
-            val spCollege =
-                usernames[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-            usernameList.add(spCollege)
+            if(usernames[i] != "[]") {
+                val spCollege =
+                    usernames[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                usernameList.add(spCollege)
+            }
         }
 
         //gets list of Successfuls for spinner
@@ -50,16 +52,17 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
         successfulsList.add("Any")
         successfulsList.add("Logouts")
         for (i in successfuls.indices) {
-            val spSuccessful =
-                successfuls[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-            if (!(spSuccessful.equals("NULL"))) {
-                successfulsList.add(spSuccessful)
+            if(successfuls[i] != "[]") {
+                val spSuccessful =
+                    successfuls[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                if (!(spSuccessful.equals("NULL"))) {
+                    successfulsList.add(spSuccessful)
+                }
             }
         }
         spinData = arrayListOf()
         spinData.add("")
         spinData.add("")
-        getUserLogs(spinData)
         userLogRecycleView = findViewById(R.id.rvAdminLogs)
         userLogRecycleView.layoutManager = LinearLayoutManager(this)
         userLogRecycleView.setHasFixedSize(true)
@@ -142,6 +145,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     private fun getUserLogs(spinData: ArrayList<String>) {
+        tvNoLog.text = ""
         if (spinData.size == 0) {
         } else {
             val user = spinData[0]
@@ -155,53 +159,57 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                     "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)%20AND%20Successful=%27" + successful + "%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
-                var logs = text.split(",")
+                if(text.length > 2){
+                    var logs = text.split(",")
 
-                var track = 1
-                //loop to add reservations to the recycle view
-                for (i in logs.indices) {
+                    var track = 1
+                    //loop to add reservations to the recycle view
+                    for (i in logs.indices) {
 
-                    val log = adminLogData(
-                        logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                    )
-                    val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                    userLogText.add(logtrim)
-                    if (track % 5 == 0) {
-                        var finalLoginTime = ""
-                        val dateTime = userLogText[i - 3]
-                        val date = dateTime.substringAfter(" ")
-                        val time = dateTime.substringBefore(" ").substringBefore(".")
-                        if(time != "NULL"){
-                            var nonMilitary = (time.substringBefore(":").toInt())
-                            if(nonMilitary > 12){
-                                nonMilitary = (nonMilitary-12)
-                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                        val log = adminLogData(
+                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
+                        )
+                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
+                        userLogText.add(logtrim)
+                        if (track % 5 == 0) {
+                            var finalLoginTime = ""
+                            val dateTime = userLogText[i - 3]
+                            val date = dateTime.substringAfter(" ")
+                            val time = dateTime.substringBefore(" ").substringBefore(".")
+                            if(time != "NULL"){
+                                var nonMilitary = (time.substringBefore(":").toInt())
+                                if(nonMilitary > 12){
+                                    nonMilitary = (nonMilitary-12)
+                                    finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                                }else{
+                                    finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                }
                             }else{
-                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                finalLoginTime = "NULL"
                             }
-                        }else{
-                            finalLoginTime = "NULL"
-                        }
-                        var finalLogoutTime = ""
-                        val dateTime2 = userLogText[i - 2]
-                        val date2 = dateTime2.substringAfter(" ")
-                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                        if(time2 != "NULL"){
-                            var nonMilitary = (time2.substringBefore(":").toInt())
-                            if(nonMilitary > 12){
-                                nonMilitary = (nonMilitary-12)
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            var finalLogoutTime = ""
+                            val dateTime2 = userLogText[i - 2]
+                            val date2 = dateTime2.substringAfter(" ")
+                            val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                            if(time2 != "NULL"){
+                                var nonMilitary = (time2.substringBefore(":").toInt())
+                                if(nonMilitary > 12){
+                                    nonMilitary = (nonMilitary-12)
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                                }else{
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                }
                             }else{
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                finalLogoutTime = "NULL"
                             }
-                        }else{
-                            finalLogoutTime = "NULL"
+                            var finalLog =
+                                adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
+                            userLogList.add(finalLog)
                         }
-                        var finalLog =
-                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
-                        userLogList.add(finalLog)
+                        track += 1
                     }
-                    track += 1
+                }else{
+                    tvNoLog.text = "There are no logs to see based on these filters."
                 }
             } else if (successful.equals("Any") && !(user.equals("Any"))) {
                 userLogList = arrayListOf()
@@ -212,53 +220,57 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                     "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)%20AND%20Username=%27" + user + "%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
-                var logs = text.split(",")
+                if(text.length > 2){
+                    var logs = text.split(",")
 
-                var track = 1
-                //loop to add reservations to the recycle view
-                for (i in logs.indices) {
+                    var track = 1
+                    //loop to add reservations to the recycle view
+                    for (i in logs.indices) {
 
-                    val log = adminLogData(
-                        logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                    )
-                    val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                    userLogText.add(logtrim)
-                    if (track % 5 == 0) {
-                        var finalLoginTime = ""
-                        val dateTime = userLogText[i - 3]
-                        val date = dateTime.substringAfter(" ")
-                        val time = dateTime.substringBefore(" ").substringBefore(".")
-                        if(time != "NULL"){
-                            var nonMilitary = (time.substringBefore(":").toInt())
-                            if(nonMilitary > 12){
-                                nonMilitary = (nonMilitary-12)
-                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                        val log = adminLogData(
+                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
+                        )
+                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
+                        userLogText.add(logtrim)
+                        if (track % 5 == 0) {
+                            var finalLoginTime = ""
+                            val dateTime = userLogText[i - 3]
+                            val date = dateTime.substringAfter(" ")
+                            val time = dateTime.substringBefore(" ").substringBefore(".")
+                            if(time != "NULL"){
+                                var nonMilitary = (time.substringBefore(":").toInt())
+                                if(nonMilitary > 12){
+                                    nonMilitary = (nonMilitary-12)
+                                    finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                                }else{
+                                    finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                }
                             }else{
-                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                finalLoginTime = "NULL"
                             }
-                        }else{
-                            finalLoginTime = "NULL"
-                        }
-                        var finalLogoutTime = ""
-                        val dateTime2 = userLogText[i - 2]
-                        val date2 = dateTime2.substringAfter(" ")
-                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                        if(time2 != "NULL"){
-                            var nonMilitary = (time2.substringBefore(":").toInt())
-                            if(nonMilitary > 12){
-                                nonMilitary = (nonMilitary-12)
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            var finalLogoutTime = ""
+                            val dateTime2 = userLogText[i - 2]
+                            val date2 = dateTime2.substringAfter(" ")
+                            val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                            if(time2 != "NULL"){
+                                var nonMilitary = (time2.substringBefore(":").toInt())
+                                if(nonMilitary > 12){
+                                    nonMilitary = (nonMilitary-12)
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                                }else{
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                }
                             }else{
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                finalLogoutTime = "NULL"
                             }
-                        }else{
-                            finalLogoutTime = "NULL"
+                            var finalLog =
+                                adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
+                            userLogList.add(finalLog)
                         }
-                        var finalLog =
-                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
-                        userLogList.add(finalLog)
+                        track += 1
                     }
-                    track += 1
+                }else{
+                    tvNoLog.text = "There are no logs to see based on these filters."
                 }
             } else if (successful.equals("Logouts") && user.equals("Any")) {
                 userLogList = arrayListOf()
@@ -269,53 +281,57 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                     "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)%20AND%20Successful=%27NULL%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
-                var logs = text.split(",")
+                if(text.length > 2){
+                    var logs = text.split(",")
 
-                var track = 1
-                //loop to add reservations to the recycle view
-                for (i in logs.indices) {
+                    var track = 1
+                    //loop to add reservations to the recycle view
+                    for (i in logs.indices) {
 
-                    val log = adminLogData(
-                        logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                    )
-                    val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                    userLogText.add(logtrim)
-                    if (track % 5 == 0) {
-                        var finalLoginTime = ""
-                        val dateTime = userLogText[i - 3]
-                        val date = dateTime.substringAfter(" ")
-                        val time = dateTime.substringBefore(" ").substringBefore(".")
-                        if(time != "NULL"){
-                            var nonMilitary = (time.substringBefore(":").toInt())
-                            if(nonMilitary > 12){
-                                nonMilitary = (nonMilitary-12)
-                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                        val log = adminLogData(
+                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
+                        )
+                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
+                        userLogText.add(logtrim)
+                        if (track % 5 == 0) {
+                            var finalLoginTime = ""
+                            val dateTime = userLogText[i - 3]
+                            val date = dateTime.substringAfter(" ")
+                            val time = dateTime.substringBefore(" ").substringBefore(".")
+                            if(time != "NULL"){
+                                var nonMilitary = (time.substringBefore(":").toInt())
+                                if(nonMilitary > 12){
+                                    nonMilitary = (nonMilitary-12)
+                                    finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                                }else{
+                                    finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                }
                             }else{
-                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                finalLoginTime = "NULL"
                             }
-                        }else{
-                            finalLoginTime = "NULL"
-                        }
-                        var finalLogoutTime = ""
-                        val dateTime2 = userLogText[i - 2]
-                        val date2 = dateTime2.substringAfter(" ")
-                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                        if(time2 != "NULL"){
-                            var nonMilitary = (time2.substringBefore(":").toInt())
-                            if(nonMilitary > 12){
-                                nonMilitary = (nonMilitary-12)
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            var finalLogoutTime = ""
+                            val dateTime2 = userLogText[i - 2]
+                            val date2 = dateTime2.substringAfter(" ")
+                            val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                            if(time2 != "NULL"){
+                                var nonMilitary = (time2.substringBefore(":").toInt())
+                                if(nonMilitary > 12){
+                                    nonMilitary = (nonMilitary-12)
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                                }else{
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                }
                             }else{
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                finalLogoutTime = "NULL"
                             }
-                        }else{
-                            finalLogoutTime = "NULL"
+                            var finalLog =
+                                adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
+                            userLogList.add(finalLog)
                         }
-                        var finalLog =
-                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
-                        userLogList.add(finalLog)
+                        track += 1
                     }
-                    track += 1
+                }else{
+                    tvNoLog.text = "There are no logs to see based on these filters."
                 }
             } else if (successful.equals("Logouts") && !(user.equals("Any"))) {
                 userLogList = arrayListOf()
@@ -326,53 +342,57 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                     "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)%20AND%20Successful=%27NULL%27%20AND%20Username=%27" + user + "%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
-                var logs = text.split(",")
+                if(text.length > 2){
+                    var logs = text.split(",")
 
-                var track = 1
-                //loop to add reservations to the recycle view
-                for (i in logs.indices) {
+                    var track = 1
+                    //loop to add reservations to the recycle view
+                    for (i in logs.indices) {
 
-                    val log = adminLogData(
-                        logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                    )
-                    val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                    userLogText.add(logtrim)
-                    if (track % 5 == 0) {
-                        var finalLoginTime = ""
-                        val dateTime = userLogText[i - 3]
-                        val date = dateTime.substringAfter(" ")
-                        val time = dateTime.substringBefore(" ").substringBefore(".")
-                        if(time != "NULL"){
-                            var nonMilitary = (time.substringBefore(":").toInt())
-                            if(nonMilitary > 12){
-                                nonMilitary = (nonMilitary-12)
-                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                        val log = adminLogData(
+                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
+                        )
+                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
+                        userLogText.add(logtrim)
+                        if (track % 5 == 0) {
+                            var finalLoginTime = ""
+                            val dateTime = userLogText[i - 3]
+                            val date = dateTime.substringAfter(" ")
+                            val time = dateTime.substringBefore(" ").substringBefore(".")
+                            if(time != "NULL"){
+                                var nonMilitary = (time.substringBefore(":").toInt())
+                                if(nonMilitary > 12){
+                                    nonMilitary = (nonMilitary-12)
+                                    finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                                }else{
+                                    finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                }
                             }else{
-                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                finalLoginTime = "NULL"
                             }
-                        }else{
-                            finalLoginTime = "NULL"
-                        }
-                        var finalLogoutTime = ""
-                        val dateTime2 = userLogText[i - 2]
-                        val date2 = dateTime2.substringAfter(" ")
-                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                        if(time2 != "NULL"){
-                            var nonMilitary = (time2.substringBefore(":").toInt())
-                            if(nonMilitary > 12){
-                                nonMilitary = (nonMilitary-12)
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            var finalLogoutTime = ""
+                            val dateTime2 = userLogText[i - 2]
+                            val date2 = dateTime2.substringAfter(" ")
+                            val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                            if(time2 != "NULL"){
+                                var nonMilitary = (time2.substringBefore(":").toInt())
+                                if(nonMilitary > 12){
+                                    nonMilitary = (nonMilitary-12)
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                                }else{
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                }
                             }else{
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                finalLogoutTime = "NULL"
                             }
-                        }else{
-                            finalLogoutTime = "NULL"
+                            var finalLog =
+                                adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
+                            userLogList.add(finalLog)
                         }
-                        var finalLog =
-                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
-                        userLogList.add(finalLog)
+                        track += 1
                     }
-                    track += 1
+                }else{
+                    tvNoLog.text = "There are no logs to see based on these filters."
                 }
             } else if (!(successful.equals("Any")) && !(user.equals("Any"))) {
                 userLogList = arrayListOf()
@@ -383,53 +403,57 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                     "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)%20AND%20Username=%27" + user + "%27%20AND%20Successful=%27" + successful + "%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
-                var logs = text.split(",")
+                if(text.length > 2){
+                    var logs = text.split(",")
 
-                var track = 1
-                //loop to add reservations to the recycle view
-                for (i in logs.indices) {
+                    var track = 1
+                    //loop to add reservations to the recycle view
+                    for (i in logs.indices) {
 
-                    val log = adminLogData(
-                        logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                    )
-                    val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                    userLogText.add(logtrim)
-                    if (track % 5 == 0) {
-                        var finalLoginTime = ""
-                        val dateTime = userLogText[i - 3]
-                        val date = dateTime.substringAfter(" ")
-                        val time = dateTime.substringBefore(" ").substringBefore(".")
-                        if(time != "NULL"){
-                            var nonMilitary = (time.substringBefore(":").toInt())
-                            if(nonMilitary > 12){
-                                nonMilitary = (nonMilitary-12)
-                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                        val log = adminLogData(
+                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
+                        )
+                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
+                        userLogText.add(logtrim)
+                        if (track % 5 == 0) {
+                            var finalLoginTime = ""
+                            val dateTime = userLogText[i - 3]
+                            val date = dateTime.substringAfter(" ")
+                            val time = dateTime.substringBefore(" ").substringBefore(".")
+                            if(time != "NULL"){
+                                var nonMilitary = (time.substringBefore(":").toInt())
+                                if(nonMilitary > 12){
+                                    nonMilitary = (nonMilitary-12)
+                                    finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                                }else{
+                                    finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                }
                             }else{
-                                finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                finalLoginTime = "NULL"
                             }
-                        }else{
-                            finalLoginTime = "NULL"
-                        }
-                        var finalLogoutTime = ""
-                        val dateTime2 = userLogText[i - 2]
-                        val date2 = dateTime2.substringAfter(" ")
-                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                        if(time2 != "NULL"){
-                            var nonMilitary = (time2.substringBefore(":").toInt())
-                            if(nonMilitary > 12){
-                                nonMilitary = (nonMilitary-12)
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            var finalLogoutTime = ""
+                            val dateTime2 = userLogText[i - 2]
+                            val date2 = dateTime2.substringAfter(" ")
+                            val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                            if(time2 != "NULL"){
+                                var nonMilitary = (time2.substringBefore(":").toInt())
+                                if(nonMilitary > 12){
+                                    nonMilitary = (nonMilitary-12)
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                                }else{
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                }
                             }else{
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                finalLogoutTime = "NULL"
                             }
-                        }else{
-                            finalLogoutTime = "NULL"
+                            var finalLog =
+                                adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
+                            userLogList.add(finalLog)
                         }
-                        var finalLog =
-                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
-                        userLogList.add(finalLog)
+                        track += 1
                     }
-                    track += 1
+                }else{
+                    tvNoLog.text = "There are no logs to see based on these filters."
                 }
             } else {
                 userLogList = arrayListOf()
@@ -440,56 +464,60 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                     "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
-                var logs = text.split(",")
+                if(text.length > 2){
+                    var logs = text.split(",")
 
-                var track = 1
-                //loop to add reservations to the recycle view
-                for (i in logs.indices) {
+                    var track = 1
+                    //loop to add reservations to the recycle view
+                    for (i in logs.indices) {
 
-                    val log = adminLogData(
-                        logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
-                    )
+                        val log = adminLogData(
+                            logs[i].substringAfter(":").substringAfter('"').substringBefore('"')
+                        )
 
-                    val logtrim = log.toString().substringAfter("=").substringBefore(")")
-                    userLogText.add(logtrim)
-                    if (track % 5 == 0) {
-                        var finalLoginTime = ""
-                        val dateTime = userLogText[i - 3]
-                        val date = dateTime.substringAfter(" ")
-                        val time = dateTime.substringBefore(" ").substringBefore(".")
-                        if (time != "NULL") {
-                            var nonMilitary = (time.substringBefore(":").toInt())
-                            if (nonMilitary > 12) {
-                                nonMilitary = (nonMilitary - 12)
-                                finalLoginTime =
-                                    nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                        val logtrim = log.toString().substringAfter("=").substringBefore(")")
+                        userLogText.add(logtrim)
+                        if (track % 5 == 0) {
+                            var finalLoginTime = ""
+                            val dateTime = userLogText[i - 3]
+                            val date = dateTime.substringAfter(" ")
+                            val time = dateTime.substringBefore(" ").substringBefore(".")
+                            if (time != "NULL") {
+                                var nonMilitary = (time.substringBefore(":").toInt())
+                                if (nonMilitary > 12) {
+                                    nonMilitary = (nonMilitary - 12)
+                                    finalLoginTime =
+                                        nonMilitary.toString() + ":" + time.substringAfter(":") + " pm " + date
+                                } else {
+                                    finalLoginTime =
+                                        nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                }
                             } else {
-                                finalLoginTime =
-                                    nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
+                                finalLoginTime = "NULL"
                             }
-                        } else {
-                            finalLoginTime = "NULL"
-                        }
-                        var finalLogoutTime = ""
-                        val dateTime2 = userLogText[i - 2]
-                        val date2 = dateTime2.substringAfter(" ")
-                        val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                        if(time2 != "NULL"){
-                            var nonMilitary = (time2.substringBefore(":").toInt())
-                            if(nonMilitary > 12){
-                                nonMilitary = (nonMilitary-12)
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                            var finalLogoutTime = ""
+                            val dateTime2 = userLogText[i - 2]
+                            val date2 = dateTime2.substringAfter(" ")
+                            val time2 = dateTime2.substringBefore(" ").substringBefore(".")
+                            if(time2 != "NULL"){
+                                var nonMilitary = (time2.substringBefore(":").toInt())
+                                if(nonMilitary > 12){
+                                    nonMilitary = (nonMilitary-12)
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " pm " + date2
+                                }else{
+                                    finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                }
                             }else{
-                                finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
+                                finalLogoutTime = "NULL"
                             }
-                        }else{
-                            finalLogoutTime = "NULL"
+                            var finalLog =
+                                adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
+                            userLogList.add(finalLog)
                         }
-                        var finalLog =
-                            adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
-                        userLogList.add(finalLog)
+                        track += 1
                     }
-                    track += 1
+                }else{
+                    tvNoLog.text = "There are no user logs to see."
                 }
             }
         }
