@@ -68,8 +68,8 @@ class BookConfirmation : AppCompatActivity() {
         }else{
             occupancy = "50+"
         }
-        tvOccupancyConfirm.text = "Occupancy: " + occupancy
-        tvRoomConfirm.text = "Room: " + room
+        tvOccupancyConfirm.text = occupancy
+        tvRoomConfirm.text = room
 
         btnConfirm.setOnClickListener {
             query = "/search?query=SELECT%20Club_Leader%20FROM%20users%20WHERE%20email=%27" + email + "%27"
