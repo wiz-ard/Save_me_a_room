@@ -10,9 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.admin_user_logs.*
-import kotlinx.android.synthetic.main.admin_userlog_info.*
 import java.net.URL
-import java.time.LocalDate
 
 class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
     private lateinit var adaptor: adminLogRecycleViewAdapter

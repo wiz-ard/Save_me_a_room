@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.admin_user_logs.*
 import kotlinx.android.synthetic.main.admin_user_logs.btnSearch
 import kotlinx.android.synthetic.main.admin_userlog_info.*
 import java.net.URL
-import java.time.LocalDate
 
 class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
     private lateinit var adaptor: adminLogRecycleViewAdapter
