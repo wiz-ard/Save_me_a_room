@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.net.URL
 import java.time.LocalDate
 
@@ -38,7 +39,7 @@ class UpdateDateSelection : AppCompatActivity() {
         val topBuildingTitle : TextView = findViewById(R.id.tvUpdateDateTitle)
         topBuildingTitle.text = buildingName +" reservation"
 
-        val btnCancel = findViewById<Button>(R.id.btnCancel)
+        val btnCancel = findViewById<FloatingActionButton>(R.id.btnCancel)
 
         getDate()
 
