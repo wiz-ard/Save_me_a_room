@@ -7,6 +7,7 @@ import android.os.StrictMode
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.book_confirmation.*
 import kotlinx.android.synthetic.main.my_reservation_confirmation.*
 import java.net.URL
@@ -72,7 +73,7 @@ class myReservationConfirmation : AppCompatActivity() {
         val tvMyRoom = findViewById<TextView>(R.id.tvMyRoomConfirm)
 
         val btnMyCancel = findViewById<Button>(R.id.btnMyCancel)
-        val btnMyBack = findViewById<Button>(R.id.btnBackMRC)
+        val btnMyBack = findViewById<FloatingActionButton>(R.id.btnBackMRC)
         //sets text for TextViews
         tvMyBuildingName.text = buildingName
         tvMyDate.text = date

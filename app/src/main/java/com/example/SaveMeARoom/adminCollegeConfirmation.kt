@@ -7,6 +7,7 @@ import android.os.StrictMode
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.admin_college_confirmation.*
 import java.net.URL
 import java.time.LocalDate
@@ -43,6 +44,7 @@ class adminCollegeConfirmation : AppCompatActivity() {
 
         val btnYesCancel = findViewById<Button>(R.id.btnYesCollege)
         val btnNoCancel = findViewById<Button>(R.id.btnNoCollege)
+        val btnCancel = findViewById<FloatingActionButton>(R.id.btnCancel)
 
         btnYesCancel.setOnClickListener {
             val intent = Intent(this, adminStatusConfirm::class.java)

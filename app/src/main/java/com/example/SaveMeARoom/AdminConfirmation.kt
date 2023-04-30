@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.admin_reservation_confirmation.*
 import kotlinx.android.synthetic.main.time_items.*
 import java.net.URL
@@ -98,6 +99,7 @@ class AdminConfirmation : AppCompatActivity() {
 
         val btnConfirm = findViewById<Button>(R.id.btnAdminConfirm)
         val btnDeny = findViewById<Button>(R.id.btnAdminDeny)
+        val btnCancel = findViewById<FloatingActionButton>(R.id.btnCancel)
 
         if (accepted == "1") {
             btnConfirm.isVisible = false
@@ -163,9 +165,6 @@ class AdminConfirmation : AppCompatActivity() {
             intent.putExtra("resId", resId)
             startActivity(intent)
             finish()
-            btnCancel.setOnClickListener {
-                finish()
-            }
         }
         btnCancel.setOnClickListener{
             finish()

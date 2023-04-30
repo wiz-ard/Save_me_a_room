@@ -7,6 +7,7 @@ import android.os.StrictMode
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.admin_club_confirmation.*
 import kotlinx.android.synthetic.main.create_account.*
 import java.net.URL
@@ -41,6 +42,7 @@ class adminClubConfirmation : AppCompatActivity() {
 
         val btnYesClub = findViewById<Button>(R.id.btnYesClub)
         val btnNoClub = findViewById<Button>(R.id.btnNoClub)
+        val btnCancel = findViewById<FloatingActionButton>(R.id.btnCancel)
 
         btnYesClub.setOnClickListener {
             val intent = Intent(this, adminStatusConfirm::class.java)
