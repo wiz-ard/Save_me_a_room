@@ -19,6 +19,8 @@ class StatusRequests : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.status_request)
 
+        tvNoStatusReq.text = ""
+
         val college = intent.getStringExtra("college")
         val adminEmail = intent.getStringExtra("email")
 
@@ -34,19 +36,23 @@ class StatusRequests : AppCompatActivity() {
 
             var text = url.readText()
 
-            var requests = text.split(",")
+            if(text.length > 2){
+                var requests = text.split(",")
 
-            var track = 1
+                var track = 1
 
-            for (i in requests.indices){
-                if(requests[i] != "[]" && track % 2 == 0){
-                    val email = requests[i-1].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                    val clubName = requests[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                    requestList.add(statusReqData(email + ", " + clubName))
-                    track += 1
-                }else{
-                    track += 1
+                for (i in requests.indices){
+                    if(requests[i] != "[]" && track % 2 == 0){
+                        val email = requests[i-1].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                        val clubName = requests[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                        requestList.add(statusReqData(email + ", " + clubName))
+                        track += 1
+                    }else{
+                        track += 1
+                    }
                 }
+            }else{
+                tvNoStatusReq.text = "There are no status requests of this type."
             }
 
             StatusReqRecyler = findViewById(R.id.rvStatusRequests)
@@ -73,19 +79,23 @@ class StatusRequests : AppCompatActivity() {
 
             var text = url.readText()
 
-            var requests = text.split(",")
+            if(text.length > 2){
+                var requests = text.split(",")
 
-            var track = 1
+                var track = 1
 
-            for (i in requests.indices){
-                if(requests[i] != "[]" && track % 2 == 0){
-                    val userName = requests[i-1].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                    val clubName = requests[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                    requestList.add(statusReqData(userName + ", " + clubName))
-                    track += 1
-                }else{
-                    track += 1
+                for (i in requests.indices){
+                    if(requests[i] != "[]" && track % 2 == 0){
+                        val userName = requests[i-1].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                        val clubName = requests[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
+                        requestList.add(statusReqData(userName + ", " + clubName))
+                        track += 1
+                    }else{
+                        track += 1
+                    }
                 }
+            }else{
+                tvNoStatusReq.text = "There are no status requests of this type."
             }
 
             StatusReqRecyler = findViewById(R.id.rvStatusRequests)
