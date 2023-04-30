@@ -8,6 +8,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.time_occupancy_selection.*
 import java.net.URL
 
@@ -34,7 +35,7 @@ class UpdateTimeSelection : AppCompatActivity() {
         val pending = intent.getStringExtra("pending")
         val email = intent.getStringExtra("email")
         val college = intent.getStringExtra("college")
-        val btnCancel = findViewById<Button>(R.id.btnCancel)
+        val btnCancel = findViewById<FloatingActionButton>(R.id.btnCancel)
 
 
         val topBuildingTitle : TextView = findViewById(R.id.tvUpdateTimeTitle)
