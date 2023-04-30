@@ -12,7 +12,7 @@
         android:gravity="center"
         android:textColor="@color/black"
         android:text="User"
-        android:textSize="45sp"
+        android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/tvDateLog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

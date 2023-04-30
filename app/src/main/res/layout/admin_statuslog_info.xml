@@ -10,53 +10,53 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="@color/black"
         android:text="Request Email"
+        android:textColor="@color/black"
         android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvActionEmailLog"
+        app:layout_constraintBottom_toTopOf="@+id/tvActionEmailLogStatic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUserEmailLogStatic" />
 
     <TextView
         android:id="@+id/tvActionTimeLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:text="Action Time"
+        android:textColor="@color/black"
         android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvStatusActionLog"
+        app:layout_constraintBottom_toTopOf="@+id/tvStatusActionLogStatic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvActionEmailLog" />
+        app:layout_constraintTop_toBottomOf="@+id/tvActionTimeLogStatic" />
 
     <TextView
         android:id="@+id/tvStatusActionLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:text="Action"
+        android:textColor="@color/black"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/btnBackLog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvActionTimeLog" />
+        app:layout_constraintTop_toBottomOf="@+id/tvStatusActionLogStatic" />
 
     <TextView
         android:id="@+id/tvActionEmailLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:text="Action Email"
+        android:textColor="@color/black"
         android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvActionTimeLog"
+        app:layout_constraintBottom_toTopOf="@+id/tvActionTimeLogStatic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUserEmailLog" />
+        app:layout_constraintTop_toBottomOf="@+id/tvActionEmailLogStatic" />
 
     <Button
         android:id="@+id/btnBackLog"
@@ -69,4 +69,63 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvStatusActionLog" />
+
+    <TextView
+        android:id="@+id/tvUserEmailLogStatic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Request Email:"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvUserEmailLog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <TextView
+        android:id="@+id/tvActionEmailLogStatic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Action Email:"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvActionEmailLog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUserEmailLog" />
+
+    <TextView
+        android:id="@+id/tvActionTimeLogStatic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Action Time:"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvActionTimeLog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvActionEmailLog" />
+
+    <TextView
+        android:id="@+id/tvStatusActionLogStatic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Action:"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvStatusActionLog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvActionTimeLog" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

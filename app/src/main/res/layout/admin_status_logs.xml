@@ -10,12 +10,14 @@
         android:id="@+id/btnBackSL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="back button"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="3dp"
         android:clickable="true"
+        android:contentDescription="back button"
+        app:layout_constraintEnd_toStartOf="@+id/btnSearch"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/spTypeSelect"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spTypeSelect"
         app:srcCompat="@drawable/ic_back" />
 
     <Spinner
@@ -40,14 +42,13 @@
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="7dp"
         android:backgroundTint="@color/red"
         android:text="Search Logs"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spStatusEmailSelect"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnBackSL"
+        app:layout_constraintTop_toBottomOf="@+id/spStatusEmailSelect" />
 
     <TextView
         android:id="@+id/tvNoLog"
@@ -65,13 +66,11 @@
         android:id="@+id/rvStatusLogs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSearch"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/btnBackSL"
         tools:listitem="@layout/admin_log_items">
 
     </androidx.recyclerview.widget.RecyclerView>
