@@ -18,7 +18,7 @@
         android:paddingStart="45dp"
         android:paddingEnd="0dp"
         android:paddingVertical="7dp"
-        android:textSize="15pt"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
