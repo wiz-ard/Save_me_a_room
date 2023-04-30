@@ -120,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="90dp"
-        android:text="Select Building"
+        android:text="Select Room"
         android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/EmailSpinnerTitle"
         app:layout_constraintHorizontal_bias="0.5"
