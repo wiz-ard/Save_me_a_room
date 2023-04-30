@@ -4,10 +4,7 @@ package com.example.SaveMeARoom
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,10 +34,19 @@ class UpdateTimeSelection : AppCompatActivity() {
         val pending = intent.getStringExtra("pending")
         val email = intent.getStringExtra("email")
         val college = intent.getStringExtra("college")
+        val btnCancel = findViewById<Button>(R.id.btnCancel)
 
 
         val topBuildingTitle : TextView = findViewById(R.id.tvUpdateTimeTitle)
         topBuildingTitle.text = buildingName +" reservation"
+
+        btnCancel.setOnClickListener{
+            val ip = "http://3.132.20.107:3000"
+            val query = "/search?query=UPDATE%20reservations%20SET%20Viewing=0%20WHERE%20Reservation_Id=" + resId
+            val url = URL(ip.plus(query))
+            url.readText()
+            finish()
+        }
 
         getTimeRange()
 
@@ -64,6 +70,8 @@ class UpdateTimeSelection : AppCompatActivity() {
             intent.putExtra("college", college)
             startActivity(intent)
             finish()
+
+
 
         }
         timeRecycleView.adapter = adaptor

@@ -303,6 +303,10 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
             RoomReqRecyler.adapter = adaptor
         }
+
+        btnCancel.setOnClickListener{
+            finish()
+        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {

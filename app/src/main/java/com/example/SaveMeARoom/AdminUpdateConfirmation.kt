@@ -76,5 +76,8 @@ class AdminUpdateConfirmation : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        btnCancel.setOnClickListener{
+            finish()
+        }
     }
 }

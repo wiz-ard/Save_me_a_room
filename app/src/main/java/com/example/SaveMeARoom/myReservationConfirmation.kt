@@ -72,6 +72,7 @@ class myReservationConfirmation : AppCompatActivity() {
         val tvMyRoom = findViewById<TextView>(R.id.tvMyRoomConfirm)
 
         val btnMyCancel = findViewById<Button>(R.id.btnMyCancel)
+        val btnMyBack = findViewById<Button>(R.id.btnBackMRC)
         //sets text for TextViews
         tvMyBuildingName.text = buildingName
         tvMyDate.text = date
@@ -161,6 +162,10 @@ class myReservationConfirmation : AppCompatActivity() {
                 // inform the user they can't change the request
                 Toast.makeText(this, "Reservation is currently being viewed, please try again later.", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        btnMyBack.setOnClickListener{
+            finish()
         }
     }
 }
