@@ -31,10 +31,10 @@ class adminStatuslogInfo : AppCompatActivity() {
 
         val btnBack = findViewById<Button>(R.id.btnBackLog)
 
-        tvUserEmailLog.text = "Email Of Request: " + logSplit[0]
-        tvActionEmailLog.text = "Email Of Action: " + logSplit[1]
-        tvActionTimeLog.text = "Time Of Action: " + logSplit[2]
-        tvStatusActionLog.text = "Action: " + logSplit[3]
+        tvUserEmailLog.text = logSplit[0]
+        tvActionEmailLog.text = logSplit[1]
+        tvActionTimeLog.text = logSplit[2]
+        tvStatusActionLog.text = logSplit[3]
 
         btnBack.setOnClickListener {
             finish()
