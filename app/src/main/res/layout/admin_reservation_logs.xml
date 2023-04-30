@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".home">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnBackRL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="back button"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
+
     <Spinner
         android:id="@+id/spBuildingSelect"
         android:layout_width="205dp"

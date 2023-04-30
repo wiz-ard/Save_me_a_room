@@ -176,6 +176,10 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
             }
             userLogRecycleView.adapter = adaptor
         }
+
+        btnBackRL.setOnClickListener{
+            finish()
+        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
