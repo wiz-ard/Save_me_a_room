@@ -65,6 +65,12 @@ class cancelConfirmation : AppCompatActivity() {
 
                 text = url.readText()
 
+                query = "/search?query=UPDATE%20reservations%20SET%20Viewing='0'%20WHERE%20Reservation_Id=%27" + resId + "%27"
+
+                url = URL(ip.plus(query))
+
+                text = url.readText()
+
                 Toast.makeText(this, "Update request cancelled.", Toast.LENGTH_SHORT).show()
 
                 //log cancel
