@@ -37,69 +37,71 @@ class MainActivity : AppCompatActivity() {
             val curDate = LocalDate.now()
             val logTime = curTime.toString() + " " + curDate.toString()
 
-            //logging attempt
-            val ip = "http://3.132.20.107:3000"
-
-            val query = "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + username + "%27,%27" + logTime + "%27, 'NULL','NULL','NULL')"
-
-            val url = URL(ip.plus(query))
-
-            val text = url.readText()
-
             //checks for SQL injection characters
             if(validInput(username) && validInput(password)){
-                val ip = "http://3.132.20.107:3000"
-                //queries database to see if user exists
-                val query = "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username +"%27%20AND%20Password=" + hashed
-
-                val url = URL(ip.plus(query))
-
-                val text = url.readText()
-
-                infoList = arrayListOf()
-
-
-                if (text.length > 2) {
-                    val userInfo = text.split(",")
-                    for (i in userInfo.indices){
-                        val info = userData(userInfo[i].substringAfter(":").substringAfter('"').substringBefore('"')).toString()
-                        val info2 = info.substringAfter("=").substringBefore(")")
-                        infoList.add(info2)
-
-                    }
-                    //sets default user intent
-                    var nextPage = Intent(this, home::class.java)
-                    //checks if admin to reset intent if so
-                    if(infoList[4].equals("1")){
-                        nextPage = Intent(this, AdminHome::class.java)
-                    }
-                    nextPage.putExtra("username", infoList[0])
-                    nextPage.putExtra("email", infoList[2])
-                    nextPage.putExtra("college", infoList[3])
-                    nextPage.putExtra("admin", infoList[4])
-
+                if(username.length > 0 && password.length > 0) {
                     val ip = "http://3.132.20.107:3000"
-
-                    val query = "/search?query=UPDATE%20userlogs%20SET%20Successful=%27True%27,College=%27" + infoList[3] + "%27%20WHERE%20Time_Of_Login=%27" + logTime + "%27"
+                    //queries database to see if user exists
+                    val query =
+                        "/search?query=SELECT%20*%20FROM%20users%20WHERE%20Username=%27" + username + "%27%20AND%20Password=" + hashed
 
                     val url = URL(ip.plus(query))
 
                     val text = url.readText()
 
-                    Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-                    startActivity(nextPage)
-                    finish()
+                    infoList = arrayListOf()
 
-                } else {
-                    Toast.makeText(this, "Incorrect Login", Toast.LENGTH_SHORT).show()
-                    //show unsuccessful login
-                    val ip = "http://3.132.20.107:3000"
 
-                    val query = "/search?query=UPDATE%20userlogs%20SET%20Successful=%27False%27%20WHERE%20Time_Of_Login=%27" + logTime + "%27"
+                    if (text.length > 2) {
+                        val userInfo = text.split(",")
+                        for (i in userInfo.indices) {
+                            val info = userData(
+                                userInfo[i].substringAfter(":").substringAfter('"')
+                                    .substringBefore('"')
+                            ).toString()
+                            val info2 = info.substringAfter("=").substringBefore(")")
+                            infoList.add(info2)
 
-                    val url = URL(ip.plus(query))
+                        }
+                        //sets default user intent
+                        var nextPage = Intent(this, home::class.java)
+                        //checks if admin to reset intent if so
+                        if (infoList[4].equals("1")) {
+                            nextPage = Intent(this, AdminHome::class.java)
+                        }
+                        nextPage.putExtra("username", infoList[0])
+                        nextPage.putExtra("email", infoList[2])
+                        nextPage.putExtra("college", infoList[3])
+                        nextPage.putExtra("admin", infoList[4])
+                        val college = infoList[3]
 
-                    val text = url.readText()
+                        val ip = "http://3.132.20.107:3000"
+
+                        val query =
+                            "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + username + "%27,%27" + logTime + "%27, %27NULL%27,%27True%27,%27" + college + "%27)"
+
+                        val url = URL(ip.plus(query))
+
+                        val text = url.readText()
+
+                        Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                        startActivity(nextPage)
+                        finish()
+
+                    } else {
+                        Toast.makeText(this, "Incorrect Login", Toast.LENGTH_SHORT).show()
+                        //show unsuccessful login
+                        val ip = "http://3.132.20.107:3000"
+
+                        val query =
+                            "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + username + "%27,%27NULL%27,%27" + logTime + "%27,%27False%27,%27NULL%27)"
+
+                        val url = URL(ip.plus(query))
+
+                        val text = url.readText()
+                    }
+                }else{
+                    Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show()
                 }
             }else{
                 Toast.makeText(this, "Banned characters are < > = ' and \"", Toast.LENGTH_SHORT).show()
