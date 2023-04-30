@@ -58,7 +58,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         spBuild.adapter = ad
 
         // date list and time list
-        query = "/search?query=SELECT%20DISTINCT%20Start_Date_Time%20FROM%20reservations%20WHERE%20College=%27"+college+"%27"
+        query = "/search?query=SELECT%20DISTINCT%20Start_Date_Time%20FROM%20reservations%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27General%27)"
 
         url = URL(ip.plus(query))
 
@@ -71,7 +71,10 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         dateTimeList.add("any")
 
         for(i in dateTimes.indices){
-            dateTimeList.add(dateTimes[i].substringAfter(':').substringAfter('"').substringBefore('"'))
+            val temp = dateTimes[i].substringAfter(':').substringAfter('"').substringBefore('"')
+            val MTconvert = (temp.substringAfter(" ").substringBefore(":").toInt() - 12).toString()
+            val together = temp.substringBefore(" ") + " " + MTconvert + ":" + temp.substringAfter(":") + "pm"
+            dateTimeList.add(together)
         }
 
         val spDateTime = findViewById<Spinner>(R.id.spDateSelect)
@@ -166,7 +169,10 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             // if date spinner was modified
             else if(!(spinnerChanges[1].equals("any"))){
-                query += "%20AND%20Start_Date_Time=%27" + spinnerChanges[1] + "%27"
+                val temp = spinnerChanges[1].substringAfter(" ")
+                val revert = (temp.substringBefore(":").toInt() + 12).toString()
+                val combine = spinnerChanges[1].substringBefore(" ") + " " + revert + ":" + temp.substringAfter(":").substringBefore("pm")
+                query += "%20AND%20Start_Date_Time=%27" + combine + "%27"
 
                 // if status spinner was also modified
                 if(!(spinnerChanges[2].equals("any"))){
