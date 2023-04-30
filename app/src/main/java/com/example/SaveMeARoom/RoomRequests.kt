@@ -126,6 +126,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         // set the button
         btnFilter.setOnClickListener {
+            tvNoReservations.text = ""
             val ip = "http://3.132.20.107:3000"
 
             var query = "/search?query=SELECT%20*%20FROM%20reservations%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27General%27)"
@@ -281,9 +282,11 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
                 }
                 else{
-                    combine = "No reservations at this time"
+                    tvNoReservations.text = "No reservations at this time"
                 }
-                requestList.add(roomResData(combine))
+                if(combine != ""){
+                    requestList.add(roomResData(combine))
+                }
                 combine = ""
             }
 
