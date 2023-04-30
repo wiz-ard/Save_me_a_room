@@ -6,11 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".home">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="back button"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
+
     <TextView
         android:id="@+id/tvUpdateTimeTitle"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/red"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/edit_text_background"
+        android:backgroundTint="@color/red"
         android:gravity="start"
         android:paddingVertical="7dp"
         android:paddingStart="45dp"
@@ -19,7 +34,7 @@
         android:textColor="@color/white"
         android:textSize="15pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCancel"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -29,17 +44,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUpdateTimeTitle"
         tools:listitem="@layout/time_items" />
-
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:backgroundTint="@color/red"
-        android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

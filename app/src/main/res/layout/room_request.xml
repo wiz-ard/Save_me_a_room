@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".home">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:clickable="true"
+        app:layout_constraintEnd_toStartOf="@+id/btnFilter"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spTimeSelect"
+        app:srcCompat="@drawable/ic_back" />
+
     <Spinner
         android:id="@+id/spBuildingSelect"
         android:layout_width="205dp"
@@ -41,31 +53,19 @@
         android:contentDescription="Select Status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spDateSelect" />
+
     <Button
         android:id="@+id/btnFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
         android:backgroundTint="@color/red"
         android:text="Filter Requests"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rvRequests"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spTimeSelect"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnCancel"
+        app:layout_constraintTop_toBottomOf="@+id/spStatusSelect" />
 
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:backgroundTint="@color/red"
-        android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFilter"
-        app:layout_constraintVertical_bias="0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRequests"
@@ -76,8 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFilter"
-        app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/room_request_items"/>
+        app:layout_constraintTop_toBottomOf="@+id/btnCancel"
+        tools:listitem="@layout/room_request_items" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
