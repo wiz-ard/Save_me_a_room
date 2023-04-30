@@ -10,66 +10,66 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="@color/black"
         android:text="Building"
-        android:textSize="45sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvDateConfirm"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@+id/dateUpdateTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/BuildingUpdateTitle" />
 
     <TextView
         android:id="@+id/tvDateConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:text="Date"
+        android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvRoomConfirm"
+        app:layout_constraintBottom_toTopOf="@+id/roomUpdateTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvBuildingNameConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/dateUpdateTitle" />
 
     <TextView
         android:id="@+id/tvTimeConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:text="Time"
+        android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvOccupancyConfirm"
+        app:layout_constraintBottom_toTopOf="@+id/occupancyUpdateTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRoomConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/timeUpdateTitle" />
 
     <TextView
         android:id="@+id/tvOccupancyConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:text="Occupancy"
+        android:textColor="@color/black"
         android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/occupancyUpdateTitle" />
 
     <TextView
         android:id="@+id/tvRoomConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:text="Room"
+        android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvTimeConfirm"
+        app:layout_constraintBottom_toTopOf="@+id/timeUpdateTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/roomUpdateTitle" />
 
     <Button
         android:id="@+id/btnCancel"
@@ -94,4 +94,75 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvOccupancyConfirm" />
+
+    <TextView
+        android:id="@+id/BuildingUpdateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Building:"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvBuildingNameConfirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dateUpdateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date:"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvDateConfirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvBuildingNameConfirm" />
+
+    <TextView
+        android:id="@+id/roomUpdateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Room:"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvRoomConfirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDateConfirm" />
+
+    <TextView
+        android:id="@+id/timeUpdateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time:"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvTimeConfirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomConfirm" />
+
+    <TextView
+        android:id="@+id/occupancyUpdateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Occupancy:"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvOccupancyConfirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeConfirm" />
 </androidx.constraintlayout.widget.ConstraintLayout>
