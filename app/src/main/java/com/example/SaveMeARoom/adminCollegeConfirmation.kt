@@ -7,6 +7,7 @@ import android.os.StrictMode
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import kotlinx.android.synthetic.main.admin_college_confirmation.*
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalTime
@@ -61,6 +62,9 @@ class adminCollegeConfirmation : AppCompatActivity() {
             intent.putExtra("type", "college")
             intent.putExtra("college", college)
             startActivity(intent)
+            finish()
+        }
+        btnCancel.setOnClickListener{
             finish()
         }
     }

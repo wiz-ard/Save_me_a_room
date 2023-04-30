@@ -101,5 +101,9 @@ class StatusRequests : AppCompatActivity() {
             }
             StatusReqRecyler.adapter = adaptor
         }
+
+        btnCancel.setOnClickListener{
+            finish()
+        }
     }
 }
