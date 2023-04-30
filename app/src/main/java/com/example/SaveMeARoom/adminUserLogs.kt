@@ -123,6 +123,10 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
             }
             userLogRecycleView.adapter = adaptor
         }
+
+        btnBackUL.setOnClickListener{
+            finish()
+        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
