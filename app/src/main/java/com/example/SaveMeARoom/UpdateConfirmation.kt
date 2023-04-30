@@ -46,8 +46,8 @@ class UpdateConfirmation : AppCompatActivity() {
         tvBuildingNameConfirm.text = buildingName
         tvDateConfirm.text = date
         tvTimeConfirm.text = time
-        tvOccupancyConfirm.text = "Occupancy: " + occupancy
-        tvRoomConfirm.text = "Room: " + room
+        tvOccupancyConfirm.text = occupancy
+        tvRoomConfirm.text = room
 
         btnConfirm.setOnClickListener {
             var start = ""
