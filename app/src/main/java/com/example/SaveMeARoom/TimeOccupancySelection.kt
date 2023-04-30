@@ -3,11 +3,9 @@ package com.example.SaveMeARoom
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +13,7 @@ import kotlinx.android.synthetic.main.time_occupancy_selection.*
 
 class TimeOccupancySelection : AppCompatActivity() {
 
-    private lateinit var adaptor : timeRecycleAdaptor
+    private lateinit var adaptor : timeRecycleAdapter
     private lateinit var timeRecycleView : RecyclerView
     private lateinit var timeList : ArrayList<timeData>
     private lateinit var timeText : Array<String>
@@ -58,7 +56,7 @@ class TimeOccupancySelection : AppCompatActivity() {
         timeRecycleView = findViewById(R.id.rvTime)
         timeRecycleView.layoutManager = LinearLayoutManager(this)
         timeRecycleView.setHasFixedSize(true)
-        adaptor = timeRecycleAdaptor(timeList){
+        adaptor = timeRecycleAdapter(timeList){
 
             //place to put click action of the recycle view item
             val intent = Intent(this, RoomSelection::class.java)

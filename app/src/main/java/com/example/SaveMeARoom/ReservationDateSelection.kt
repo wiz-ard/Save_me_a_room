@@ -4,15 +4,13 @@ package com.example.SaveMeARoom
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDate
 
 class ReservationDateSelection : AppCompatActivity() {
-    private lateinit var adaptor : dateRecycleAdaptor
+    private lateinit var adaptor : dateRecycleAdapter
     private lateinit var dateRecycleView : RecyclerView
     private lateinit var dateList : ArrayList<dateData>
     private lateinit var dateText : ArrayList<String>
@@ -35,7 +33,7 @@ class ReservationDateSelection : AppCompatActivity() {
         dateRecycleView = findViewById(R.id.rvDate)
         dateRecycleView.layoutManager = LinearLayoutManager(this)
         dateRecycleView.setHasFixedSize(true)
-        adaptor = dateRecycleAdaptor(dateList){
+        adaptor = dateRecycleAdapter(dateList){
 
             //place to put click action
             val intent = Intent(this, TimeOccupancySelection::class.java)

@@ -2,13 +2,11 @@ package com.example.SaveMeARoom
 
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.reservation_items.view.*
 
-class timeRecycleAdaptor (var Time: List<timeData>, private val clickListener: (timeData) -> Unit) : RecyclerView.Adapter<timeRecycleAdaptor.TimeViewHolder>() {
+class timeRecycleAdapter (var Time: List<timeData>, private val clickListener: (timeData) -> Unit) : RecyclerView.Adapter<timeRecycleAdapter.TimeViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeViewHolder {

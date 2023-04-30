@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class StatusRequestRecycleAdaptor (var acceptedRes: List<statusReqData>, private val clickListener: (statusReqData) -> Unit) : RecyclerView.Adapter<StatusRequestRecycleAdaptor.BuildingViewHolder>() {
+class StatusRequestRecycleAdapter (var acceptedRes: List<statusReqData>, private val clickListener: (statusReqData) -> Unit) : RecyclerView.Adapter<StatusRequestRecycleAdapter.BuildingViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuildingViewHolder {

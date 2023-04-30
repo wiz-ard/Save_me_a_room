@@ -10,7 +10,7 @@ import java.net.URL
 
 class StatusRequests : AppCompatActivity() {
 
-    private lateinit var adaptor: StatusRequestRecycleAdaptor
+    private lateinit var adaptor: StatusRequestRecycleAdapter
     private lateinit var StatusReqRecyler: RecyclerView
     private lateinit var requestList: ArrayList<statusReqData>
 
@@ -52,7 +52,7 @@ class StatusRequests : AppCompatActivity() {
             StatusReqRecyler = findViewById(R.id.rvStatusRequests)
             StatusReqRecyler.layoutManager = LinearLayoutManager(this)
             StatusReqRecyler.setHasFixedSize(true)
-            adaptor = StatusRequestRecycleAdaptor(requestList){
+            adaptor = StatusRequestRecycleAdapter(requestList){
                 val intent = Intent(this, adminClubConfirmation::class.java)
                 intent.putExtra("request info", it.component1())
                 intent.putExtra("college", college)
@@ -91,7 +91,7 @@ class StatusRequests : AppCompatActivity() {
             StatusReqRecyler = findViewById(R.id.rvStatusRequests)
             StatusReqRecyler.layoutManager = LinearLayoutManager(this)
             StatusReqRecyler.setHasFixedSize(true)
-            adaptor = StatusRequestRecycleAdaptor(requestList){
+            adaptor = StatusRequestRecycleAdapter(requestList){
                 val intent = Intent(this, adminCollegeConfirmation::class.java)
                 intent.putExtra("request info", it.component1())
                 intent.putExtra("college", college)

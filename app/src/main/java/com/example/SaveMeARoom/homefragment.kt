@@ -12,9 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import java.net.HttpURLConnection
 import java.net.URL
-import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.create_account.*
 
@@ -22,7 +20,7 @@ import kotlinx.android.synthetic.main.create_account.*
 class Homefragment: Fragment() {
     private lateinit var infoList: ArrayList<String>
 
-    private lateinit var adaptor: homeRecycleAdaptor
+    private lateinit var adaptor: homeRecycleAdapter
     private lateinit var recycleView: RecyclerView
     private lateinit var buildingList: ArrayList<buildingname>
 
@@ -49,7 +47,7 @@ class Homefragment: Fragment() {
         recycleView = view.findViewById(R.id.rvReservation)
         recycleView.layoutManager = layoutManager
         recycleView.setHasFixedSize(true)
-        adaptor = homeRecycleAdaptor(buildingList) {
+        adaptor = homeRecycleAdapter(buildingList) {
             //Place to put actions for when recycle view is clicked
             val intent = Intent(activity, ReservationDateSelection::class.java)
 

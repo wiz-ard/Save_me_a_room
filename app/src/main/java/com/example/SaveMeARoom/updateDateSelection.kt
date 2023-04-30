@@ -4,10 +4,8 @@ package com.example.SaveMeARoom
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.net.URL
@@ -16,7 +14,7 @@ import java.time.LocalDate
 class UpdateDateSelection : AppCompatActivity() {
     private lateinit var infoList: ArrayList<String>
 
-    private lateinit var adaptor : dateRecycleAdaptor
+    private lateinit var adaptor : dateRecycleAdapter
     private lateinit var dateRecycleView : RecyclerView
     private lateinit var dateList : ArrayList<dateData>
     private lateinit var dateText : ArrayList<String>
@@ -47,7 +45,7 @@ class UpdateDateSelection : AppCompatActivity() {
         dateRecycleView = findViewById(R.id.rvUpdateDate)
         dateRecycleView.layoutManager = LinearLayoutManager(this)
         dateRecycleView.setHasFixedSize(true)
-        adaptor = dateRecycleAdaptor(dateList){
+        adaptor = dateRecycleAdapter(dateList){
 
             //place to put click action
             val intent = Intent(this, UpdateTimeSelection::class.java)

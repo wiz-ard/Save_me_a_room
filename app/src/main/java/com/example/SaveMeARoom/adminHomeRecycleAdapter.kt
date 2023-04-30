@@ -2,13 +2,11 @@ package com.example.SaveMeARoom
 
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.reservation_items.view.*
 
-class adminHomeRecycleAdaptor (var pendingReservations: List<adminPendingData>, private val clickListener: (adminPendingData) -> Unit) : RecyclerView.Adapter<adminHomeRecycleAdaptor.PendingResViewHolder>() {
+class adminHomeRecycleAdapter (var pendingReservations: List<adminPendingData>, private val clickListener: (adminPendingData) -> Unit) : RecyclerView.Adapter<adminHomeRecycleAdapter.PendingResViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PendingResViewHolder {

@@ -15,7 +15,7 @@ import java.net.URL
 import java.time.LocalDate
 
 class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
-    private lateinit var adaptor: adminLogRecycleViewAdaptor
+    private lateinit var adaptor: adminLogRecycleViewAdapter
     private lateinit var userLogRecycleView: RecyclerView
     private lateinit var statusLogList: ArrayList<adminLogData>
     private lateinit var statusLogText: ArrayList<String>
@@ -105,7 +105,7 @@ class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
         btnSearch.setOnClickListener {
             getStatusLogs(spinData)
 
-            adaptor = adminLogRecycleViewAdaptor(statusLogList) {
+            adaptor = adminLogRecycleViewAdapter(statusLogList) {
 
                 //place to put click action
                 val intent = Intent(this, adminStatuslogInfo::class.java)

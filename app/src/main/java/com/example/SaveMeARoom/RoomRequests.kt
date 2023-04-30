@@ -1,12 +1,9 @@
 package com.example.SaveMeARoom
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.os.StrictMode
 import android.view.View
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +14,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var pendingResList: ArrayList<adminPendingData>
     private lateinit var groupBy: ArrayList<String>
-    private lateinit var adaptor: RoomRequestRecycleAdaptor
+    private lateinit var adaptor: RoomRequestRecycleAdapter
     private lateinit var spinnerChanges: ArrayList<String>
     private lateinit var RoomReqRecyler: RecyclerView
     private lateinit var accepted: String
@@ -288,7 +285,7 @@ class RoomRequests : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             RoomReqRecyler = findViewById(R.id.rvRequests)
             RoomReqRecyler.layoutManager = LinearLayoutManager(this)
             RoomReqRecyler.setHasFixedSize(true)
-            adaptor = RoomRequestRecycleAdaptor(requestList){
+            adaptor = RoomRequestRecycleAdapter(requestList){
                 val intent = Intent(this, AdminConfirmation::class.java)
                 intent.putExtra("res info", it.component1())
                 intent.putExtra("email", email)

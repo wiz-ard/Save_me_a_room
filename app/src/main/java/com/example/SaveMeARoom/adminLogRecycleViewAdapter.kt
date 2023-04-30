@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class adminLogRecycleViewAdaptor (var acceptedRes: List<adminLogData>, private val clickListener: (adminLogData) -> Unit) : RecyclerView.Adapter<adminLogRecycleViewAdaptor.BuildingViewHolder>() {
+class adminLogRecycleViewAdapter (var acceptedRes: List<adminLogData>, private val clickListener: (adminLogData) -> Unit) : RecyclerView.Adapter<adminLogRecycleViewAdapter.BuildingViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuildingViewHolder {

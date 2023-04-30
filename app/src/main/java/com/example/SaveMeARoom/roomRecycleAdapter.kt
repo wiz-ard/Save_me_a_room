@@ -1,16 +1,12 @@
 package com.example.SaveMeARoom
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.reservation_items.view.*
 
-class roomRecycleAdaptor (var Room: List<roomData>, private val clickListener: (roomData) -> Unit) : RecyclerView.Adapter<roomRecycleAdaptor.RoomViewHolder>() {
+class roomRecycleAdapter (var Room: List<roomData>, private val clickListener: (roomData) -> Unit) : RecyclerView.Adapter<roomRecycleAdapter.RoomViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {

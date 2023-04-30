@@ -9,13 +9,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.create_account.*
 import java.net.URL
 
 class Reservationfragment: Fragment() {
     private lateinit var infoList: ArrayList<String>
 
-    private lateinit var adaptor: myReservationRecycleAdaptor
+    private lateinit var adaptor: myReservationRecycleAdapter
     private lateinit var recycleView: RecyclerView
     private lateinit var myReservationList: ArrayList<myReservationData>
     private lateinit var groupBy: ArrayList<String>
@@ -64,7 +63,7 @@ class Reservationfragment: Fragment() {
         recycleView = requireView().findViewById(R.id.rvMyReservations)
         recycleView.layoutManager = layoutManager
         recycleView.setHasFixedSize(true)
-        adaptor = myReservationRecycleAdaptor(myReservationList){
+        adaptor = myReservationRecycleAdapter(myReservationList){
             //sends appropriate reservation information and email to next page
             val intent = Intent(activity, myReservationConfirmation::class.java)
             intent.putExtra("reservation info", it.component1())

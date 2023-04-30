@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RoomRequestRecycleAdaptor (var acceptedRes: List<roomResData>, private val clickListener: (roomResData) -> Unit) : RecyclerView.Adapter<RoomRequestRecycleAdaptor.BuildingViewHolder>() {
+class RoomRequestRecycleAdapter (var acceptedRes: List<roomResData>, private val clickListener: (roomResData) -> Unit) : RecyclerView.Adapter<RoomRequestRecycleAdapter.BuildingViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuildingViewHolder {

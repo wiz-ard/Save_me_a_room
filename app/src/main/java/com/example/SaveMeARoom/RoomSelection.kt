@@ -9,13 +9,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
 import java.net.URL
 
 class RoomSelection : AppCompatActivity() {
 
 
-    private lateinit var adaptor : roomRecycleAdaptor
+    private lateinit var adaptor : roomRecycleAdapter
     private lateinit var roomRecycleView : RecyclerView
     private lateinit var roomList : ArrayList<roomData>
     private lateinit var room : String
@@ -49,7 +48,7 @@ class RoomSelection : AppCompatActivity() {
         roomRecycleView = findViewById(R.id.rvRoom)
         roomRecycleView.layoutManager = LinearLayoutManager(this)
         roomRecycleView.setHasFixedSize(true)
-        adaptor = roomRecycleAdaptor(roomList){
+        adaptor = roomRecycleAdapter(roomList){
 
             //place to put click action
             val intent = Intent(this, BookConfirmation::class.java)
