@@ -27,7 +27,7 @@
         android:background="@drawable/edit_text_background"
         android:contentDescription="Select Building"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/ActionSpinnerStatusTitle" />
 
     <Spinner
         android:id="@+id/spStatusEmailSelect"
@@ -36,7 +36,7 @@
         android:background="@drawable/edit_text_background"
         android:contentDescription="Select Action"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/EmailSpinnerStatusTitle" />
 
     <Button
         android:id="@+id/btnSearch"
@@ -56,9 +56,9 @@
         android:layout_height="wrap_content"
         android:text=""
         android:textSize="35sp"
-        app:layout_constraintTop_toBottomOf="@+id/btnSearch"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSearch" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -73,5 +73,28 @@
         tools:listitem="@layout/admin_log_items">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/ActionSpinnerStatusTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="90dp"
+        android:text="Select Action"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/EmailSpinnerStatusTitle"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/EmailSpinnerStatusTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Email"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ActionSpinnerStatusTitle"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
