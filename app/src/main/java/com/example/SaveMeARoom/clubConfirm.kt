@@ -38,32 +38,49 @@ class clubConfirm : AppCompatActivity() {
 
             StrictMode.setThreadPolicy(policy)
 
-            val clubName = club.text.toString()
+            if(club.text.toString().length > 0){
+                if(validInput(club.text.toString())){
+                    val clubName = club.text.toString()
 
-            val curTime = LocalTime.now()
-            val curDate = LocalDate.now()
-            val logTime = curTime.toString().substringBefore(".") + " " + curDate.toString()
+                    val curTime = LocalTime.now()
+                    val curDate = LocalDate.now()
+                    val logTime = curTime.toString().substringBefore(".") + " " + curDate.toString()
 
-            val ip = "http://3.132.20.107:3000"
+                    val ip = "http://3.132.20.107:3000"
 
-            var query = "/search?query=INSERT%20INTO%20statusrequests%20VALUES(%27" + email + "%27, %271%27, %270%27, %27" + clubName + "%27, %27" + college + "%27, %27null%27)"
+                    var query = "/search?query=INSERT%20INTO%20statusrequests%20VALUES(%27" + email + "%27, %271%27, %270%27, %27" + clubName + "%27, %27" + college + "%27, %27null%27)"
 
-            var url = URL(ip.plus(query))
+                    var url = URL(ip.plus(query))
 
-            url.readText()
+                    url.readText()
 
-            query =
-                "/search?query=INSERT%20INTO%20statuslogs%20VALUES(%27" + email + "%27,%27" + college + "%27,%27" + email + "%27,%27" + logTime + "%27,%271%27,%270%27,%270%27,%270%27)"
-            url = URL(ip.plus(query))
-            url.readText()
+                    query =
+                        "/search?query=INSERT%20INTO%20statuslogs%20VALUES(%27" + email + "%27,%27" + college + "%27,%27" + email + "%27,%27" + logTime + "%27,%271%27,%270%27,%270%27,%270%27)"
+                    url = URL(ip.plus(query))
+                    url.readText()
 
-            Toast.makeText(this, "Club request sent.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Club request sent.", Toast.LENGTH_SHORT).show()
 
-            finish()
-
+                    finish()
+                }else{
+                    Toast.makeText(this, "Banned characters are < > = ' and \".", Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                Toast.makeText(this, "No club name specified.", Toast.LENGTH_SHORT).show()
+            }
         }
         btnNoCancel.setOnClickListener {
             finish()
         }
+    }
+    fun validInput(userText: String): Boolean{
+        var invalidcount = 0
+        for (letter in userText) {
+            val ascii = letter.code
+            if (ascii == 34 || ascii == 39 || ascii == 60 || ascii == 61 || ascii == 62) {
+                invalidcount += 1
+            }
+        }
+        return (invalidcount == 0)
     }
 }
