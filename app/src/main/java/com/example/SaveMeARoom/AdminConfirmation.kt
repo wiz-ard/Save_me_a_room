@@ -116,8 +116,8 @@ class AdminConfirmation : AppCompatActivity() {
         } else {
             occupancy = "50+"
         }
-        tvOccupancyConfirm.text = "Occupancy: " + occupancy
-        tvRoomConfirm.text = "Room: " + room
+        tvOccupancyConfirm.text = occupancy
+        tvRoomConfirm.text = room
 
         if (newdate.equals("null")) {
             tvDateConfirm.text = date
