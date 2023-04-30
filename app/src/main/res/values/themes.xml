@@ -25,8 +25,8 @@
 
     <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
         <item name="android:background">@color/blue</item>
-        <item name="itemTextColor">@color/red</item>
-        <item name="itemIconTint">@color/red</item>
+        <item name="itemTextColor">@color/white</item>
+        <item name="itemIconTint">@color/white</item>
     </style>
 
     <style name="custom_card_view_style" parent="Widget.MaterialComponents.CardView">
