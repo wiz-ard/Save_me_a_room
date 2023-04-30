@@ -53,9 +53,15 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
         successfulsList.add("Logouts")
         for (i in successfuls.indices) {
             if(successfuls[i] != "[]") {
-                val spSuccessful =
+                var spSuccessful =
                     successfuls[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
                 if (!(spSuccessful.equals("NULL"))) {
+                    if(spSuccessful.equals("True")){
+                        spSuccessful = "Successful Login"
+                    }
+                    if(spSuccessful.equals("False")){
+                        spSuccessful = "Incorrect Login"
+                    }
                     successfulsList.add(spSuccessful)
                 }
             }
