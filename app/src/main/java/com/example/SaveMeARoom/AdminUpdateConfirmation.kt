@@ -59,22 +59,62 @@ class AdminUpdateConfirmation : AppCompatActivity() {
 
         btnConfirm.setOnClickListener {
             val intent = Intent(this, adminResUpdateConfirm::class.java)
-            intent.putExtra("res info", resInfo)
-            intent.putExtra("adminemail",adminEmail)
-            intent.putExtra("flag","1")
-            intent.putExtra("club", club)
-            startActivity(intent)
-            finish()
+
+            val modifiedTime = (time.substringBefore("-").toInt() + 12).toString() + ":00:00"
+
+            val query = "/search?query=SELECT%20Viewing%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Start_Date_Time=%27" + date + " " + modifiedTime + "%27"
+
+            val url = URL(ip.plus(query))
+
+            val view = url.readText().substringAfter(":").substringAfter('"').substringBefore('"')
+
+            if(view == "0"){
+                val query = "/search?query=UPDATE%20reservations%20SET%20Viewing=1%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Start_Date_Time=%27" + date + " " + modifiedTime + "%27"
+
+                val url = URL(ip.plus(query))
+
+                url.readText()
+
+                intent.putExtra("res info", resInfo)
+                intent.putExtra("adminemail",adminEmail)
+                intent.putExtra("flag","1")
+                intent.putExtra("club", club)
+                startActivity(intent)
+                finish()
+            }
+            else{
+                Toast.makeText(this, "Another user is viewing this reservation at this time.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         btnDeny.setOnClickListener {
             val intent = Intent(this, adminResUpdateConfirm::class.java)
-            intent.putExtra("res info", resInfo)
-            intent.putExtra("adminemail",adminEmail)
-            intent.putExtra("flag","0")
-            intent.putExtra("club", club)
-            startActivity(intent)
-            finish()
+
+            val modifiedTime = (time.substringBefore("-").toInt() + 12).toString() + ":00:00"
+
+            val query = "/search?query=SELECT%20Viewing%20FROM%20reservations%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Start_Date_Time=%27" + date + " " + modifiedTime + "%27"
+
+            val url = URL(ip.plus(query))
+
+            val view = url.readText().substringAfter(":").substringAfter('"').substringBefore('"')
+
+            if(view == "0"){
+                val query = "/search?query=UPDATE%20reservations%20SET%20Viewing=1%20WHERE%20Reserver_Email=%27" + email + "%27%20AND%20Start_Date_Time=%27" + date + " " + modifiedTime + "%27"
+
+                val url = URL(ip.plus(query))
+
+                url.readText()
+
+                intent.putExtra("res info", resInfo)
+                intent.putExtra("adminemail",adminEmail)
+                intent.putExtra("flag","0")
+                intent.putExtra("club", club)
+                startActivity(intent)
+                finish()
+            }
+            else{
+                Toast.makeText(this, "Another user is viewing this reservation at this time.", Toast.LENGTH_SHORT).show()
+            }
         }
         btnCancel.setOnClickListener{
             finish()
