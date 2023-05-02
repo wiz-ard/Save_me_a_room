@@ -38,7 +38,7 @@ class RoomSelection : AppCompatActivity() {
         }else{
             start = "21:00:00"
         }
-        val occupancy = intent.getStringExtra("occupancy")
+        var occupancy = intent.getStringExtra("occupancy")
 
         val topBuildingTitle : TextView = findViewById(R.id.tvRoomTitle)
         topBuildingTitle.text = buildingName+" reservation"
@@ -83,24 +83,52 @@ class RoomSelection : AppCompatActivity() {
         var text = url.readText()
 
         var club = text.substringAfter(":").substringAfter('"').substringBefore('"').toInt()
+        var occupancyNum = occupancy
 
         if(club == 0){
-            query = "/search?query=SELECT%20DISTINCT%20locations.Room_Number%20FROM%20Capstone.locations%20WHERE%20locations.Occupancy_Range%20=%20" + occupancy +"%20AND%20locations.Building_Name%20=%20%27" + building +"%27%20AND%20(locations.Room_Number%20Not%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27" + building + "%27%20AND%20Start_Date_Time%20=%20%27" + date + "%20" + start + "%27%20OR%20End_Date_time%20LIKE%20%27" + date + "%2011:59:00%27))ORDER%20BY%20Room_Number"
+            query = "/search?query=SELECT%20DISTINCT%20locations.Room_Number%20FROM%20Capstone.locations%20WHERE%20locations.Occupancy_Range%20=%20" + occupancyNum +"%20AND%20locations.Building_Name%20=%20%27" + building +"%27%20AND%20(locations.Room_Number%20Not%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27" + building + "%27%20AND%20Start_Date_Time%20=%20%27" + date + "%20" + start + "%27%20OR%20End_Date_time%20LIKE%20%27" + date + "%2011:59:00%27))ORDER%20BY%20Room_Number"
 
             url = URL(ip.plus(query))
 
             text = url.readText()
+            if(!(text.length > 2)){
+                while(occupancyNum.toInt() < 3){
+                    occupancyNum = (occupancyNum.toInt() + 1).toString()
+                    query = "/search?query=SELECT%20DISTINCT%20locations.Room_Number%20FROM%20Capstone.locations%20WHERE%20locations.Occupancy_Range%20=%20" + occupancyNum +"%20AND%20locations.Building_Name%20=%20%27" + building +"%27%20AND%20(locations.Room_Number%20Not%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27" + building + "%27%20AND%20Start_Date_Time%20=%20%27" + date + "%20" + start + "%27%20OR%20End_Date_time%20LIKE%20%27" + date + "%2011:59:00%27))ORDER%20BY%20Room_Number"
+
+                    url = URL(ip.plus(query))
+
+                    text = url.readText()
+                    if(text.length > 2){
+                        break
+                    }
+                }
+                if(!(text.length > 2)){
+                    Toast.makeText(this, "No rooms available in this building at this time :(", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            }
         } else{
-            query = "/search?query=SELECT%20DISTINCT%20locations.Room_Number%20FROM%20Capstone.locations%20WHERE%20locations.Occupancy_Range%20=%20"+occupancy+"%20AND%20locations.Building_Name%20=%20%27"+building+"%27%20AND%20(locations.Room_Number%20Not%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27"+building+"%27%20AND%20(Start_Date_Time%20=%27"+date+"%20"+start+"%27%20OR%20End_Date_time%20LIKE%20%272023-03-29%2011:59:00%27)%20AND%20Pending=0))%20AND%20Room_Number%20NOT%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27"+building+"%27%20AND%20(Start_Date_Time%20=%20%27"+date+"%20"+start+"%27%20OR%20End_Date_time%20LIKE%20%272023-03-29%2011:59:00%27)%20AND%20Club_Request=1)%20ORDER%20BY%20Room_Number"
+            query = "/search?query=SELECT%20DISTINCT%20locations.Room_Number%20FROM%20Capstone.locations%20WHERE%20locations.Occupancy_Range%20=%20"+occupancyNum+"%20AND%20locations.Building_Name%20=%20%27"+building+"%27%20AND%20(locations.Room_Number%20Not%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27"+building+"%27%20AND%20(Start_Date_Time%20=%27"+date+"%20"+start+"%27%20OR%20End_Date_time%20LIKE%20%272023-03-29%2011:59:00%27)%20AND%20Pending=0))%20AND%20Room_Number%20NOT%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27"+building+"%27%20AND%20(Start_Date_Time%20=%20%27"+date+"%20"+start+"%27%20OR%20End_Date_time%20LIKE%20%272023-03-29%2011:59:00%27)%20AND%20Club_Request=1)%20ORDER%20BY%20Room_Number"
 
             url = URL(ip.plus(query))
 
             text = url.readText()
-        }
-
-        if(text.equals("[]")){
-            Toast.makeText(this, "No rooms available in this building at this time :(", Toast.LENGTH_SHORT).show()
-            finish()
+            if(!(text.length > 2)){
+                while(occupancyNum.toInt() < 3){
+                    occupancyNum = (occupancyNum.toInt() + 1).toString()
+                    query = "/search?query=SELECT%20DISTINCT%20locations.Room_Number%20FROM%20Capstone.locations%20WHERE%20locations.Occupancy_Range%20=%20"+occupancyNum+"%20AND%20locations.Building_Name%20=%20%27"+building+"%27%20AND%20(locations.Room_Number%20Not%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27"+building+"%27%20AND%20(Start_Date_Time%20=%27"+date+"%20"+start+"%27%20OR%20End_Date_time%20LIKE%20%272023-03-29%2011:59:00%27)%20AND%20Pending=0))%20AND%20Room_Number%20NOT%20IN%20(SELECT%20Room_Number%20FROM%20Capstone.reservations%20WHERE%20Building_Name=%27"+building+"%27%20AND%20(Start_Date_Time%20=%20%27"+date+"%20"+start+"%27%20OR%20End_Date_time%20LIKE%20%272023-03-29%2011:59:00%27)%20AND%20Club_Request=1)%20ORDER%20BY%20Room_Number"
+                    url = URL(ip.plus(query))
+                    text = url.readText()
+                    if(text.length > 2){
+                        break
+                    }
+                }
+                if(!(text.length > 2)){
+                    Toast.makeText(this, "No rooms available in this building at this time :(", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            }
         }
 
         val rooms = text.split(",")
