@@ -155,7 +155,13 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
         if (spinData.size == 0) {
         } else {
             val user = spinData[0]
-            val successful = spinData[1]
+            var successful = spinData[1]
+            if(successful == "Successful Login"){
+                successful = "True"
+            }
+            if(successful == "Incorrect Login"){
+                successful = "False"
+            }
             if (user.equals("Any") && !(successful.equals("Any")) && !(successful.equals("Logouts"))) {
                 userLogList = arrayListOf()
 

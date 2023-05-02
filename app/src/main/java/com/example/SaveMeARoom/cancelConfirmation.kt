@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.book_confirmation.*
+import kotlinx.android.synthetic.main.cancel_confirmation.*
 import kotlinx.android.synthetic.main.my_reservation_confirmation.*
 import java.net.URL
 import java.time.LocalDate
@@ -23,6 +24,10 @@ class cancelConfirmation : AppCompatActivity() {
         //pulls reservation information
         val resId = intent.getStringExtra("resid")
         val email = intent.getStringExtra("email")
+        val updateFlag = intent.getStringExtra("updateflag")
+        if(updateFlag == "1"){
+            tvCancelText.text = "Are you sure you want to cancel this update request?"
+        }
 
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
 

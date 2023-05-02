@@ -78,9 +78,8 @@ class myReservationConfirmation : AppCompatActivity() {
         tvMyBuildingName.text = buildingName
         tvMyDate.text = date
         tvMyTime.text = time
-
-        tvMyOccupancy.text = "Occupancy: " + occupancy
-        tvMyRoom.text = "Room: " + room
+        tvMyOccupancy.text = occupancy
+        tvMyRoom.text = room
 
         btnMyCancel.setOnClickListener {
             val intent = Intent(this, cancelConfirmation::class.java)
@@ -91,7 +90,16 @@ class myReservationConfirmation : AppCompatActivity() {
 
             val view = url.readText().substringAfter(':').substringAfter('"').substringBefore('"').toInt()
 
-            //if pending and updating are both 0, then send to UpdateDateSelectionPage
+            query = "/search?query=SELECT%20Updating%20FROM%20reservations%20WHERE%20Reservation_Id=" + resId
+
+            url = URL(ip.plus(query))
+            val updateFlag = url.readText().substringAfter(':').substringAfter('"').substringBefore('"')
+            if(updateFlag == "1"){
+                intent.putExtra("updateflag", "1")
+            }else{
+                intent.putExtra("updateflag", "0")
+            }
+
             if(view == 0) {
                 // set the request as in progress
                 query =

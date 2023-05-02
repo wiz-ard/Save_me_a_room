@@ -19,13 +19,12 @@ class StatusRequests : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.status_request)
 
-        tvNoStatusReq.text = ""
-
         val college = intent.getStringExtra("college")
         val adminEmail = intent.getStringExtra("email")
 
         // set the button
         btnClubReq.setOnClickListener {
+            tvNoStatusReq.text = ""
             requestList = arrayListOf()
 
             val ip = "http://3.132.20.107:3000"
@@ -69,6 +68,7 @@ class StatusRequests : AppCompatActivity() {
             StatusReqRecyler.adapter = adaptor
         }
         btnCollegeReq.setOnClickListener {
+            tvNoStatusReq.text = ""
             requestList = arrayListOf()
 
             val ip = "http://3.132.20.107:3000"

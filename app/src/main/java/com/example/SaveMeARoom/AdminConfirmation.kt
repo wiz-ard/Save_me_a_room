@@ -87,7 +87,7 @@ class AdminConfirmation : AppCompatActivity() {
                 .toInt()) - 12).toString() + "pm"
         }
 
-        var occupancy = resSplit[3]
+        var occupancy = resSplit[3].substringAfter(" ")
 
         var college = resSplit[6]
 
