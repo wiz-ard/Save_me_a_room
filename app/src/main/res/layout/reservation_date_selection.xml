@@ -8,18 +8,21 @@
 
     <TextView
         android:id="@+id/tvDateTitle"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/red"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/edit_text_background"
+        android:backgroundTint="@color/red"
         android:gravity="start"
-        android:text="Hello"
-        android:textColor="@color/white"
+        android:paddingVertical="7dp"
         android:paddingStart="45dp"
         android:paddingEnd="0dp"
-        android:paddingVertical="7dp"
+        android:text="Hello"
+        android:textColor="@color/white"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnBackDate"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -30,5 +33,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tvDateTitle"
         tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/date_items" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnBackDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="back button"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
