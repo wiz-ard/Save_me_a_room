@@ -168,7 +168,6 @@ class adminReservationLogs : AppCompatActivity(), OnItemSelectedListener {
                 intent.putExtra("action", action)
                 intent.putExtra("displayId", displayId)
                 startActivity(intent)
-                finish()
             }
             userLogRecycleView.adapter = adaptor
         }
