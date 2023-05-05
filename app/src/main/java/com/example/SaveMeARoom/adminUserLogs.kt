@@ -126,6 +126,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                 val intent = Intent(this, adminUserlogInfo::class.java)
                 intent.putExtra("log info", it.component1())
                 startActivity(intent)
+                finish()
             }
             userLogRecycleView.adapter = adaptor
         }
