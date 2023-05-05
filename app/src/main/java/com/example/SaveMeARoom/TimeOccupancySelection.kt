@@ -72,6 +72,10 @@ class TimeOccupancySelection : AppCompatActivity() {
 
         }
         timeRecycleView.adapter = adaptor
+
+        btnBackTime.setOnClickListener{
+            finish()
+        }
     }
 
 
