@@ -139,7 +139,7 @@ class Profilefragment: Fragment(R.layout.profilefragment) {
             val ip = "http://3.132.20.107:3000"
 
             val query =
-                "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + userName + "%27,%27NULL%27,%27" + logTime + "%27,%27NULL%27,%27" + bundle!!.getString(
+                "/search?query=INSERT%20INTO%20userlogs%20VALUES(%27" + userName + "%27,%27empty%27,%27" + logTime + "%27,%27empty%27,%27" + bundle!!.getString(
                     "college"
                 ) + "%27)"
 

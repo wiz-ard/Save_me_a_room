@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.time.LocalDate
 
 class ReservationDateSelection : AppCompatActivity() {
@@ -46,6 +47,11 @@ class ReservationDateSelection : AppCompatActivity() {
             finish()
         }
         dateRecycleView.adapter = adaptor
+
+        val btnBackDate = findViewById<FloatingActionButton>(R.id.btnBackDate)
+        btnBackDate.setOnClickListener{
+            finish()
+        }
     }
 
     private fun getDate(){

@@ -1,5 +1,6 @@
 package com.example.SaveMeARoom
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
@@ -135,6 +136,10 @@ class adminResUpdateConfirm : AppCompatActivity() {
 
                 Toast.makeText(this, "Update accepted.", Toast.LENGTH_SHORT).show()
 
+                val intent = Intent(this, RoomRequests::class.java)
+                intent.putExtra("email", adminEmail).toString()
+                intent.putExtra("college", college)
+                startActivity(intent)
                 finish()
             }else{
                 //get reservation ID of reservation
@@ -195,6 +200,10 @@ class adminResUpdateConfirm : AppCompatActivity() {
 
                 Toast.makeText(this, "Update denied.", Toast.LENGTH_SHORT).show()
 
+                val intent = Intent(this, RoomRequests::class.java)
+                intent.putExtra("email", adminEmail).toString()
+                intent.putExtra("college", college)
+                startActivity(intent)
                 finish()
             }
         }
@@ -213,6 +222,11 @@ class adminResUpdateConfirm : AppCompatActivity() {
             url = URL(ip.plus(query))
 
             url.readText()
+            val intent = Intent(this, RoomRequests::class.java)
+            val adminEmail = intent.getStringExtra("email")
+            intent.putExtra("email", adminEmail).toString()
+            intent.putExtra("college", college)
+            startActivity(intent)
             finish()
         }
     }

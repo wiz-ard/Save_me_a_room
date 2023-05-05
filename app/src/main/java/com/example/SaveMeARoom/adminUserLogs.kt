@@ -44,7 +44,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
 
         //gets list of Successfuls for spinner
         query =
-            "/search?query=SELECT%20DISTINCT%20Successful%20FROM%20userlogs%20WHERE%20College=%27" + college + "%27%20OR%20College=%27NULL%27"
+            "/search?query=SELECT%20DISTINCT%20Successful%20FROM%20userlogs%20WHERE%20College=%27" + college + "%27%20OR%20College=%27empty%27"
         url = URL(ip.plus(query))
         text = url.readText()
         var successfuls = text.split(",")
@@ -55,7 +55,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
             if(successfuls[i] != "[]") {
                 var spSuccessful =
                     successfuls[i].substringAfter(":").substringAfter("\"").substringBefore("\"")
-                if (!(spSuccessful.equals("NULL"))) {
+                if (!(spSuccessful.equals("empty"))) {
                     if(spSuccessful.equals("True")){
                         spSuccessful = "Successful Login"
                     }
@@ -126,6 +126,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                 val intent = Intent(this, adminUserlogInfo::class.java)
                 intent.putExtra("log info", it.component1())
                 startActivity(intent)
+                finish()
             }
             userLogRecycleView.adapter = adaptor
         }
@@ -167,7 +168,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                 userLogText = arrayListOf()
                 val ip = "http://3.132.20.107:3000"
                 var query =
-                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)%20AND%20Successful=%27" + successful + "%27"
+                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27empty%27)%20AND%20Successful=%27" + successful + "%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
                 if(text.length > 2){
@@ -187,7 +188,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                             val dateTime = userLogText[i - 3]
                             val date = dateTime.substringAfter(" ")
                             val time = dateTime.substringBefore(" ").substringBefore(".")
-                            if(time != "NULL"){
+                            if(time != "empty"){
                                 var nonMilitary = (time.substringBefore(":").toInt())
                                 if(nonMilitary > 12){
                                     nonMilitary = (nonMilitary-12)
@@ -196,13 +197,13 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                     finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
                                 }
                             }else{
-                                finalLoginTime = "NULL"
+                                finalLoginTime = "empty"
                             }
                             var finalLogoutTime = ""
                             val dateTime2 = userLogText[i - 2]
                             val date2 = dateTime2.substringAfter(" ")
                             val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                            if(time2 != "NULL"){
+                            if(time2 != "empty"){
                                 var nonMilitary = (time2.substringBefore(":").toInt())
                                 if(nonMilitary > 12){
                                     nonMilitary = (nonMilitary-12)
@@ -211,7 +212,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                     finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
                                 }
                             }else{
-                                finalLogoutTime = "NULL"
+                                finalLogoutTime = "empty"
                             }
                             var finalLog =
                                 adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
@@ -228,7 +229,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                 userLogText = arrayListOf()
                 val ip = "http://3.132.20.107:3000"
                 var query =
-                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)%20AND%20Username=%27" + user + "%27"
+                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27empty%27)%20AND%20Username=%27" + user + "%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
                 if(text.length > 2){
@@ -248,7 +249,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                             val dateTime = userLogText[i - 3]
                             val date = dateTime.substringAfter(" ")
                             val time = dateTime.substringBefore(" ").substringBefore(".")
-                            if(time != "NULL"){
+                            if(time != "empty"){
                                 var nonMilitary = (time.substringBefore(":").toInt())
                                 if(nonMilitary > 12){
                                     nonMilitary = (nonMilitary-12)
@@ -257,13 +258,13 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                     finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
                                 }
                             }else{
-                                finalLoginTime = "NULL"
+                                finalLoginTime = "empty"
                             }
                             var finalLogoutTime = ""
                             val dateTime2 = userLogText[i - 2]
                             val date2 = dateTime2.substringAfter(" ")
                             val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                            if(time2 != "NULL"){
+                            if(time2 != "empty"){
                                 var nonMilitary = (time2.substringBefore(":").toInt())
                                 if(nonMilitary > 12){
                                     nonMilitary = (nonMilitary-12)
@@ -272,7 +273,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                     finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
                                 }
                             }else{
-                                finalLogoutTime = "NULL"
+                                finalLogoutTime = "empty"
                             }
                             var finalLog =
                                 adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
@@ -289,7 +290,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                 userLogText = arrayListOf()
                 val ip = "http://3.132.20.107:3000"
                 var query =
-                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)%20AND%20Successful=%27NULL%27"
+                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27empty%27)%20AND%20Successful=%27empty%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
                 if(text.length > 2){
@@ -309,7 +310,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                             val dateTime = userLogText[i - 3]
                             val date = dateTime.substringAfter(" ")
                             val time = dateTime.substringBefore(" ").substringBefore(".")
-                            if(time != "NULL"){
+                            if(time != "empty"){
                                 var nonMilitary = (time.substringBefore(":").toInt())
                                 if(nonMilitary > 12){
                                     nonMilitary = (nonMilitary-12)
@@ -318,13 +319,13 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                     finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
                                 }
                             }else{
-                                finalLoginTime = "NULL"
+                                finalLoginTime = "empty"
                             }
                             var finalLogoutTime = ""
                             val dateTime2 = userLogText[i - 2]
                             val date2 = dateTime2.substringAfter(" ")
                             val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                            if(time2 != "NULL"){
+                            if(time2 != "empty"){
                                 var nonMilitary = (time2.substringBefore(":").toInt())
                                 if(nonMilitary > 12){
                                     nonMilitary = (nonMilitary-12)
@@ -333,7 +334,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                     finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
                                 }
                             }else{
-                                finalLogoutTime = "NULL"
+                                finalLogoutTime = "empty"
                             }
                             var finalLog =
                                 adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
@@ -350,7 +351,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                 userLogText = arrayListOf()
                 val ip = "http://3.132.20.107:3000"
                 var query =
-                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)%20AND%20Successful=%27NULL%27%20AND%20Username=%27" + user + "%27"
+                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27empty%27)%20AND%20Successful=%27empty%27%20AND%20Username=%27" + user + "%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
                 if(text.length > 2){
@@ -370,7 +371,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                             val dateTime = userLogText[i - 3]
                             val date = dateTime.substringAfter(" ")
                             val time = dateTime.substringBefore(" ").substringBefore(".")
-                            if(time != "NULL"){
+                            if(time != "empty"){
                                 var nonMilitary = (time.substringBefore(":").toInt())
                                 if(nonMilitary > 12){
                                     nonMilitary = (nonMilitary-12)
@@ -379,13 +380,13 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                     finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
                                 }
                             }else{
-                                finalLoginTime = "NULL"
+                                finalLoginTime = "empty"
                             }
                             var finalLogoutTime = ""
                             val dateTime2 = userLogText[i - 2]
                             val date2 = dateTime2.substringAfter(" ")
                             val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                            if(time2 != "NULL"){
+                            if(time2 != "empty"){
                                 var nonMilitary = (time2.substringBefore(":").toInt())
                                 if(nonMilitary > 12){
                                     nonMilitary = (nonMilitary-12)
@@ -394,7 +395,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                     finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
                                 }
                             }else{
-                                finalLogoutTime = "NULL"
+                                finalLogoutTime = "empty"
                             }
                             var finalLog =
                                 adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
@@ -411,7 +412,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                 userLogText = arrayListOf()
                 val ip = "http://3.132.20.107:3000"
                 var query =
-                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)%20AND%20Username=%27" + user + "%27%20AND%20Successful=%27" + successful + "%27"
+                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27empty%27)%20AND%20Username=%27" + user + "%27%20AND%20Successful=%27" + successful + "%27"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
                 if(text.length > 2){
@@ -431,7 +432,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                             val dateTime = userLogText[i - 3]
                             val date = dateTime.substringAfter(" ")
                             val time = dateTime.substringBefore(" ").substringBefore(".")
-                            if(time != "NULL"){
+                            if(time != "empty"){
                                 var nonMilitary = (time.substringBefore(":").toInt())
                                 if(nonMilitary > 12){
                                     nonMilitary = (nonMilitary-12)
@@ -440,13 +441,13 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                     finalLoginTime = nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
                                 }
                             }else{
-                                finalLoginTime = "NULL"
+                                finalLoginTime = "empty"
                             }
                             var finalLogoutTime = ""
                             val dateTime2 = userLogText[i - 2]
                             val date2 = dateTime2.substringAfter(" ")
                             val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                            if(time2 != "NULL"){
+                            if(time2 != "empty"){
                                 var nonMilitary = (time2.substringBefore(":").toInt())
                                 if(nonMilitary > 12){
                                     nonMilitary = (nonMilitary-12)
@@ -455,7 +456,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                     finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
                                 }
                             }else{
-                                finalLogoutTime = "NULL"
+                                finalLogoutTime = "empty"
                             }
                             var finalLog =
                                 adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])
@@ -472,7 +473,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                 userLogText = arrayListOf()
                 val ip = "http://3.132.20.107:3000"
                 var query =
-                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27NULL%27)"
+                    "/search?query=SELECT%20*%20FROM%20userlogs%20WHERE%20(College=%27" + college + "%27%20OR%20College=%27empty%27)"
                 var url = URL(ip.plus(query))
                 var text = url.readText()
                 if(text.length > 2){
@@ -493,7 +494,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                             val dateTime = userLogText[i - 3]
                             val date = dateTime.substringAfter(" ")
                             val time = dateTime.substringBefore(" ").substringBefore(".")
-                            if (time != "NULL") {
+                            if (time != "empty") {
                                 var nonMilitary = (time.substringBefore(":").toInt())
                                 if (nonMilitary > 12) {
                                     nonMilitary = (nonMilitary - 12)
@@ -504,13 +505,13 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                         nonMilitary.toString() + ":" + time.substringAfter(":") + " am " + date
                                 }
                             } else {
-                                finalLoginTime = "NULL"
+                                finalLoginTime = "empty"
                             }
                             var finalLogoutTime = ""
                             val dateTime2 = userLogText[i - 2]
                             val date2 = dateTime2.substringAfter(" ")
                             val time2 = dateTime2.substringBefore(" ").substringBefore(".")
-                            if(time2 != "NULL"){
+                            if(time2 != "empty"){
                                 var nonMilitary = (time2.substringBefore(":").toInt())
                                 if(nonMilitary > 12){
                                     nonMilitary = (nonMilitary-12)
@@ -519,7 +520,7 @@ class adminUserLogs : AppCompatActivity(), OnItemSelectedListener {
                                     finalLogoutTime = nonMilitary.toString() + ":" + time2.substringAfter(":") + " am " + date2
                                 }
                             }else{
-                                finalLogoutTime = "NULL"
+                                finalLogoutTime = "empty"
                             }
                             var finalLog =
                                 adminLogData(userLogText[i - 4] + ", " + finalLoginTime + ", " + finalLogoutTime + ", " + userLogText[i - 1])

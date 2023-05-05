@@ -33,7 +33,7 @@ class adminUserlogInfo : AppCompatActivity() {
         val btnBack = findViewById<Button>(R.id.btnBackLog)
 
         tvUserLog.text = "User: " + logSplit[0]
-        if(!(logSplit[1].equals(" NULL"))){
+        if(!(logSplit[1].equals(" empty"))){
             val inTime = logSplit[1].substringAfter(" ").substringBefore(" 2")
             tvDateLog.text = "Date: " + logSplit[1].substringAfter(" ").substringAfter(" ").substringAfter(" ")
             tvLoginLog.text = "Login Time: " + inTime
@@ -42,7 +42,7 @@ class adminUserlogInfo : AppCompatActivity() {
         }else{
 
         }
-        if(!(logSplit[2].equals(" NULL"))){
+        if(!(logSplit[2].equals(" empty"))){
             val test = logSplit[2]
             val outTime = logSplit[2].substringAfter(" ").substringBefore(" 2")
             tvDateLog.text = "Date: " + logSplit[2].substringAfter(" ").substringAfter(" ").substringAfter(" ")

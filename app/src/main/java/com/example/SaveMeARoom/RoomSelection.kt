@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.net.URL
 
 class RoomSelection : AppCompatActivity() {
@@ -28,6 +29,7 @@ class RoomSelection : AppCompatActivity() {
         val time = intent.getStringExtra("time")
         val username = intent.getStringExtra("username")
         val college = intent.getStringExtra("college")
+        val btnBackRoom = findViewById<FloatingActionButton>(R.id.btnBackRoom)
 
 
         var start = ""
@@ -66,6 +68,10 @@ class RoomSelection : AppCompatActivity() {
 
         }
         roomRecycleView.adapter = adaptor
+
+        btnBackRoom.setOnClickListener{
+            finish()
+        }
     }
 
 
