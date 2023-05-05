@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.time_occupancy_selection.*
 
 class TimeOccupancySelection : AppCompatActivity() {
@@ -72,6 +73,10 @@ class TimeOccupancySelection : AppCompatActivity() {
 
         }
         timeRecycleView.adapter = adaptor
+        val btnBackTime = findViewById<FloatingActionButton>(R.id.btnBackTime)
+        btnBackTime.setOnClickListener{
+            finish()
+        }
     }
 
 

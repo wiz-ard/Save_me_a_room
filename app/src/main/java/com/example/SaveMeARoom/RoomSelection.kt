@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.time_occupancy_selection.*
 import java.net.URL
 
 class RoomSelection : AppCompatActivity() {
@@ -66,6 +68,10 @@ class RoomSelection : AppCompatActivity() {
 
         }
         roomRecycleView.adapter = adaptor
+        val btnBackRoom = findViewById<FloatingActionButton>(R.id.btnBackRoom)
+        btnBackRoom.setOnClickListener{
+            finish()
+        }
     }
 
 
