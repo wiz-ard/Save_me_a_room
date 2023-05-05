@@ -172,7 +172,7 @@ class adminResConfirm : AppCompatActivity() {
 
                 Toast.makeText(this, "Reservation accepted.", Toast.LENGTH_SHORT).show()
 
-                val intent = Intent(this, StatusRequests::class.java)
+                val intent = Intent(this, RoomRequests::class.java)
                 intent.putExtra("email", adminEmail).toString()
                 intent.putExtra("college", college)
                 startActivity(intent)
@@ -246,7 +246,7 @@ class adminResConfirm : AppCompatActivity() {
 
                 Toast.makeText(this, "Reservation denied.", Toast.LENGTH_SHORT).show()
 
-                val intent = Intent(this, StatusRequests::class.java)
+                val intent = Intent(this, RoomRequests::class.java)
                 intent.putExtra("email", adminEmail).toString()
                 intent.putExtra("college", college)
                 startActivity(intent)
@@ -268,7 +268,7 @@ class adminResConfirm : AppCompatActivity() {
             url = URL(ip.plus(query))
 
             url.readText()
-            val intent = Intent(this, StatusRequests::class.java)
+            val intent = Intent(this, RoomRequests::class.java)
             val adminEmail = intent.getStringExtra("email")
             intent.putExtra("email", adminEmail).toString()
             intent.putExtra("college", college)
