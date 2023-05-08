@@ -167,26 +167,32 @@ class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
                             val collegeRequest = statusLogText[i-2]
                             val accept = statusLogText[i-1]
                             val deny = statusLogText[i]
+                            var convertedTime = ""
+                            if(statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() > 12){
+                                convertedTime = (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString()+ ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm"
+                            }else{
+                                convertedTime = (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt()).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "am"
+                            }
 
                             if(clubRequest == "1"){
                                 var finalLog =
-                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Club Request")
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + convertedTime  + " " + statusLogText[i - 4].substringAfter(" ") + ", Club Request")
                                 statusLogList.add(finalLog)
                             }
 
                             if(collegeRequest == "1"){
                                 var finalLog =
-                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", College Request")
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + convertedTime  + " " + statusLogText[i - 4].substringAfter(" ") + ", College Request")
                                 statusLogList.add(finalLog)
                             }
                             if(accept == "1"){
                                 var finalLog =
-                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Accept")
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + convertedTime  + " " + statusLogText[i - 4].substringAfter(" ") + ", Accept")
                                 statusLogList.add(finalLog)
                             }
                             if(deny == "1"){
                                 var finalLog =
-                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Deny")
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + convertedTime  + " " + statusLogText[i - 4].substringAfter(" ") + ", Deny")
                                 statusLogList.add(finalLog)
                             }
                         }
@@ -219,26 +225,32 @@ class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
                             val collegeRequest = statusLogText[i-2]
                             val accept = statusLogText[i-1]
                             val deny = statusLogText[i]
+                            var convertedTime = ""
+                            if(statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() > 12){
+                                convertedTime = (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString()+ ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm"
+                            }else{
+                                convertedTime = (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt()).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "am"
+                            }
 
                             if(clubRequest == "1"){
                                 var finalLog =
-                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Club Request")
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + convertedTime  + " " + statusLogText[i - 4].substringAfter(" ") + ", Club Request")
                                 statusLogList.add(finalLog)
                             }
 
                             if(collegeRequest == "1"){
                                 var finalLog =
-                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", College Request")
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + convertedTime  + " " + statusLogText[i - 4].substringAfter(" ") + ", College Request")
                                 statusLogList.add(finalLog)
                             }
                             if(accept == "1"){
                                 var finalLog =
-                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Accept")
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + convertedTime  + " " + statusLogText[i - 4].substringAfter(" ") + ", Accept")
                                 statusLogList.add(finalLog)
                             }
                             if(deny == "1"){
                                 var finalLog =
-                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + (statusLogText[i - 4].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i - 4].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i - 4].substringAfter(" ") + ", Deny")
+                                    adminLogData(statusLogText[i - 6] + ", " + statusLogText[i - 5] + ", " + convertedTime  + " " + statusLogText[i - 4].substringAfter(" ") + ", Deny")
                                 statusLogList.add(finalLog)
                             }
                         }
@@ -269,7 +281,13 @@ class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
                         val logtrim = log.toString().substringAfter("=").substringBefore(")")
                         statusLogText.add(logtrim)
                         if (track % 3 == 0) {
-                            var finalLog = adminLogData(statusLogText[i - 2] + ", " + statusLogText[i - 1] + ", " + (statusLogText[i].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i].substringAfter(" ") + ", " + type)
+                            var convertedTime = ""
+                            if(statusLogText[i].substringBefore(" ").substringBefore(":").toInt() > 12){
+                                convertedTime = (statusLogText[i].substringBefore(" ").substringBefore(":").toInt() - 12).toString()+ ":" + statusLogText[i].substringBefore(" ").substringAfter(":") + "pm"
+                            }else{
+                                convertedTime = (statusLogText[i].substringBefore(" ").substringBefore(":").toInt()).toString() + ":" + statusLogText[i].substringBefore(" ").substringAfter(":") + "am"
+                            }
+                            var finalLog = adminLogData(statusLogText[i - 2] + ", " + statusLogText[i - 1] + ", " + convertedTime  + " " + statusLogText[i].substringAfter(" ") + ", " + type)
                             statusLogList.add(finalLog)
                         }
                         track += 1
@@ -297,7 +315,13 @@ class adminStatusLogs : AppCompatActivity(), OnItemSelectedListener {
                         val logtrim = log.toString().substringAfter("=").substringBefore(")")
                         statusLogText.add(logtrim)
                         if (track % 3 == 0) {
-                            var finalLog = adminLogData(statusLogText[i - 2] + ", " + statusLogText[i - 1] + ", " + (statusLogText[i].substringBefore(" ").substringBefore(":").toInt() - 12).toString() + ":" + statusLogText[i].substringBefore(" ").substringAfter(":") + "pm" + " " + statusLogText[i].substringAfter(" ") + ", " + type)
+                            var convertedTime = ""
+                            if(statusLogText[i].substringBefore(" ").substringBefore(":").toInt() > 12){
+                                convertedTime = (statusLogText[i].substringBefore(" ").substringBefore(":").toInt() - 12).toString()+ ":" + statusLogText[i].substringBefore(" ").substringAfter(":") + "pm"
+                            }else{
+                                convertedTime = (statusLogText[i].substringBefore(" ").substringBefore(":").toInt()).toString() + ":" + statusLogText[i].substringBefore(" ").substringAfter(":") + "am"
+                            }
+                            var finalLog = adminLogData(statusLogText[i - 2] + ", " + statusLogText[i - 1] + ", " + convertedTime  + " " + statusLogText[i].substringAfter(" ") + ", " + type)
                             statusLogList.add(finalLog)
                         }
                         track += 1
